@@ -45,7 +45,7 @@ docker compose --env-file .env.dev.local down db
 
 ```bash
 # connection au container
-docker exec -it nest-dev-hecate bash
+docker exec -it nest-dev-hephaistos bash
 
 # lancement des fixtures
 npm run seed
@@ -55,7 +55,7 @@ npm run seed
 
 ```bash
 # connexion au container
-docker exec -it nest-dev-hecate bash
+docker exec -it nest-dev-hephaistos bash
 
 # lancement des tests dans le container
 #(vous pouvez regarder les commandes dans le package.json si besoin)

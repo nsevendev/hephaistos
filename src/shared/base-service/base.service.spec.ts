@@ -1,30 +1,30 @@
-import { BaseService } from './base.service';
+import { BaseService } from './base.service'
 
 describe('BaseService', () => {
-  let baseService: any;
+    let baseService: any
 
-  beforeEach(async () => {
-    class TestBaseService extends BaseService {
-      constructor() {
-        super('TestBaseService');
-      }
+    beforeEach(async () => {
+        class TestBaseService extends BaseService {
+            constructor() {
+                super('TestBaseService')
+            }
 
-      test = () => {
-        this.logger.log('test');
-        return true;
-      };
-    }
+            test = () => {
+                this.logger.log('test')
+                return true
+            }
+        }
 
-    baseService = new TestBaseService();
-  });
+        baseService = new TestBaseService()
+    })
 
-  describe('BaseService', () => {
-    it('BaseService est defini', () => {
-      expect(baseService).toBeDefined();
-    });
+    describe('BaseService', () => {
+        it('BaseService est defini', () => {
+            expect(baseService).toBeDefined()
+        })
 
-    it('BaseService utilisation de logger sans erreur', () => {
-      expect(baseService.test()).toBe(true);
-    });
-  });
-});
+        it('BaseService utilisation de logger sans erreur', () => {
+            expect(baseService.test()).toBe(true)
+        })
+    })
+})

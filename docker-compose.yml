@@ -8,14 +8,14 @@ services:
         ports:
             - '${API_PORT}:${API_PORT}'
         environment:
-            DATABASE_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}'
-            DATABASE_TEST_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_TEST_DB}'
+            DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+            DATABASE_TEST_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_TEST_DB}
         depends_on:
             - db
         volumes:
             - .:/app
         networks:
-            - hecate-network
+            - hephaistos-network
 
     db:
         image: postgres:14
@@ -31,11 +31,11 @@ services:
             - postgres_data:/var/lib/postgresql/data
             - ./scripts/init-db-test.sh:/docker-entrypoint-initdb.d/init-db-test.sh:ro
         networks:
-            - hecate-network
+            - hephaistos-network
 
 volumes:
     postgres_data:
 
 networks:
-    hecate-network:
+    hephaistos-network:
         driver: bridge

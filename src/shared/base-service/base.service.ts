@@ -1,9 +1,9 @@
-import { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common'
 
 export abstract class BaseService {
-  protected readonly logger: Logger;
+    protected readonly logger: Logger
 
-  constructor(context: string) {
-    this.logger = new Logger(context);
-  }
+    constructor(context: string) {
+        this.logger = new Logger(context)
+    }
 }
