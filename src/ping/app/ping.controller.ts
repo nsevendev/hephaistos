@@ -11,11 +11,7 @@ export class PingController {
     constructor(private readonly pingService: PingService) {}
 
     @Get()
-    @ApiResponse({
-        status: 200,
-        description: 'Renvoie le premier ping',
-        type: Ping,
-    })
+    @ApiResponse({ status: 200, description: 'Renvoie le premier ping', type: Ping })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
