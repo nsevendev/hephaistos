@@ -26,7 +26,7 @@ services:
             POSTGRES_DB: ${POSTGRES_DB}
             POSTGRES_TEST_DB: ${POSTGRES_TEST_DB}
         ports:
-            - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+            - ${POSTGRES_PORT}:5432
         volumes:
             - postgres_data:/var/lib/postgresql/data
             - ./scripts/init-db-test.sh:/docker-entrypoint-initdb.d/init-db-test.sh:ro
