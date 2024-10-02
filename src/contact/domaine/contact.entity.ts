@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { Service } from '../../service/domaine/service.entity' // Assurez-vous que le chemin vers Service est correct
-import { MechanicalService } from '../../mechanical-service/domaine/mechanical-service.entity' // Assurez-vous que le chemin vers MechanicalService est correct
+import { Service } from '../../service/domaine/service.entity'
+import { MechanicalService } from '../../mechanical-service/domaine/mechanical-service.entity'
 
 @Entity()
 export class Contact {
@@ -11,51 +11,51 @@ export class Contact {
 
     @Column()
     @ApiProperty({ description: 'Prénom du contact', required: true })
-    firstname: string // Prénom, requis
+    firstname: string
 
     @Column()
     @ApiProperty({ description: 'Nom de famille du contact', required: true })
-    lastname: string // Nom de famille, requis
+    lastname: string
 
     @Column()
     @ApiProperty({ description: 'Email du contact', required: true })
-    email: string // Email, requis
+    email: string
 
     @Column()
     @ApiProperty({ description: 'Numéro de téléphone du contact', required: true })
-    phone: string // Numéro de téléphone, requis
+    phone: string
 
     @ManyToOne(() => Service, { nullable: false })
-    @JoinColumn({ name: 'service' }) // Colonne pour lier le service par ID
+    @JoinColumn({ name: 'service' })
     @ApiProperty({ description: 'ID du service lié au contact', required: true })
-    service: Service // Lien vers la classe Service, requis
+    service: Service
 
     @Column({ nullable: true })
     @ApiProperty({ description: 'Motorisation de la voiture (optionnel)' })
-    car_motorisation: string // Motorisation, optionnelle
+    car_motorisation: string
 
     @Column({ nullable: true })
     @ApiProperty({ description: 'Année de fabrication de la voiture (optionnel)' })
-    car_year: string // Année de fabrication, optionnelle
+    car_year: string
 
     @Column({ nullable: true })
     @ApiProperty({ description: 'Modèle de la voiture (optionnel)' })
-    car_model: string // Modèle de la voiture, optionnelle
+    car_model: string
 
     @Column({ nullable: true })
     @ApiProperty({ description: 'Fabricant de la voiture (optionnel)' })
-    car_manufacturer: string // Fabricant de la voiture, optionnelle
+    car_manufacturer: string
 
     @ManyToOne(() => MechanicalService, { nullable: true })
-    @JoinColumn({ name: 'mechanical_service' }) // Colonne pour lier le service mécanique par ID
+    @JoinColumn({ name: 'mechanical_service' })
     @ApiProperty({ description: 'ID du service mécanique lié au contact (optionnel)' })
-    mechanical_service: MechanicalService // Lien vers la classe MechanicalService, optionnel
+    mechanical_service: MechanicalService
 
     @Column()
     @ApiProperty({ description: 'Message du contact', required: true })
-    message: string // Message, requis
+    message: string
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     @ApiProperty({ description: 'Date de création du contact' })
-    created_at: Date // Date de création
+    created_at: Date
 }
