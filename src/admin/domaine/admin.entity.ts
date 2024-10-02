@@ -8,19 +8,19 @@ export class Admin {
     id: number
 
     @Column()
-    @ApiProperty({ description: "Nom d'utilisateur de l'admin" })
+    @ApiProperty({ description: "Nom d'utilisateur de l'admin", required: true })
     username: string
 
     @Column()
-    @ApiProperty({ description: "Email de l'admin" })
+    @ApiProperty({ description: "Email de l'admin", required: true })
     email: string
 
     @Column()
-    @ApiProperty({ description: "Mot de passe de l'admin" })
+    @ApiProperty({ description: "Mot de passe de l'admin", required: true })
     password: string
 
     @Column()
-    @ApiProperty({ description: "Rôle de l'admin" })
+    @ApiProperty({ description: "Rôle de l'admin", required: true })
     role: string
 
     @Column({ nullable: true }) // rend le token optionnel

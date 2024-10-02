@@ -9,7 +9,7 @@ export class Chat {
     id: number
 
     @Column()
-    @ApiProperty({ description: 'Contenu du message de chat' })
+    @ApiProperty({ description: 'Contenu du message de chat', required: true })
     message: string
 
     @ManyToOne(() => ChatRoom, { nullable: false, onDelete: 'CASCADE' })
@@ -18,11 +18,11 @@ export class Chat {
     room_id: number
 
     @Column()
-    @ApiProperty({ description: "Nom de l'expéditeur du message" })
+    @ApiProperty({ description: "Nom de l'expéditeur du message", required: true })
     sender: string
 
     @Column({ default: false })
-    @ApiProperty({ description: 'Statut de lecture du message' })
+    @ApiProperty({ description: 'Statut de lecture du message', required: true })
     readed: boolean
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

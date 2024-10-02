@@ -9,39 +9,39 @@ export class CarForSale {
     id: number
 
     @Column()
-    @ApiProperty({ description: 'Constructeur de la voiture' })
+    @ApiProperty({ description: 'Constructeur de la voiture', required: true })
     manufacturer: string
 
     @Column()
-    @ApiProperty({ description: 'Modèle de la voiture' })
+    @ApiProperty({ description: 'Modèle de la voiture', required: true })
     model: string
 
     @Column('decimal')
-    @ApiProperty({ description: 'Prix de la voiture' })
+    @ApiProperty({ description: 'Prix de la voiture', required: true })
     price: number
 
     @Column('decimal')
-    @ApiProperty({ description: 'Puissance de la voiture (en chevaux)' })
+    @ApiProperty({ description: 'Puissance de la voiture (en chevaux)', required: true })
     power: number
 
     @Column('decimal')
-    @ApiProperty({ description: 'Puissance fiscale de la voiture' })
+    @ApiProperty({ description: 'Puissance fiscale de la voiture', required: true })
     tax_power: number
 
     @Column()
-    @ApiProperty({ description: 'Type de carburant utilisé par la voiture' })
+    @ApiProperty({ description: 'Type de carburant utilisé par la voiture', required: true })
     fuel: string
 
     @Column('decimal')
-    @ApiProperty({ description: 'Kilométrage de la voiture' })
+    @ApiProperty({ description: 'Kilométrage de la voiture', required: true })
     mileage: number
 
     @Column()
-    @ApiProperty({ description: 'Type de transmission de la voiture (ex: automatique, manuelle)' })
+    @ApiProperty({ description: 'Type de transmission de la voiture', required: true })
     conveyance_type: string
 
     @Column()
-    @ApiProperty({ description: 'Couleur de la voiture' })
+    @ApiProperty({ description: 'Couleur de la voiture', required: true })
     color: string
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

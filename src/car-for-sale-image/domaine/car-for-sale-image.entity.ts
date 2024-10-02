@@ -18,7 +18,7 @@ export class CarForSaleImage {
     description: string
 
     @Column()
-    @ApiProperty({ description: "URL de l'image" })
+    @ApiProperty({ description: "URL de l'image", required: true })
     image_url: string
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })

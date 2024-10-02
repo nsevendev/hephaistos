@@ -10,11 +10,11 @@ export class Appointment {
     id: number
 
     @Column({ type: 'timestamp' })
-    @ApiProperty({ description: 'Date et heure de début du rendez-vous' })
+    @ApiProperty({ description: 'Date et heure de début du rendez-vous', required: true })
     appointment_start: Date
 
     @Column({ type: 'timestamp' })
-    @ApiProperty({ description: 'Date et heure de fin du rendez-vous' })
+    @ApiProperty({ description: 'Date et heure de fin du rendez-vous', required: true })
     appointment_end: Date
 
     @ManyToOne(() => Service, { nullable: false })

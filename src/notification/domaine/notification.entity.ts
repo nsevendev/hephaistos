@@ -8,6 +8,6 @@ export class Notification {
     id: number
 
     @Column()
-    @ApiProperty({ description: 'Nom du rôle' })
+    @ApiProperty({ description: 'Nom du rôle', required: true })
     name: string
 }

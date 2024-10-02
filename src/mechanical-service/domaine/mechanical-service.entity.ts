@@ -9,11 +9,11 @@ export class MechanicalService {
     id: number
 
     @Column()
-    @ApiProperty({ description: 'Nom du service mécanique' })
+    @ApiProperty({ description: 'Nom du service mécanique', required: true })
     name: string
 
     @Column('decimal')
-    @ApiProperty({ description: 'Prix minimal du service mécanique' })
+    @ApiProperty({ description: 'Prix minimal du service mécanique', required: true })
     lower_price: number
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

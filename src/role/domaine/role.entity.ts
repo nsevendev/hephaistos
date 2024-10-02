@@ -8,6 +8,6 @@ export class Role {
     id: number
 
     @Column()
-    @ApiProperty({ description: 'Nom du rôle' })
+    @ApiProperty({ description: 'Nom du rôle', required: true })
     name: string
 }

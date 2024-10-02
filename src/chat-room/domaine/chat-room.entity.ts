@@ -9,19 +9,19 @@ export class ChatRoom {
     id: number
 
     @Column()
-    @ApiProperty({ description: "Code d'accès unique pour la salle de discussion" })
+    @ApiProperty({ description: "Code d'accès unique pour la salle de discussion", required: true })
     access_code: string
 
     @Column()
-    @ApiProperty({ description: 'Email associé à la salle de discussion' })
+    @ApiProperty({ description: 'Email associé à la salle de discussion', required: true })
     email: string
 
     @Column()
-    @ApiProperty({ description: "Prénom de l'utilisateur associé à la salle de discussion" })
+    @ApiProperty({ description: "Prénom de l'utilisateur associé à la salle de discussion", required: true })
     firstname: string
 
     @Column()
-    @ApiProperty({ description: "Nom de famille de l'utilisateur associé à la salle de discussion" })
+    @ApiProperty({ description: "Nom de l'utilisateur associé à la salle de discussion", required: true })
     lastname: string
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
