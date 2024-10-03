@@ -12,15 +12,14 @@ describe('RoleModule', () => {
 
     beforeEach(async () => {
         module = await Test.createTestingModule({
-            imports: [
-                DatabaseTestModule, // Utilisation de la base de données pour les tests
-                TypeOrmModule.forFeature([Role]),
-            ],
+            imports: [DatabaseTestModule, TypeOrmModule.forFeature([Role])],
             providers: [RoleService, RoleRepository],
         }).compile()
 
         roleService = module.get<RoleService>(RoleService)
         roleRepository = module.get<RoleRepository>(RoleRepository)
+
+        await roleRepository.repository.clear()
     })
 
     describe('Service', () => {
@@ -38,17 +37,17 @@ describe('RoleModule', () => {
         })
 
         it('RoleService.createRole crée un role avec succès', async () => {
-            const roleCreated = await roleService.createRole({ name: 'ADMIN' })
+            const roleCreated = await roleService.createRole('ADMIN')
             const roles = await roleService.getManyRoles()
-            expect(roles).toContain(roleCreated)
+            expect(roles).toContainEqual(roleCreated)
         })
 
-        it('RoleService.createRole crée un role sans les champ requis', async () => {
-            await expect(roleService.createRole({ name: '' })).rejects.toThrow()
+        it('RoleService.createRole échoue avec un champ requis vide', async () => {
+            await expect(roleService.createRole('')).rejects.toThrow()
         })
 
         it('RoleService.getOneRole récupère un role par son id', async () => {
-            const roleCreated = await roleService.createRole({ name: 'ADMIN' })
+            const roleCreated = await roleService.createRole('ADMIN')
             const foundRole = await roleService.getOneRole(roleCreated.id)
             expect(foundRole).toEqual(roleCreated)
         })
@@ -60,24 +59,24 @@ describe('RoleModule', () => {
             )
         })
 
-        it('RoleService.getManyRoles retourne les roles dont les id on été donnée', async () => {
-            const role1 = await roleService.createRole({ name: 'ADMIN' })
-            const role2 = await roleService.createRole({ name: 'EMPLOYEE' })
+        it('RoleService.getManyRoles retourne les roles dont les id on été donnés', async () => {
+            const role1 = await roleService.createRole('ADMIN')
+            const role2 = await roleService.createRole('EMPLOYEE')
 
             const roles = await roleService.getManyRoles([role1.id, role2.id])
             expect(roles).toEqual([role1, role2])
         })
 
         it("RoleService.getManyRoles retourne tous les roles si aucun ID n'est fourni", async () => {
-            const role1 = await roleService.createRole({ name: 'ADMIN' })
-            const role2 = await roleService.createRole({ name: 'EMPLOYEE' })
+            const role1 = await roleService.createRole('ADMIN')
+            const role2 = await roleService.createRole('EMPLOYEE')
 
             const roles = await roleService.getManyRoles()
             expect(roles).toEqual([role1, role2])
         })
 
         it('RoleService.deleteOneRole supprime un role avec succès', async () => {
-            const roleCreated = await roleService.createRole({ name: 'ADMIN' })
+            const roleCreated = await roleService.createRole('ADMIN')
 
             await roleService.deleteOneRole(roleCreated.id)
             const roles = await roleService.getManyRoles()
@@ -92,8 +91,8 @@ describe('RoleModule', () => {
         })
 
         it('RoleService.deleteManyRoles supprime plusieurs roles avec succès', async () => {
-            const role1 = await roleService.createRole({ name: 'USER' })
-            const role2 = await roleService.createRole({ name: 'ADMIN' })
+            const role1 = await roleService.createRole('USER')
+            const role2 = await roleService.createRole('ADMIN')
 
             await roleService.deleteManyRoles([role1.id, role2.id])
             const roles = await roleService.getManyRoles()

@@ -20,24 +20,26 @@ export class RoleService extends BaseService {
     async getOneRole(roleId: number): Promise<Role> {
         const role = await this.roleRepository.repository.findOne({ where: { id: roleId } })
         if (!role) {
-            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
+            throw new NotFoundException(`Le role avec l'ID ${roleId} est introuvable.`)
         }
         return role
     }
 
-    async createRole(data: { name: string }): Promise<Role> {
-        if (!data.name || data.name.trim() === '') {
+    async createRole(name: string): Promise<Role> {
+        if (!name || name.trim() === '') {
             throw new Error('Le champ name est requis.')
         }
 
-        const newRole = this.roleRepository.repository.create({ name: data.name })
-        return await this.roleRepository.repository.save(newRole)
+        const newRole = this.roleRepository.repository.create({ name })
+        const savedRole = await this.roleRepository.repository.save(newRole)
+
+        return savedRole
     }
 
     async deleteOneRole(roleId: number): Promise<void> {
         const result = await this.roleRepository.repository.delete(roleId)
         if (result.affected === 0) {
-            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
+            throw new NotFoundException(`Le role avec l'ID ${roleId} est introuvable.`)
         }
     }
 
