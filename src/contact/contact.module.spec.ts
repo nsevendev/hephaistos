@@ -33,6 +33,11 @@ describe('ContactModule', () => {
             expect(contacts).toEqual([]) // Aucun contact dans la BDD
         })
 
+        it('ContactService.getManyContacts avec aucun contact', async () => {
+            const contacts = await contactService.getManyContacts()
+            expect(contacts).toEqual([]) // Aucun contact dans la BDD
+        })
+
         it('ContactService.createContact crée un contact et le récupérer avec succès', async () => {
             const contactCreated = await contactService.createContact({
                 firstname: 'John',

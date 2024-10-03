@@ -3,7 +3,7 @@ import { PingModule } from './ping/ping.module'
 import { ConfigModule } from '@nestjs/config'
 import { DatabaseModule } from './database/database.module'
 import { DatabaseTestModule } from './database-test/database-test.module'
-import { ImageModule } from './image/image.module'
+import { RoleModule } from './role/role.module'
 
 @Module({
     imports: [
@@ -11,7 +11,7 @@ import { ImageModule } from './image/image.module'
         DatabaseModule,
         DatabaseTestModule,
         PingModule,
-        ImageModule,
+        RoleModule,
     ],
     controllers: [],
     providers: [],
