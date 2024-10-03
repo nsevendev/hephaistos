@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
+import { Role } from '../../role/domaine/role.entity'
 
 @Entity()
 export class Admin {
@@ -19,11 +20,11 @@ export class Admin {
     @ApiProperty({ description: "Mot de passe de l'admin", required: true })
     password: string
 
-    @Column()
+    @ManyToOne(() => Role, { nullable: false })
     @ApiProperty({ description: "Rôle de l'admin", required: true })
-    role: string
+    role: Role
 
-    @Column({ nullable: true }) // rend le token optionnel
+    @Column({ nullable: true })
     @ApiProperty({ description: "Token d'authentification de l'admin" })
     token: string
 

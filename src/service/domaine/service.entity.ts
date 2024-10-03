@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { Admin } from '../../admin/domaine/admin.entity' // Assurez-vous que le chemin vers Admin est correct
+import { Admin } from '../../admin/domaine/admin.entity'
 
 @Entity()
 export class Service {
@@ -10,14 +10,14 @@ export class Service {
 
     @Column()
     @ApiProperty({ description: 'Nom du service', required: true })
-    name: string // Propriété requise pour le nom du service
+    name: string
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     @ApiProperty({ description: 'Date de création du service' })
-    created_at: Date // Date de création du service
+    created_at: Date
 
-    @ManyToOne(() => Admin, { nullable: false }) // Lien vers la table Admin
-    @JoinColumn({ name: 'created_by' }) // Colonne pour lier le créateur par ID
+    @ManyToOne(() => Admin, { nullable: false })
+    @JoinColumn({ name: 'created_by' })
     @ApiProperty({ description: "ID de l'admin qui a créé le service" })
-    created_by: Admin // Propriété pour l'admin créateur
+    created_by: Admin
 }
