@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { BaseService } from '../../shared/base-service/base.service'
 import { RoleRepository } from '../infra/role.repository'
 import { Role } from '../domaine/role.entity'
+import { CreateRoleDto } from './create-role.dto'
+import { In } from 'typeorm'
 
 @Injectable()
 export class RoleService extends BaseService {
@@ -11,7 +13,7 @@ export class RoleService extends BaseService {
 
     async getManyRoles(roleIds?: number[]): Promise<Role[]> {
         if (roleIds && roleIds.length > 0) {
-            return await this.roleRepository.repository.findByIds(roleIds)
+            return await this.roleRepository.repository.findBy({ id: In(roleIds) })
         } else {
             return await this.roleRepository.repository.find()
         }
@@ -20,30 +22,32 @@ export class RoleService extends BaseService {
     async getOneRole(roleId: number): Promise<Role> {
         const role = await this.roleRepository.repository.findOne({ where: { id: roleId } })
         if (!role) {
-            throw new NotFoundException(`Le role avec l'ID ${roleId} est introuvable.`)
+            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
         }
         return role
     }
 
-    async createRole(name: string): Promise<Role> {
-        if (!name || name.trim() === '') {
-            throw new Error('Le champ name est requis.')
+    async createRole(createRoleDto: CreateRoleDto): Promise<Role> {
+        if (!createRoleDto.name || createRoleDto.name.trim() === '') {
+            throw new BadRequestException('Le champ name est requis.')
         }
 
-        const newRole = this.roleRepository.repository.create({ name })
+        const newRole = this.roleRepository.repository.create(createRoleDto)
         const savedRole = await this.roleRepository.repository.save(newRole)
-
         return savedRole
     }
 
     async deleteOneRole(roleId: number): Promise<void> {
         const result = await this.roleRepository.repository.delete(roleId)
         if (result.affected === 0) {
-            throw new NotFoundException(`Le role avec l'ID ${roleId} est introuvable.`)
+            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
         }
     }
 
     async deleteManyRoles(roleIds: number[]): Promise<void> {
-        await this.roleRepository.repository.delete(roleIds)
+        const result = await this.roleRepository.repository.delete(roleIds)
+        if (result.affected === 0) {
+            throw new NotFoundException(`Aucun rôle trouvé pour les ID fournis.`)
+        }
     }
 }
