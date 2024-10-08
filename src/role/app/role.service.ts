@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { BaseService } from '../../shared/base-service/base.service'
 import { RoleRepository } from '../infra/role.repository'
 import { Role } from '../domaine/role.entity'
@@ -21,33 +21,36 @@ export class RoleService extends BaseService {
 
     async getOneRole(roleId: number): Promise<Role> {
         const role = await this.roleRepository.repository.findOne({ where: { id: roleId } })
+
         if (!role) {
             throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
         }
+
         return role
     }
 
-    async createRole(createRoleDto: CreateRoleDto): Promise<Role> {
-        if (!createRoleDto.name || createRoleDto.name.trim() === '') {
-            throw new BadRequestException('Le champ name est requis.')
-        }
-
+    createRole = async (createRoleDto: CreateRoleDto) => {
         const newRole = this.roleRepository.repository.create(createRoleDto)
-        const savedRole = await this.roleRepository.repository.save(newRole)
-        return savedRole
+        return await this.roleRepository.repository.save(newRole)
     }
 
-    async deleteOneRole(roleId: number): Promise<void> {
+    async deleteOneRole(roleId: number) {
         const result = await this.roleRepository.repository.delete(roleId)
+
         if (result.affected === 0) {
             throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
         }
+
+        return result
     }
 
-    async deleteManyRoles(roleIds: number[]): Promise<void> {
+    async deleteManyRoles(roleIds: number[]) {
         const result = await this.roleRepository.repository.delete(roleIds)
+
         if (result.affected === 0) {
             throw new NotFoundException(`Aucun rôle trouvé pour les ID fournis.`)
         }
+
+        return result
     }
 }

@@ -39,5 +39,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
         description: 'ID du rôle de l’utilisateur',
         required: false,
     })
-    roleId?: number
+    role?: number
 }

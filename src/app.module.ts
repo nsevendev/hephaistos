@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 import { DatabaseModule } from './database/database.module'
 import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
-import { UserModule } from './admin/user.module'
+import { UserModule } from './user/user.module'
 
 @Module({
     imports: [

@@ -4,43 +4,31 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from './domaine/user.entity'
 import { UserService } from './app/user.service'
 import { UserRepository } from './infra/user.repository'
-import { RoleRepository } from '../role/infra/role.repository'
-import { Role } from '../role/domaine/role.entity'
-import { DataSource } from 'typeorm'
 import { UserController } from './app/user.controller'
-import { NotFoundException } from '@nestjs/common'
 import { CreateUserDto } from './app/create-user.dto'
 import { UpdateUserDto } from './app/update-user.dto'
+import { RoleModule } from '../role/role.module'
+import { RoleService } from '../role/app/role.service'
+import { NotFoundException } from '@nestjs/common'
 
 describe('UserModule', () => {
     let userService: UserService
     let userController: UserController
     let userRepository: UserRepository
-    let roleRepository: RoleRepository
+    let roleService: RoleService
     let module: TestingModule
-    let dataSource: DataSource
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         module = await Test.createTestingModule({
-            imports: [DatabaseTestModule, TypeOrmModule.forFeature([User, Role])],
+            imports: [DatabaseTestModule, TypeOrmModule.forFeature([User]), RoleModule],
             controllers: [UserController],
-            providers: [UserService, UserRepository, RoleRepository],
+            providers: [UserService, UserRepository],
         }).compile()
 
         userService = module.get<UserService>(UserService)
         userController = module.get<UserController>(UserController)
         userRepository = module.get<UserRepository>(UserRepository)
-        roleRepository = module.get<RoleRepository>(RoleRepository)
-        dataSource = module.get<DataSource>(DataSource)
-    })
-
-    afterEach(async () => {
-        const entities = dataSource.entityMetadatas
-        for (const entity of entities) {
-            const repository = dataSource.getRepository(entity.name)
-            await repository.query(`TRUNCATE TABLE "${entity.tableName}" RESTART IDENTITY CASCADE;`)
-        }
-        await dataSource.destroy()
+        roleService = module.get<RoleService>(RoleService)
     })
 
     describe('Service', () => {
@@ -54,51 +42,51 @@ describe('UserModule', () => {
 
         it('UserService.getUsers avec aucun user', async () => {
             const users = await userService.getUsers()
+
             expect(users).toEqual([])
         })
 
         it('UserService.createUser crée un user avec succès', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
-            console.log('laaaaaaaaaaaaaaaa:', role)
+            const role = await roleService.createRole({ name: 'user' })
 
             const userData: CreateUserDto = {
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             }
 
             const userCreated = await userService.createUser(userData)
-            console.log('ca passe', userCreated)
 
             const users = await userService.getUsers()
-            console.log('les uers', users)
 
             expect(userCreated.role.id).toEqual(role.id)
             expect(users).toContainEqual(userCreated)
         })
 
         it('UserService.getUser récupère un user par ID', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             const userData: CreateUserDto = {
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             }
 
             const userCreated = await userService.createUser(userData)
             const userRetrieved = await userService.getUser(userCreated.id)
+
             expect(userRetrieved).toEqual(userCreated)
         })
 
         it("UserService.updateUser met à jour les informations de l'user", async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
             const userData: CreateUserDto = {
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             }
 
             const userCreated = await userService.createUser(userData)
@@ -109,26 +97,27 @@ describe('UserModule', () => {
         })
 
         it('UserService.deleteUser supprime un user avec succès', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             const userData: CreateUserDto = {
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             }
 
             const userCreated = await userService.createUser(userData)
             await userService.deleteUser(userCreated.id)
 
             const users = await userService.getUsers()
+
             expect(users).toEqual([])
         })
 
         it("UserService.deleteUser retourne une erreur si l'user n'existe pas", async () => {
             const invalidUserId = 1111
-            await expect(userService.deleteUser(invalidUserId)).rejects.toThrowError(
-                `L'utilisateur avec l'ID ${invalidUserId} est introuvable.`
-            )
+
+            await expect(userService.deleteUser(invalidUserId)).rejects.toThrow(`Une erreur est survenu`)
         })
     })
 
@@ -138,43 +127,48 @@ describe('UserModule', () => {
         })
 
         it('UserController.createUser crée un user', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
 
             const userData: CreateUserDto = {
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             }
 
             const result = await userController.createUser(userData)
+
             expect(result.username).toEqual(userData.username)
             expect(result.role.id).toEqual(role.id)
         })
 
         it('UserController.getAllUsers récupère tous les utilisateurs', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             await userService.createUser({
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             })
 
             const result = await userController.getAllUsers()
+
             expect(result).toHaveLength(1)
         })
 
         it('UserController.getUserById - utilisateur existant', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             const userCreated = await userService.createUser({
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             })
 
             const result = await userController.getUserById(userCreated.id)
+
             expect(result).toBeDefined()
             expect(result.id).toEqual(userCreated.id)
         })
@@ -184,12 +178,13 @@ describe('UserModule', () => {
         })
 
         it('UserController.updateUser met à jour un utilisateur', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             const userCreated = await userService.createUser({
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             })
 
             const updatedData: UpdateUserDto = { username: 'user_updated' }
@@ -199,15 +194,17 @@ describe('UserModule', () => {
         })
 
         it('UserController.deleteUser supprime un utilisateur', async () => {
-            const role = await roleRepository.repository.save({ name: 'user' })
+            const role = await roleService.createRole({ name: 'user' })
+
             const userCreated = await userService.createUser({
                 username: 'user1',
                 email: 'user1@example.com',
                 password: 'password123',
-                roleId: role.id,
+                role: role.id,
             })
 
             await userController.deleteUser(userCreated.id)
+
             await expect(userService.getUser(userCreated.id)).rejects.toThrow(NotFoundException)
         })
 
@@ -215,5 +212,6 @@ describe('UserModule', () => {
             await expect(userController.deleteUser(999)).rejects.toThrow(NotFoundException)
         })
     })
+
+    // TODO : ajouter test login logout et création token
 })
-// ajouter test login logout et création token

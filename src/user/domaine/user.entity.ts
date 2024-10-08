@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '../../role/domaine/role.entity'
 
@@ -21,6 +21,7 @@ export class User {
     password: string
 
     @ManyToOne(() => Role, (role) => role.users, { eager: true })
+    @JoinColumn({ name: 'role_id' })
     @ApiProperty({ description: "Rôle de l'user" })
     role: Role
 }
