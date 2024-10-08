@@ -21,17 +21,6 @@ import { HttpExceptionResponse } from '../../shared/exception-response/http-exce
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Post('create')
-    @ApiResponse({ status: 200, description: "Renvoie l'utilisateur créé", type: User })
-    @ApiResponse({
-        status: 409,
-        type: HttpExceptionResponse,
-        description: `${ConflictException.name} => Si un utilisateur avec cet email ou username existe déjà, impossible de créer un utilisateur`,
-    })
-    async createUser(@Body() createUserDto: CreateUserDto) {
-        return this.userService.createUser(createUserDto)
-    }
-
     @Get()
     @ApiResponse({ status: 200, description: 'Renvoie tous les utilisateurs', type: [User] })
     async getAllUsers() {
@@ -47,6 +36,17 @@ export class UserController {
     })
     async getUserById(@Param('id') userId: number) {
         return this.userService.getUser(userId)
+    }
+
+    @Post('create')
+    @ApiResponse({ status: 200, description: "Renvoie l'utilisateur créé", type: User })
+    @ApiResponse({
+        status: 409,
+        type: HttpExceptionResponse,
+        description: `${ConflictException.name} => Si un utilisateur avec cet email ou username existe déjà, impossible de créer un utilisateur`,
+    })
+    async createUser(@Body() createUserDto: CreateUserDto) {
+        return this.userService.createUser(createUserDto)
     }
 
     @Put(':id')

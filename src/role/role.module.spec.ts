@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { RoleController } from './app/role.controller'
 import { RoleService } from './app/role.service'
-import { DataSource } from 'typeorm'
 import { RoleRepository } from './infra/role.repository'
 import { DatabaseTestModule } from '../database-test/database-test.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -14,9 +13,8 @@ describe('RoleModule', () => {
     let module: TestingModule
     let roleService: RoleService
     let createRoleDto: CreateRoleDto[]
-    let dataSource: DataSource
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         module = await Test.createTestingModule({
             imports: [DatabaseTestModule, TypeOrmModule.forFeature([Role])],
             controllers: [RoleController],
@@ -26,18 +24,6 @@ describe('RoleModule', () => {
         createRoleDto = [{ name: 'admin' }, { name: 'employee' }]
         roleController = module.get<RoleController>(RoleController)
         roleService = module.get<RoleService>(RoleService)
-    })
-
-    afterEach(async () => {
-        dataSource = module.get<DataSource>(DataSource)
-        const entities = dataSource.entityMetadatas
-
-        for (const entity of entities) {
-            const repository = dataSource.getRepository(entity.name)
-            await repository.query(`TRUNCATE TABLE "${entity.tableName}" RESTART IDENTITY CASCADE;`)
-        }
-
-        await dataSource.destroy()
     })
 
     describe('Controller', () => {

@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PingController } from './app/ping.controller'
 import { PingService } from './app/ping.service'
-import { DataSource } from 'typeorm'
 import { PingRepository } from './infra/ping.repository'
 import { DatabaseTestModule } from '../database-test/database-test.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -14,9 +13,8 @@ describe('PingModule', () => {
     let module: TestingModule
     let pingService: PingService
     let createPingDto: CreatePingDto
-    let dataSource: DataSource
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         module = await Test.createTestingModule({
             imports: [
                 DatabaseTestModule, // Utilisation bdd pour les tests
@@ -29,18 +27,6 @@ describe('PingModule', () => {
         createPingDto = { status: 200, value: 'value' }
         pingController = module.get<PingController>(PingController)
         pingService = module.get<PingService>(PingService)
-    })
-
-    afterEach(async () => {
-        dataSource = module.get<DataSource>(DataSource)
-        const entities = dataSource.entityMetadatas // Récupère toutes les entités
-
-        for (const entity of entities) {
-            const repository = dataSource.getRepository(entity.name) // Accès au repository
-            await repository.query(`TRUNCATE TABLE "${entity.tableName}" RESTART IDENTITY CASCADE;`) // Vide les tables
-        }
-
-        await dataSource.destroy()
     })
 
     describe('Controller', () => {

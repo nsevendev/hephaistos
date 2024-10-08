@@ -16,91 +16,53 @@ help:
 	@echo "Commandes disponibles :"
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  make %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-.PHONY: up
-up: ## Lancer tous les conteneurs (API + BDD)
+.PHONY: up up-d up-api up-db down down-api down-db
+
+up: ## Lancer tous les conteneurs (API + BDD) avec logs
 	@echo "Lancement de tous les conteneurs (API + BDD)..."
 	$(DOCKER_COMPOSE) up
 
-.PHONY: up-api
+up-d: ## Lancer tous les conteneurs (API + BDD) sans logs
+	@echo "Lancement de tous les conteneurs (API + BDD)..."
+	$(DOCKER_COMPOSE) up -d
+
 up-api: ## Lancer uniquement le conteneur API
 	@echo "Lancement du conteneur API..."
-	$(DOCKER_COMPOSE) up api
+	$(DOCKER_COMPOSE) up api -d
 
-.PHONY: up-db
 up-db: ## Lancer uniquement le conteneur BDD
 	@echo "Lancement du conteneur de la base de données..."
-	$(DOCKER_COMPOSE) up db
+	$(DOCKER_COMPOSE) up db -d
 
-.PHONY: down
 down: ## Arrêter tous les conteneurs
 	@echo "Arrêt de tous les conteneurs..."
 	$(DOCKER_COMPOSE) down
 
-.PHONY: down-api
 down-api: ## Arrêter uniquement le conteneur API
 	@echo "Arrêt du conteneur API..."
 	$(DOCKER_COMPOSE) down api
 
-.PHONY: down-db
-down-db: ## Arrêter uniquement le conteneur BDD# Variables
-ENV_FILE=.env.dev.local
-DOCKER_COMPOSE=docker compose --env-file $(ENV_FILE)
-
-# Générer automatiquement l'aide en utilisant les commentaires ##
-.PHONY: help
-help:
-	@echo "Commandes disponibles :"
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  make %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
-.PHONY: up
-up: ## Lancer tous les conteneurs (API + BDD)
-	@echo "Lancement de tous les conteneurs (API + BDD)..."
-	$(DOCKER_COMPOSE) up
-
-.PHONY: up-api
-up-api: ## Lancer uniquement le conteneur API
-	@echo "Lancement du conteneur API..."
-	$(DOCKER_COMPOSE) up api
-
-.PHONY: up-db
-up-db: ## Lancer uniquement le conteneur BDD
-	@echo "Lancement du conteneur de la base de données..."
-	$(DOCKER_COMPOSE) up db
-
-.PHONY: down
-down: ## Arrêter tous les conteneurs
-	@echo "Arrêt de tous les conteneurs..."
-	$(DOCKER_COMPOSE) down
-
-.PHONY: down-api
-down-api: ## Arrêter uniquement le conteneur API
-	@echo "Arrêt du conteneur API..."
-	$(DOCKER_COMPOSE) down api
-
-.PHONY: down-db
 down-db: ## Arrêter uniquement le conteneur BDD
 	@echo "Arrêt du conteneur de la base de données..."
 	$(DOCKER_COMPOSE) down db
 
-.PHONY: test test-v test-w test-vw
+.PHONY: clean clean-api clean-db clean-db-v
 
-test: ## Exécuter les tests dans le conteneur (jest)
-	@echo "Exécution des tests dans le conteneur (jest)..."
-	$(DOCKER_COMPOSE) exec app npm run test
+clean: ## Supprimer toutes les images du projet
+	@echo "Suppression de toutes les images du projet..."
+	$(DOCKER_COMPOSE) down --rmi all
 
-test-v: ## Exécuter les tests en mode verbose (jest --verbose)
-	@echo "Exécution des tests en mode verbose dans le conteneur..."
-	$(DOCKER_COMPOSE) exec app npm run test:v
+clean-api: ## Supprimer toutes les images de api
+	@echo "Suppression des images api..."
+	$(DOCKER_COMPOSE) down api --rmi all
 
-test-w: ## Exécuter les tests en mode watch (jest --watch)
-	@echo "Exécution des tests en mode watch dans le conteneur..."
-	$(DOCKER_COMPOSE) exec app npm run test:w
+clean-db: ## Supprimer toutes les images de db
+	@echo "Suppression des images db..."
+	$(DOCKER_COMPOSE) down db --rmi all
 
-test-vw: ## Exécuter les tests en mode watch + verbose (jest --watch --verbose)
-	@echo "Exécution des tests en mode watch + verbose dans le conteneur..."
-	$(DOCKER_COMPOSE) exec app npm run test:vw
-	@echo "Arrêt du conteneur de la base de données..."
-	$(DOCKER_COMPOSE) down db
+clean-db-v: ## Supprimer tous les volumes de db
+	@echo "Suppression des volumes de db..."
+	$(DOCKER_COMPOSE) down db -v
 
 .PHONY: test test-v test-w test-vw
 
@@ -124,7 +86,7 @@ test-vw: ## Exécuter les tests en mode watch + verbose (jest --watch --verbose)
 
 migration-g: ## Creer une migration
 	@echo "Creation d'une migration"
-	$(DOCKER_EXEC) "FILENAME=$(FILENAME) npm run migration:generate"
+	$(DOCKER_EXEC) "npm run migration:generate -- src/migrations/migration"
 
 .PHONY: migation-r
 
@@ -146,12 +108,12 @@ seed: ## Executer les fixtures
 
 .PHONY: sh-api
 
-sh-api: ## Connexion container api
+exec-api: ## Connexion container api
 	@echo "Connexion au container de l'api"
 	$(DOCKER_EXEC_CONNECT_API)
 
 .PHONY: sh-db
 
-sh-db: ## Connexion container db
+exec-db: ## Connexion container db
 	@echo "Connexion au container de la database"
 	$(DOCKER_EXEC_CONNECT_DB)

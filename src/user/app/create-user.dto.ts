@@ -32,5 +32,5 @@ export class CreateUserDto {
         type: 'number',
         example: 1,
     })
-    roleId: number
+    role: number
 }
