@@ -24,8 +24,12 @@ export class User {
     @ManyToOne(() => Role, (role) => role.users, { eager: true })
     @JoinColumn({ name: 'role_id' })
     @ApiProperty({ description: "Rôle de l'user" })
+    @ApiProperty({ type: () => Role })
     role: Role
 
-    @OneToMany(() => Service, (service) => service.created_by)
-    services: Service[]
+    @OneToMany(() => Service, (service) => service.created_by, {
+        cascade: true,
+        nullable: true,
+    })
+    services?: Service[]
 }
