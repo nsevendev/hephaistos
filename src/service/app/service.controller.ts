@@ -26,7 +26,7 @@ export class ServiceController {
         type: HttpExceptionResponse,
         description: `${NotFoundException.name} => Aucun service correspondants aux ID's`,
     })
-    async getServiceById(@Param('ids') serviceIds: number[]) {
+    async getServices(@Param('ids') serviceIds: number[]) {
         const services = await this.serviceService.getServices(serviceIds)
         return services.length ? services : null
     }
