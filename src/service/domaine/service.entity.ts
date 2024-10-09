@@ -19,5 +19,6 @@ export class Service {
     @ManyToOne(() => User, (user) => user.services, { eager: true })
     @JoinColumn({ name: 'created_by' })
     @ApiProperty({ description: 'Utilisateur ayant créé le service' })
+    @ApiProperty({ type: () => User })
     created_by: User
 }
