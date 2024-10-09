@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '../../role/domaine/role.entity'
+import { Service } from '../../service/domaine/service.entity'
 
 @Entity()
 export class User {
@@ -24,4 +25,7 @@ export class User {
     @JoinColumn({ name: 'role_id' })
     @ApiProperty({ description: "Rôle de l'user" })
     role: Role
+
+    @OneToMany(() => Service, (service) => service.created_by)
+    services: Service[]
 }
