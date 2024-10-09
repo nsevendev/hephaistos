@@ -9,19 +9,22 @@ import { UpdateUserDto } from './update-user.dto'
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly roleservice: RoleService
+        private readonly roleService: RoleService
     ) {}
 
     getUsers = async () => {
-        return await this.userRepository.repository.find({ relations: ['role'] })
+        return await this.userRepository.repository.find()
     }
 
     getUser = async (id: number) => {
-        const user = await this.userRepository.repository.findOne({ where: { id }, relations: ['role'] })
+        const user = await this.userRepository.repository.findOne({ where: { id } })
 
         if (!user) {
             throw new NotFoundException(`Une erreur est survenu.`)
         }
+
+        const role = await user.role
+        user.role = role
 
         return user
     }
@@ -29,7 +32,7 @@ export class UserService {
     createUser = async (createUserDto: CreateUserDto) => {
         const { role, password, username, email } = createUserDto
 
-        const roleForUser = await this.roleservice.getOneRole(role)
+        const roleForUser = await this.roleService.getOneRole(role)
 
         if (!roleForUser) {
             throw new BadRequestException('Le rôle spécifié est introuvable.')
@@ -51,11 +54,12 @@ export class UserService {
         const existingUser = await this.getUser(id)
 
         const role = updatedData.role
-            ? (await this.roleservice.getOneRole(updatedData.role)) ||
-              (() => {
-                  throw new BadRequestException('Le rôle spécifié est introuvable.')
-              })()
-            : existingUser.role
+            ? await this.roleService.getOneRole(updatedData.role)
+            : await existingUser.role
+
+        if (!role) {
+            throw new BadRequestException('Le rôle spécifié est introuvable.')
+        }
 
         const updatedUser = {
             ...existingUser,

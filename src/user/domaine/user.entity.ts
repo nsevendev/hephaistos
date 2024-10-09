@@ -23,5 +23,6 @@ export class User {
     @ManyToOne(() => Role, (role) => role.users, { eager: true })
     @JoinColumn({ name: 'role_id' })
     @ApiProperty({ description: "Rôle de l'user" })
+    @ApiProperty({ type: () => Role })
     role: Role
 }
