@@ -51,6 +51,25 @@ export class ServiceService {
         return await this.serviceRepository.repository.save(newService)
     }
 
+    updateService = async (id: number, updateServiceName: string) => {
+        if (typeof updateServiceName !== 'string' || updateServiceName.trim() === '') {
+            throw new BadRequestException('Le nom du service doit être une chaîne de caractères non vide.')
+        }
+
+        const service = await this.serviceRepository.repository.findOne({
+            where: { id },
+            relations: ['created_by'],
+        })
+
+        if (!service) {
+            throw new NotFoundException(`Le service avec l'ID ${id} est introuvable.`)
+        }
+
+        service.name = updateServiceName.trim()
+
+        return await this.serviceRepository.repository.save(service)
+    }
+
     deleteService = async (id: number[]) => {
         const service = await this.getServices(id)
         await this.serviceRepository.repository.remove(service)

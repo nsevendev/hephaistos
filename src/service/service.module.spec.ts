@@ -98,6 +98,65 @@ describe('ServiceService', () => {
             expect(serviceRetrieved).toEqual([serviceCreated])
         })
 
+        it('ServiceService.updateService met à jour un service avec succès', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user1',
+                email: 'user1@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const serviceData: CreateServiceDto = {
+                name: 'Test Service for Update',
+                created_by: userCreated.id,
+            }
+
+            const serviceCreated = await serviceService.createService(serviceData)
+
+            const updatedService = await serviceService.updateService(
+                serviceCreated.id,
+                'Updated Service Name'
+            )
+
+            expect(updatedService.name).toEqual('Updated Service Name')
+        })
+
+        it('ServiceService.updateService lance une erreur si le service est introuvable', async () => {
+            const invalidServiceId = 9999
+
+            await expect(serviceService.updateService(invalidServiceId, 'New Name')).rejects.toThrow(
+                `Le service avec l'ID ${invalidServiceId} est introuvable.`
+            )
+        })
+
+        it('ServiceService.updateService lance une erreur si le nom est invalide', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user1',
+                email: 'user1@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const serviceData: CreateServiceDto = {
+                name: 'Test Service for Invalid Update',
+                created_by: userCreated.id,
+            }
+
+            const serviceCreated = await serviceService.createService(serviceData)
+
+            await expect(serviceService.updateService(serviceCreated.id, '')).rejects.toThrow(
+                'Le nom du service doit être une chaîne de caractères non vide.'
+            )
+        })
+
         it('ServiceService.deleteService supprime un service avec succès', async () => {
             const role = await roleService.createRole({ name: 'admin' })
 
@@ -239,6 +298,62 @@ describe('ServiceService', () => {
 
         it("getServices retourne une erreur si aucun service n'est trouvé", async () => {
             await expect(serviceController.getServices([9999])).rejects.toThrow(NotFoundException)
+        })
+
+        it('updateService met à jour un service avec succès via le contrôleur', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user1',
+                email: 'user1@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const serviceData: CreateServiceDto = {
+                name: 'Test Service Controller for Update',
+                created_by: userCreated.id,
+            }
+
+            const serviceCreated = await serviceService.createService(serviceData)
+
+            const updatedService = await serviceController.updateService(serviceCreated.id, 'Updated Name')
+
+            expect(updatedService.name).toEqual('Updated Name')
+        })
+
+        it('updateService retourne une erreur si le service est introuvable', async () => {
+            const invalidServiceId = 9999
+
+            await expect(serviceController.updateService(invalidServiceId, 'Invalid Update')).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it('updateService retourne une erreur si le nom est invalide', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user1',
+                email: 'user1@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const serviceData: CreateServiceDto = {
+                name: 'Test Service Controller Invalid Name',
+                created_by: userCreated.id,
+            }
+
+            const serviceCreated = await serviceService.createService(serviceData)
+
+            await expect(serviceController.updateService(serviceCreated.id, '')).rejects.toThrow(
+                'Le nom du service doit être une chaîne de caractères non vide.'
+            )
         })
 
         it('deleteService supprime un service par ID', async () => {

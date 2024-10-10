@@ -7,6 +7,7 @@ import {
     Param,
     Post,
     BadRequestException,
+    Patch,
 } from '@nestjs/common'
 import { ServiceService } from './service.service'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
@@ -40,6 +41,22 @@ export class ServiceController {
     })
     async createService(@Body() createServiceDto: CreateServiceDto) {
         return this.serviceService.createService(createServiceDto)
+    }
+
+    @Patch('update/:id')
+    @ApiResponse({ status: 200, description: 'Service mis à jour avec succès', type: Service })
+    @ApiResponse({
+        status: 400,
+        type: HttpExceptionResponse,
+        description: `${BadRequestException.name} => Si le nom du service est invalide`,
+    })
+    @ApiResponse({
+        status: 404,
+        type: HttpExceptionResponse,
+        description: `${NotFoundException.name} => Si aucun service correspondant à cet ID n'a été trouvé`,
+    })
+    async updateService(@Param('id') serviceId: number, @Body('name') updateServiceName: string) {
+        return await this.serviceService.updateService(serviceId, updateServiceName)
     }
 
     @Delete(':id')
