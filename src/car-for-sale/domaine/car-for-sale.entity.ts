@@ -34,7 +34,7 @@ export class CarForSale {
 
     @Column()
     @ApiProperty({ description: 'Kilométrage de la voiture', required: true })
-    mileage: string
+    mileage: number
 
     @Column()
     @ApiProperty({
