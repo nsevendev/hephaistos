@@ -16,15 +16,15 @@ export class CarForSale {
     @ApiProperty({ description: 'Modèle de la voiture', required: true })
     model: string
 
-    @Column('decimal')
+    @Column('float')
     @ApiProperty({ description: 'Prix de la voiture', required: true })
     price: number
 
-    @Column('decimal')
+    @Column('float')
     @ApiProperty({ description: 'Puissance de la voiture en chevaux', required: true })
     power: number
 
-    @Column('decimal')
+    @Column('float')
     @ApiProperty({ description: 'Puissance fiscale de la voiture', required: true })
     tax_power: number
 
