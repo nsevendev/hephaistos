@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module'
 import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
+import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { UserModule } from './user/user.module'
         PingModule,
         RoleModule,
         UserModule,
+        CarForSaleModule,
     ],
     controllers: [],
     providers: [],

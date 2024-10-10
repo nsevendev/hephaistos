@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
 
@@ -47,8 +47,8 @@ export class CarForSale {
     @ApiProperty({ description: 'Couleur de la voiture', required: true })
     color: string
 
-    @CreateDateColumn({ type: 'timestamp' })
-    @ApiProperty({ description: "Date de création de l'annonce" })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    @ApiProperty({ description: 'Date de création du véhicule à vendre', required: true })
     created_at: Date
 
     @ManyToOne(() => User, (user) => user.id, { nullable: true })
