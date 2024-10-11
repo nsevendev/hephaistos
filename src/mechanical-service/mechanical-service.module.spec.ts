@@ -5,7 +5,7 @@ import { UserService } from '../user/app/user.service'
 import { RoleModule } from '../role/role.module'
 import { RoleService } from '../role/app/role.service'
 import { MechanicalServiceService } from './app/mechanical-service.service'
-//import { MechanicalServiceController } from './app/mechanical-service.controller'
+import { MechanicalServiceController } from './app/mechanical-service.controller'
 import { MechanicalServiceRepository } from './infra/mechanical-service.repository'
 import { MechanicalService } from './domaine/mechanical-service.entity'
 import { UserModule } from '../user/user.module'
@@ -16,7 +16,7 @@ import { UpdateMechanicalServiceDto } from './app/update-mechanical-service.dto'
 
 describe('MechanicalServiceModule', () => {
     let mechanicalServiceService: MechanicalServiceService
-    //let mechanicalServiceController: MechanicalServiceController
+    let mechanicalServiceController: MechanicalServiceController
     let mechanicalServiceRepository: MechanicalServiceRepository
     let userService: UserService
     let roleService: RoleService
@@ -30,12 +30,12 @@ describe('MechanicalServiceModule', () => {
                 RoleModule,
                 UserModule,
             ],
-            //controllers: [MechanicalServiceController],
+            controllers: [MechanicalServiceController],
             providers: [MechanicalServiceService, MechanicalServiceRepository],
         }).compile()
 
         mechanicalServiceService = module.get<MechanicalServiceService>(MechanicalServiceService)
-        //mechanicalServiceController = module.get<MechanicalServiceController>(MechanicalServiceController)
+        mechanicalServiceController = module.get<MechanicalServiceController>(MechanicalServiceController)
         mechanicalServiceRepository = module.get<MechanicalServiceRepository>(MechanicalServiceRepository)
         roleService = module.get<RoleService>(RoleService)
         userService = module.get<UserService>(UserService)
@@ -275,6 +275,24 @@ describe('MechanicalServiceModule', () => {
             await expect(mechanicalServiceService.deleteMechanicalService(invalidServiceId)).rejects.toThrow(
                 NotFoundException
             )
+        })
+    })
+
+    describe('Controller', () => {
+        it('MechanicalServiceService est défini', () => {
+            expect(mechanicalServiceService).toBeDefined()
+        })
+
+        it('MechanicalServiceController est défini', () => {
+            expect(mechanicalServiceController).toBeDefined()
+        })
+
+        it('MechanicalServiceRepository est défini', () => {
+            expect(mechanicalServiceRepository).toBeDefined()
+        })
+
+        it('UserService est défini', () => {
+            expect(userService).toBeDefined()
         })
     })
 })
