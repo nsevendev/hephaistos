@@ -42,7 +42,7 @@ export class MechanicalServiceService {
         }
     }
 
-    getByFilter = async (nameToSearch: string) => {
+    getMechanicalServiceByFilter = async (nameToSearch: string) => {
         return await this.mechanicalServiceRepository.repository.find({
             where: { name: Like(`%${nameToSearch}%`) },
             relations: ['created_by'],
