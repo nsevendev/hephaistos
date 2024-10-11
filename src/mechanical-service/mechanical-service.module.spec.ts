@@ -294,5 +294,170 @@ describe('MechanicalServiceModule', () => {
         it('UserService est défini', () => {
             expect(userService).toBeDefined()
         })
+
+        it('MechanicalServiceController.getMechanicalService récupère tous les services', async () => {
+            const result = await mechanicalServiceController.getMechanicalService([])
+            expect(result).toBeDefined()
+        })
+
+        it("MechanicalServiceController.getMechanicalService renvoie une erreur si aucun service n'est trouvé avec les IDs fournis", async () => {
+            await expect(mechanicalServiceController.getMechanicalService([999])).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it('MechanicalServiceController.getMechanicalServiceByFilter récupère des services filtrés par nom', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user6',
+                email: 'user6@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const service1: CreateMechanicalServiceDto = {
+                name: 'Vidange',
+                lower_price: 30,
+                created_by: userCreated.id,
+            }
+            const service2: CreateMechanicalServiceDto = {
+                name: 'Révision des freins',
+                lower_price: 300,
+                created_by: userCreated.id,
+            }
+
+            await mechanicalServiceService.createMechanicalService(service1)
+            await mechanicalServiceService.createMechanicalService(service2)
+
+            const result = await mechanicalServiceController.getMechanicalServiceByFilter('Révision')
+
+            expect(result.length).toBeGreaterThan(0)
+            expect(result).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        name: 'Révision des freins',
+                        created_by: expect.objectContaining({
+                            id: userCreated.id,
+                            email: userCreated.email,
+                        }),
+                    }),
+                ])
+            )
+        })
+
+        it('MechanicalServiceController.createMechanicalService crée un service avec succès', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user7',
+                email: 'user7@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const createMechanicalServiceDto: CreateMechanicalServiceDto = {
+                name: 'Contrôle technique',
+                lower_price: 120,
+                created_by: userCreated.id,
+            }
+
+            const result =
+                await mechanicalServiceController.createMechanicalService(createMechanicalServiceDto)
+
+            expect(result).toEqual(
+                expect.objectContaining({
+                    name: 'Contrôle technique',
+                    lower_price: 120,
+                    created_by: expect.objectContaining({
+                        id: userCreated.id,
+                        email: userCreated.email,
+                    }),
+                })
+            )
+        })
+
+        it('MechanicalServiceController.updateMechanicalService met à jour un service avec succès', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user8',
+                email: 'user8@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const createMechanicalServiceDto: CreateMechanicalServiceDto = {
+                name: 'Changement de filtre',
+                lower_price: 75,
+                created_by: userCreated.id,
+            }
+
+            const createdService =
+                await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
+
+            const updateData: UpdateMechanicalServiceDto = {
+                name: 'Changement de filtre et contrôle',
+                lower_price: 85,
+            }
+
+            const updatedService = await mechanicalServiceController.updateMechanicalService(
+                createdService.id,
+                updateData
+            )
+
+            expect(updatedService).toEqual(
+                expect.objectContaining({
+                    name: 'Changement de filtre et contrôle',
+                    lower_price: 85,
+                    created_by: expect.objectContaining({
+                        id: userCreated.id,
+                        email: userCreated.email,
+                    }),
+                })
+            )
+        })
+
+        it('MechanicalServiceController.deleteMechanicalService supprime un service avec succès', async () => {
+            const role = await roleService.createRole({ name: 'admin' })
+
+            const userData: CreateUserDto = {
+                username: 'user9',
+                email: 'user9@example.com',
+                password: 'password123',
+                role: role.id,
+            }
+
+            const userCreated = await userService.createUser(userData)
+
+            const createMechanicalServiceDto: CreateMechanicalServiceDto = {
+                name: 'Entretien des freins',
+                lower_price: 250,
+                created_by: userCreated.id,
+            }
+
+            const createdService =
+                await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
+
+            await mechanicalServiceController.deleteMechanicalService(createdService.id)
+
+            await expect(mechanicalServiceService.getMechanicalService([createdService.id])).resolves.toEqual(
+                []
+            )
+        })
+
+        it("MechanicalServiceController.deleteMechanicalService retourne une erreur si le service n'existe pas", async () => {
+            const invalidServiceId = 999
+
+            await expect(
+                mechanicalServiceController.deleteMechanicalService(invalidServiceId)
+            ).rejects.toThrow(NotFoundException)
+        })
     })
 })
