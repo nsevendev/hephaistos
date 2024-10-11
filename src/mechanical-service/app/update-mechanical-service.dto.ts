@@ -1,11 +1,23 @@
-import { Injectable } from '@nestjs/common'
-import { UserRepository } from '../../user/infra/user.repository'
-import { RoleService } from '../../role/app/role.service'
+import { ApiProperty, PartialType } from '@nestjs/swagger'
+import { IsString, IsNumber, IsOptional } from 'class-validator'
+import { CreateMechanicalServiceDto } from './create-mechanical-service.dto'
 
-@Injectable()
-export class UserService {
-    constructor(
-        private readonly userRepository: UserRepository,
-        private readonly roleservice: RoleService
-    ) {}
+export class UpdateMechanicalServiceDto extends PartialType(CreateMechanicalServiceDto) {
+    @IsString()
+    @IsOptional()
+    @ApiProperty({
+        example: 'Révision complète',
+        description: 'Nom du service mécanique (optionnel)',
+        required: false,
+    })
+    name?: string
+
+    @IsNumber()
+    @IsOptional()
+    @ApiProperty({
+        example: 100,
+        description: 'Prix minimum du service mécanique (optionnel)',
+        required: false,
+    })
+    lower_price?: number
 }
