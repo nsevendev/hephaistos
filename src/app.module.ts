@@ -6,6 +6,7 @@ import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
 import { ServiceModule } from './service/service.module'
+import { NotificationModule } from './notification/notification.module'
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { ServiceModule } from './service/service.module'
         RoleModule,
         UserModule,
         ServiceModule,
+        NotificationModule,
     ],
     controllers: [],
     providers: [],
