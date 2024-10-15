@@ -1,16 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsOptional, IsBoolean } from 'class-validator'
+import { IsBoolean, IsOptional } from 'class-validator'
 
 export class UpdateNotificationDto {
-    @IsString()
-    @IsOptional()
-    @ApiProperty({
-        example: 'Your message has been read',
-        description: 'Nouveau message de la notification',
-        required: false,
-    })
-    message?: string
-
     @IsBoolean()
     @IsOptional()
     @ApiProperty({
