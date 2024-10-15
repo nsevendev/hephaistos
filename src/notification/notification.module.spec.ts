@@ -79,7 +79,7 @@ describe('NotificationModule', () => {
                 notificationCreated2.id,
             ])
 
-            expect(notifications).toContainEqual([notificationCreated, notificationCreated2])
+            expect(notifications).toEqual([notificationCreated, notificationCreated2])
         })
 
         it('NotificationService.getNotifications retourne une erreur pour des IDs non trouvés', async () => {
