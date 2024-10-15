@@ -59,7 +59,7 @@ docker exec -it nest-dev-hephaistos bash
 
 # lancement des tests dans le container
 #(vous pouvez regarder les commandes dans le package.json si besoin)
-npm run test:v
+npm run test
 
 # lancement des fixtures
 npm run seed
