@@ -142,7 +142,7 @@ describe('NotificationModule', () => {
             )
         })
 
-        it('NotificationService.deleteNotifications supprime des notifications avec succès', async () => {
+        it('NotificationService.deleteNotifications supprime une notification avec succès', async () => {
             const notificationData: CreateNotificationDto = {
                 message: 'Delete this notification',
                 readed: false,
@@ -150,6 +150,25 @@ describe('NotificationModule', () => {
 
             const notificationCreated = await notificationService.createNotification(notificationData)
             await notificationService.deleteNotifications([notificationCreated.id])
+
+            const notifications = await notificationService.getNotifications([])
+            expect(notifications).toEqual([])
+        })
+
+        it('NotificationService.deleteNotifications supprime des notifications avec succès', async () => {
+            const notificationData: CreateNotificationDto = {
+                message: 'Delete this notification',
+                readed: false,
+            }
+            const notificationData2: CreateNotificationDto = {
+                message: 'Delete another notification',
+                readed: false,
+            }
+
+            const notificationCreated = await notificationService.createNotification(notificationData)
+            const notificationCreated2 = await notificationService.createNotification(notificationData2)
+
+            await notificationService.deleteNotifications([notificationCreated.id, notificationCreated2.id])
 
             const notifications = await notificationService.getNotifications([])
             expect(notifications).toEqual([])
