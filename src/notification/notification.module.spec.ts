@@ -7,9 +7,11 @@ import { NotificationRepository } from './infra/notification.repository'
 import { NotFoundException, BadRequestException } from '@nestjs/common'
 import { CreateNotificationDto } from './app/create-notification.dto'
 import { UpdateNotificationDto } from './app/update-notification.dto'
+import { NotificationController } from './app/notification.controller'
 
 describe('NotificationModule', () => {
     let notificationService: NotificationService
+    let notificationController: NotificationController
     let notificationRepository: NotificationRepository
     let module: TestingModule
 
@@ -17,9 +19,11 @@ describe('NotificationModule', () => {
         module = await Test.createTestingModule({
             imports: [DatabaseTestModule, TypeOrmModule.forFeature([Notification])],
             providers: [NotificationService, NotificationRepository],
+            controllers: [NotificationController], // Ajouter le contrôleur ici
         }).compile()
 
         notificationService = module.get<NotificationService>(NotificationService)
+        notificationController = module.get<NotificationController>(NotificationController)
         notificationRepository = module.get<NotificationRepository>(NotificationRepository)
     })
 
@@ -180,6 +184,101 @@ describe('NotificationModule', () => {
 
         it("NotificationService.deleteNotifications retourne une erreur si le tableau d'IDs est vide", async () => {
             await expect(notificationService.deleteNotifications([])).rejects.toThrow(BadRequestException)
+        })
+    })
+
+    describe('Controller', () => {
+        it('NotificationController est défini', () => {
+            expect(notificationController).toBeDefined()
+        })
+
+        it('NotificationController.createNotification crée une notification', async () => {
+            const notificationData: CreateNotificationDto = {
+                message: 'Test notification',
+                readed: false,
+            }
+
+            const result = await notificationController.createNotification(notificationData)
+
+            expect(result.message).toEqual(notificationData.message)
+            expect(result.readed).toEqual(notificationData.readed)
+        })
+
+        it('NotificationController.getNotifications récupère toutes les notifications', async () => {
+            await notificationService.createNotification({ message: 'First notification', readed: false })
+            await notificationService.createNotification({ message: 'Second notification', readed: false })
+
+            const notifications = await notificationController.getNotifications([])
+
+            expect(notifications).toHaveLength(2)
+        })
+
+        it('NotificationController.getNotifications récupère des notifications par IDs', async () => {
+            const notificationData1: CreateNotificationDto = {
+                message: 'Test notification 1',
+                readed: false,
+            }
+            const notificationData2: CreateNotificationDto = {
+                message: 'Test notification 2',
+                readed: false,
+            }
+
+            const notification1 = await notificationService.createNotification(notificationData1)
+            await notificationService.createNotification(notificationData2)
+
+            const notifications = await notificationController.getNotifications([notification1.id])
+
+            expect(notifications).toContainEqual(notification1)
+        })
+
+        it("NotificationController.getNotifications retourne une erreur si aucune notification n'est trouvée", async () => {
+            await expect(notificationController.getNotifications([9999])).rejects.toThrow(NotFoundException)
+        })
+
+        it('NotificationController.updateNotification met à jour le statut de lecture', async () => {
+            const notificationData: CreateNotificationDto = {
+                message: 'Test update notification',
+                readed: false,
+            }
+            const notificationCreated = await notificationService.createNotification(notificationData)
+
+            const updateData: UpdateNotificationDto = { readed: true }
+            const updatedNotification = await notificationController.updateNotification(
+                notificationCreated.id,
+                updateData
+            )
+
+            expect(updatedNotification.readed).toBe(true)
+        })
+
+        it("NotificationController.updateNotification retourne une erreur si la notification n'existe pas", async () => {
+            const updateData: UpdateNotificationDto = { readed: true }
+            await expect(notificationController.updateNotification(9999, updateData)).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it('NotificationController.deleteNotifications supprime des notifications avec succès', async () => {
+            const notificationData: CreateNotificationDto = {
+                message: 'Delete this notification',
+                readed: false,
+            }
+
+            const notificationCreated = await notificationService.createNotification(notificationData)
+            await notificationController.deleteNotifications([notificationCreated.id])
+
+            const notifications = await notificationService.getNotifications([])
+            expect(notifications).toEqual([])
+        })
+
+        it("NotificationController.deleteNotifications retourne une erreur si aucune notification n'est trouvée", async () => {
+            await expect(notificationController.deleteNotifications([9999])).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it("NotificationController.deleteNotifications retourne une erreur si le tableau d'IDs est vide", async () => {
+            await expect(notificationController.deleteNotifications([])).rejects.toThrow(BadRequestException)
         })
     })
 })
