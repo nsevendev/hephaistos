@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique, Index } from 'typeorm'
 
 @Entity()
 @Unique(['access_code', 'email'])
@@ -6,7 +6,8 @@ export class ChatRoom {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ length: 8, unique: true })
+    @Column({ type: 'varchar', length: 36, unique: true })
+    @Index()
     access_code: string
 
     @Column()

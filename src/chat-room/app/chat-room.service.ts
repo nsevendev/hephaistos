@@ -61,7 +61,12 @@ export class ChatRoomService {
         })
 
         const existingIds = existingChatRooms.map((room) => room.id)
+
         const notFoundIds = ids.filter((id) => !existingIds.includes(id))
+
+        if (existingChatRooms.length === 0) {
+            throw new NotFoundException(`Aucune chat room trouvée pour les IDs spécifiés : ${ids.join(', ')}`)
+        }
 
         await this.chatRoomRepository.repository.remove(existingChatRooms)
 
