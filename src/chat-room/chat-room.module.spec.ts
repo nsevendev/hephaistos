@@ -4,26 +4,26 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ChatRoom } from './domaine/chat-room.entity'
 import { ChatRoomService } from './app/chat-room.service'
 import { ChatRoomRepository } from './infra/chat-room.repository'
-//import { ChatRoomController } from './app/chat-room.controller'
+import { ChatRoomController } from './app/chat-room.controller'
 import { CreateChatRoomDto } from './app/create-chat-room.dto'
 import { UpdateChatRoomDto } from './app/update-chat-room.dto'
 import { NotFoundException, ConflictException } from '@nestjs/common'
 
 describe('ChatRoomModule', () => {
     let chatRoomService: ChatRoomService
-    //let chatRoomController: ChatRoomController
+    let chatRoomController: ChatRoomController
     let chatRoomRepository: ChatRoomRepository
     let module: TestingModule
 
     beforeAll(async () => {
         module = await Test.createTestingModule({
             imports: [DatabaseTestModule, TypeOrmModule.forFeature([ChatRoom])],
-            //controllers: [ChatRoomController],
+            controllers: [ChatRoomController],
             providers: [ChatRoomService, ChatRoomRepository],
         }).compile()
 
         chatRoomService = module.get<ChatRoomService>(ChatRoomService)
-        //chatRoomController = module.get<ChatRoomController>(ChatRoomController)
+        chatRoomController = module.get<ChatRoomController>(ChatRoomController)
         chatRoomRepository = module.get<ChatRoomRepository>(ChatRoomRepository)
     })
 
@@ -118,6 +118,79 @@ describe('ChatRoomModule', () => {
             await expect(chatRoomService.deleteChatRooms([invalidChatRoomId])).rejects.toThrow(
                 NotFoundException
             )
+        })
+    })
+
+    describe('Controller', () => {
+        it('ChatRoomController est défini', () => {
+            expect(chatRoomController).toBeDefined()
+        })
+
+        it('ChatRoomController.createChatRoom crée une chat room', async () => {
+            const chatRoomData: CreateChatRoomDto = {
+                email: 'user5@example.com',
+                firstname: 'User',
+                lastname: 'Five',
+            }
+
+            const result = await chatRoomController.createChatRoom(chatRoomData)
+            expect(result.email).toEqual(chatRoomData.email)
+        })
+
+        it('ChatRoomController.getAllChatRooms récupère toutes les chat rooms', async () => {
+            await chatRoomService.createChatRoom({
+                email: 'user6@example.com',
+                firstname: 'User',
+                lastname: 'Six',
+            })
+
+            const result = await chatRoomController.getAllChatRooms()
+            expect(result).toHaveLength(1)
+        })
+
+        it('ChatRoomController.getChatRoomById - chat room existante', async () => {
+            const chatRoomCreated = await chatRoomService.createChatRoom({
+                email: 'user7@example.com',
+                firstname: 'User',
+                lastname: 'Seven',
+            })
+
+            const result = await chatRoomController.getChatRoomById([chatRoomCreated.id])
+            expect(result).toBeDefined()
+            expect(result[0].id).toEqual(chatRoomCreated.id)
+        })
+
+        it('ChatRoomController.getChatRoomById - chat room inexistante', async () => {
+            await expect(chatRoomController.getChatRoomById([999])).rejects.toThrow(NotFoundException)
+        })
+
+        it('ChatRoomController.updateChatRoom met à jour une chat room', async () => {
+            const chatRoomCreated = await chatRoomService.createChatRoom({
+                email: 'user8@example.com',
+                firstname: 'User',
+                lastname: 'Eight',
+            })
+
+            const updatedData: UpdateChatRoomDto = { firstname: 'UpdatedUser' }
+            const result = await chatRoomController.updateChatRoom(chatRoomCreated.id, updatedData)
+            expect(result.firstname).toEqual('UpdatedUser')
+        })
+
+        it('ChatRoomController.deleteChatRooms supprime une chat room', async () => {
+            const chatRoomCreated = await chatRoomService.createChatRoom({
+                email: 'user9@example.com',
+                firstname: 'User',
+                lastname: 'Nine',
+            })
+
+            await chatRoomController.deleteChatRooms(`${chatRoomCreated.id}`)
+            await expect(chatRoomService.getChatRooms([chatRoomCreated.id])).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it('ChatRoomController.deleteChatRooms - chat room inexistante', async () => {
+            await expect(chatRoomController.deleteChatRooms('999')).rejects.toThrow(NotFoundException)
         })
     })
 })
