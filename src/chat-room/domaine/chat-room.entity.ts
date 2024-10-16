@@ -1,12 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique } from 'typeorm'
 
 @Entity()
-@Unique(['access_code'])
+@Unique(['access_code', 'email'])
 export class ChatRoom {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ length: 8 })
+    @Column({ length: 8, unique: true })
     access_code: string
 
     @Column()
@@ -20,14 +20,4 @@ export class ChatRoom {
 
     @CreateDateColumn()
     created_at: Date
-
-    static generateAccessCode(): string {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-        let accessCode = ''
-        for (let i = 0; i < 8; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length)
-            accessCode += characters.charAt(randomIndex)
-        }
-        return accessCode
-    }
 }
