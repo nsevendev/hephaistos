@@ -43,12 +43,10 @@ export class ServiceService {
             throw new BadRequestException('L utilisateur spécifié est introuvable.')
         }
 
-        const newService = this.serviceRepository.repository.create({
+        return this.serviceRepository.createAndSave({
             name,
             created_by: user,
         })
-
-        return await this.serviceRepository.repository.save(newService)
     }
 
     updateService = async (id: number, updateServiceName: string) => {

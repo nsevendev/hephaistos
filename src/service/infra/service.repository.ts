@@ -9,4 +9,9 @@ export class ServiceRepository {
         @InjectRepository(Service)
         public readonly repository: Repository<Service>
     ) {}
+
+    async createAndSave(dto: Partial<Service>): Promise<Service> {
+        const newService = this.repository.create(dto)
+        return this.repository.save(newService)
+    }
 }
