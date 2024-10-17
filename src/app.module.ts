@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module'
 import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
 import { ServiceModule } from './service/service.module'
 import { NotificationModule } from './notification/notification.module'
+import { MechanicalServiceModule } from './mechanical-service/mechanical-service.module'
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { NotificationModule } from './notification/notification.module'
         CarForSaleModule,
         ServiceModule,
         NotificationModule,
+        MechanicalServiceModule,
     ],
     controllers: [],
     providers: [],
