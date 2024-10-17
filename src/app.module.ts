@@ -7,6 +7,7 @@ import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
 import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
 import { ServiceModule } from './service/service.module'
+import { NotificationModule } from './notification/notification.module'
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { ServiceModule } from './service/service.module'
         UserModule,
         CarForSaleModule,
         ServiceModule,
+        NotificationModule,
     ],
     controllers: [],
     providers: [],
