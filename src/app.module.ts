@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module'
 import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
+import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
 import { ServiceModule } from './service/service.module'
 import { NotificationModule } from './notification/notification.module'
 
@@ -16,6 +17,7 @@ import { NotificationModule } from './notification/notification.module'
         PingModule,
         RoleModule,
         UserModule,
+        CarForSaleModule,
         ServiceModule,
         NotificationModule,
     ],
