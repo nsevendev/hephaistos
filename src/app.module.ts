@@ -6,6 +6,7 @@ import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
 import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
+import { ServiceModule } from './service/service.module'
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
         RoleModule,
         UserModule,
         CarForSaleModule,
+        ServiceModule,
     ],
     controllers: [],
     providers: [],
