@@ -25,7 +25,7 @@ export class Contact {
     @ApiProperty({ description: 'Numéro de téléphone du contact', required: false })
     phone: string
 
-    @ManyToOne(() => Service, (service) => service.id, { eager: true })
+    @ManyToOne(() => Service, (service) => service.contacts, { eager: true })
     @JoinColumn({ name: 'service_id' })
     @ApiProperty({ description: 'Service lié au contact', type: () => Service, required: true })
     service: Service
@@ -46,7 +46,7 @@ export class Contact {
     @ApiProperty({ description: 'Constructeur du véhicule', required: false })
     car_manufacturer: string
 
-    @ManyToOne(() => MechanicalService, (mechanicalService) => mechanicalService.id, {
+    @ManyToOne(() => MechanicalService, (mechanicalService) => mechanicalService.contacts, {
         eager: true,
         nullable: true,
     })

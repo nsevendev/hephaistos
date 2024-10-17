@@ -17,12 +17,12 @@ export class Service {
     @ApiProperty({ description: 'Date de création du service', required: true })
     created_at: Date
 
-    @ManyToOne(() => User, { eager: true })
+    @ManyToOne(() => User, (user) => user.services, { eager: true })
     @JoinColumn({ name: 'created_by' })
     @ApiProperty({ description: 'Utilisateur ayant créé le service', type: () => User })
     created_by: User
 
-    @OneToMany(() => Contact, (contact) => contact.service)
+    @OneToMany(() => Contact, (contact) => contact.service, { nullable: true })
     @ApiProperty({ description: 'Contacts liés à ce service', type: () => [Contact], required: false })
     contacts: Contact[]
 }
