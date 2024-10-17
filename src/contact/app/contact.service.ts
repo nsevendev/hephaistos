@@ -102,7 +102,9 @@ export class ContactService {
             throw new BadRequestException(`Aucun ID fourni pour la suppression.`)
         }
 
-        const contactsToDelete = await this.contactRepository.repository.findByIds(ids)
+        const contactsToDelete = await this.contactRepository.repository.find({
+            where: { id: In(ids) },
+        })
         if (contactsToDelete.length === 0) {
             throw new NotFoundException(`Aucun contact correspondant aux IDs fournis.`)
         }
