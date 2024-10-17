@@ -33,7 +33,7 @@ export class ContactController {
         type: HttpExceptionResponse,
         description: `${NotFoundException.name} => Aucun contact trouvé`,
     })
-    async getContacts(@Query('ids') ids: number[]) {
+    async getContact(@Query('ids') ids: number[]) {
         const contacts = await this.contactService.getContact(ids)
         if (!contacts || contacts.length === 0) {
             throw new NotFoundException(`Aucun contact trouvé.`)
@@ -86,7 +86,7 @@ export class ContactController {
         type: HttpExceptionResponse,
         description: `${BadRequestException.name} => Si aucun ID n'est fourni`,
     })
-    async deleteContacts(@Query('ids') ids: number[]) {
+    async deleteContact(@Query('ids') ids: number[]) {
         if (!ids || ids.length === 0) {
             throw new BadRequestException(`Aucun ID fourni pour la suppression.`)
         }
