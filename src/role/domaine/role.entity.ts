@@ -16,5 +16,6 @@ export class Role {
         cascade: true,
         nullable: true,
     })
+    @ApiProperty({ description: 'Utilisateurs ayant ce rôle', type: () => [User], required: false })
     users?: User[]
 }
