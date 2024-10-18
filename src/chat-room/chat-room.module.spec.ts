@@ -48,9 +48,7 @@ describe('ChatRoomModule', () => {
                 firstname: 'User',
                 lastname: 'One',
             }
-            console.time('createChatRoom')
             const chatRoomCreated = await chatRoomService.createChatRoom(chatRoomData)
-            console.time('createChatRoom')
             const chatRooms = await chatRoomService.getChatRooms([])
 
             expect(chatRoomCreated.email).toEqual(chatRoomData.email)

@@ -71,18 +71,16 @@ export class ChatService {
     updateChat = async (id: number, updateChatDto: UpdateChatDto) => {
         const existingChat = await this.chatRepository.repository.findOne({
             where: { id },
+            relations: ['room'],
         })
 
         if (!existingChat) {
             throw new NotFoundException(`Chat avec l'ID ${id} introuvable.`)
         }
 
-        const updatedChat = {
-            ...existingChat,
-            ...updateChatDto,
-        }
+        existingChat.message = updateChatDto.message
 
-        return await this.chatRepository.repository.save(updatedChat)
+        return await this.chatRepository.repository.save(existingChat)
     }
 
     deleteChats = async (ids: number[]) => {

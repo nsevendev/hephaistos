@@ -14,7 +14,7 @@ export class Chat {
     @Column({ type: 'text' })
     message: string
 
-    @ManyToOne(() => ChatRoom, { nullable: false })
+    @ManyToOne(() => ChatRoom, (room) => room.chats)
     room: ChatRoom
 
     @Column({

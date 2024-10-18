@@ -10,6 +10,7 @@ import { ServiceModule } from './service/service.module'
 import { NotificationModule } from './notification/notification.module'
 import { MechanicalServiceModule } from './mechanical-service/mechanical-service.module'
 import { ChatRoomModule } from './chat-room/chat-room.module'
+import { ChatModule } from './chat/chat.module'
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { ChatRoomModule } from './chat-room/chat-room.module'
         NotificationModule,
         MechanicalServiceModule,
         ChatRoomModule,
+        ChatModule,
     ],
     controllers: [],
     providers: [],
