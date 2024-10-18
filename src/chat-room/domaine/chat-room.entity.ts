@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique, Index } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique, Index, OneToMany } from 'typeorm'
+import { Chat } from '../../chat/domaine/chat.entity'
 
 @Entity()
 @Unique(['access_code', 'email'])
@@ -21,4 +22,7 @@ export class ChatRoom {
 
     @CreateDateColumn()
     created_at: Date
+
+    @OneToMany(() => Chat, (chat) => chat.room)
+    chats: Chat[]
 }
