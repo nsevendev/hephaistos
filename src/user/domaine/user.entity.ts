@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '../../role/domaine/role.entity'
+import { Service } from '../../service/domaine/service.entity'
 
 @Entity()
 export class User {
@@ -22,6 +23,13 @@ export class User {
 
     @ManyToOne(() => Role, (role) => role.users, { eager: true })
     @JoinColumn({ name: 'role_id' })
-    @ApiProperty({ description: "Rôle de l'user" })
+    @ApiProperty({ description: "Rôle de l'utilisateur", type: () => Role })
     role: Role
+
+    @OneToMany(() => Service, (service) => service.created_by, {
+        cascade: true,
+        nullable: true,
+    })
+    @ApiProperty({ description: "Services créés par l'utilisateur", type: () => [Service] })
+    services?: Service[]
 }

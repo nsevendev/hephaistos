@@ -5,6 +5,10 @@ import { DatabaseModule } from './database/database.module'
 import { DatabaseTestModule } from './database-test/database-test.module'
 import { RoleModule } from './role/role.module'
 import { UserModule } from './user/user.module'
+import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
+import { ServiceModule } from './service/service.module'
+import { NotificationModule } from './notification/notification.module'
+import { MechanicalServiceModule } from './mechanical-service/mechanical-service.module'
 import { ChatRoomModule } from './chat-room/chat-room.module'
 
 @Module({
@@ -15,6 +19,10 @@ import { ChatRoomModule } from './chat-room/chat-room.module'
         PingModule,
         RoleModule,
         UserModule,
+        CarForSaleModule,
+        ServiceModule,
+        NotificationModule,
+        MechanicalServiceModule,
         ChatRoomModule,
     ],
     controllers: [],
