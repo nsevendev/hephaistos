@@ -1,6 +1,15 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm'
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+} from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
+import { Contact } from '../../contact/domaine/contact.entity'
 
 @Entity()
 export class MechanicalService {
@@ -20,8 +29,16 @@ export class MechanicalService {
     @ApiProperty({ description: 'Date de création du service mécanique', required: false })
     created_at: Date
 
-    @ManyToOne(() => User, (user) => user.id, { eager: true })
+    @ManyToOne(() => User, (user) => user.services, { eager: true })
     @JoinColumn({ name: 'created_by' })
-    @ApiProperty({ description: 'Utilisateur ayant créé le service mécanique', required: true })
+    @ApiProperty({ description: 'Utilisateur ayant créé le service mécanique', type: () => User })
     created_by: User
+
+    @OneToMany(() => Contact, (contact) => contact.mechanical_service, { nullable: true })
+    @ApiProperty({
+        description: 'Contacts liés au service mécanique',
+        required: false,
+        type: () => [Contact],
+    })
+    contacts: Contact[]
 }
