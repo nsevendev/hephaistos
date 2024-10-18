@@ -23,6 +23,6 @@ export class ChatRoom {
     @CreateDateColumn()
     created_at: Date
 
-    @OneToMany(() => Chat, (chat) => chat.room)
+    @OneToMany(() => Chat, (chat) => chat.room, { cascade: true })
     chats: Chat[]
 }

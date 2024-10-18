@@ -14,7 +14,7 @@ export class Chat {
     @Column({ type: 'text' })
     message: string
 
-    @ManyToOne(() => ChatRoom, (room) => room.chats)
+    @ManyToOne(() => ChatRoom, (room) => room.chats, { eager: true })
     room: ChatRoom
 
     @Column({

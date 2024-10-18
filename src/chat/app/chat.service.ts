@@ -58,13 +58,8 @@ export class ChatService {
         }
 
         const chats = await this.chatRepository.repository.find({
-            where: { room: chatRoom },
+            where: { room: { id: chatRoomId } },
         })
-
-        if (chats.length === 0) {
-            throw new NotFoundException(`Aucun chat trouvé pour la ChatRoom ID ${chatRoomId}.`)
-        }
-
         return chats
     }
 
