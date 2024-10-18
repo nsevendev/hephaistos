@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsEnum, IsBoolean, IsNotEmpty } from 'class-validator'
+import { IsString, IsEnum, IsBoolean, IsNotEmpty, IsNumber } from 'class-validator'
 import { SenderType } from '../domaine/chat.entity'
 
 export class CreateChatDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({
-        example: "Bonjour, j'ai des question sur la reprogrammation automobile",
+        example: "Bonjour, j'ai des questions sur la reprogrammation automobile",
         description: 'Le contenu du message',
     })
     message: string
@@ -27,4 +27,12 @@ export class CreateChatDto {
         default: false,
     })
     readed: boolean
+
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiProperty({
+        example: 1,
+        description: "L'ID de la ChatRoom à laquelle ce message est lié",
+    })
+    room: number
 }
