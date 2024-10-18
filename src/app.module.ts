@@ -9,6 +9,7 @@ import { CarForSaleModule } from './car-for-sale/car-for-sale.module'
 import { ServiceModule } from './service/service.module'
 import { NotificationModule } from './notification/notification.module'
 import { MechanicalServiceModule } from './mechanical-service/mechanical-service.module'
+import { ChatRoomModule } from './chat-room/chat-room.module'
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { MechanicalServiceModule } from './mechanical-service/mechanical-service
         ServiceModule,
         NotificationModule,
         MechanicalServiceModule,
+        ChatRoomModule,
     ],
     controllers: [],
     providers: [],
