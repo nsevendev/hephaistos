@@ -102,6 +102,33 @@ describe('ChatModule', () => {
             expect(chats).toHaveLength(2)
         })
 
+        it('ChatService.getChatsByRoom retourne les chats existants lors de la connexion', async () => {
+            const chatRoom = await chatRoomService.createChatRoom({
+                email: 'user1@example.com',
+                firstname: 'User',
+                lastname: 'One',
+            })
+            const chat1 = await chatService.createChat({
+                room: chatRoom.id,
+                message: 'Premier message',
+                sender: SenderType.CLIENT,
+                readed: false,
+            })
+
+            const chat2 = await chatService.createChat({
+                room: chatRoom.id,
+                message: 'Deuxième message',
+                sender: SenderType.GARAGE,
+                readed: false,
+            })
+
+            const chats = await chatService.getChatsByChatRoom(chatRoom.id)
+
+            expect(chats).toHaveLength(2)
+            expect(chats).toContainEqual(chat1)
+            expect(chats).toContainEqual(chat2)
+        })
+
         it('ChatService.updateChat met à jour un chat avec succès', async () => {
             const chatRoom = await chatRoomService.createChatRoom({
                 email: 'client@example.com',
