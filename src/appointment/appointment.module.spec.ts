@@ -16,9 +16,11 @@ import { UserModule } from '../user/user.module'
 import { CreateUserDto } from '../user/app/create-user.dto'
 import { RoleService } from '../role/app/role.service'
 import { RoleModule } from '../role/role.module'
+import { AppointmentController } from './app/appointment.controller'
 
-describe('AppointmentService', () => {
+describe('Appointment', () => {
     let appointmentService: AppointmentService
+    let appointmentController: AppointmentController
     let appointmentRepository: AppointmentRepository
     let serviceService: ServiceService
     let mechanicalServiceService: MechanicalServiceService
@@ -38,9 +40,11 @@ describe('AppointmentService', () => {
                 RoleModule,
             ],
             providers: [AppointmentService, AppointmentRepository],
+            controllers: [AppointmentController],
         }).compile()
 
         appointmentService = module.get<AppointmentService>(AppointmentService)
+        appointmentController = module.get<AppointmentController>(AppointmentController)
         appointmentRepository = module.get<AppointmentRepository>(AppointmentRepository)
         serviceService = module.get<ServiceService>(ServiceService)
         mechanicalServiceService = module.get<MechanicalServiceService>(MechanicalServiceService)
@@ -232,6 +236,122 @@ describe('AppointmentService', () => {
 
         it("AppointmentService.deleteAppointments devrait lancer une erreur si le rendez-vous n'existe pas", async () => {
             await expect(appointmentService.deleteAppointments([999])).rejects.toThrow(NotFoundException)
+        })
+    })
+
+    describe('Controller', () => {
+        it('AppointmentController est défini', () => {
+            expect(appointmentController).toBeDefined()
+        })
+
+        it('AppointmentController.createAppointment devrait créer un rendez-vous', async () => {
+            const service = await serviceService.createService({
+                name: 'Service Test',
+                created_by: userCreated.id,
+            })
+            const mechanicalService = await mechanicalServiceService.createMechanicalService({
+                name: 'Mechanical Service Test',
+                lower_price: 100,
+                created_by: userCreated.id,
+            })
+
+            const createAppointmentDto: CreateAppointmentDto = {
+                service_id: service.id,
+                mechanical_service_id: mechanicalService.id,
+                appointment_start: new Date(),
+                appointment_end: new Date(),
+            }
+
+            const appointment = await appointmentController.createAppointment(createAppointmentDto)
+
+            expect(appointment).toBeDefined()
+            expect(appointment.service.id).toEqual(service.id)
+            expect(appointment.mechanical_service.id).toEqual(mechanicalService.id)
+        })
+
+        it('AppointmentController.getAllAppointments devrait récupérer tous les rendez-vous', async () => {
+            const service = await serviceService.createService({
+                name: 'Service Test',
+                created_by: userCreated.id,
+            })
+            const appointmentData: CreateAppointmentDto = {
+                service_id: service.id,
+                mechanical_service_id: null,
+                appointment_start: new Date(),
+                appointment_end: new Date(),
+            }
+
+            await appointmentController.createAppointment(appointmentData)
+
+            const appointments = await appointmentController.getAppointment('')
+
+            expect(appointments).toHaveLength(1)
+        })
+
+        it('AppointmentController.getAppointmentById devrait récupérer un rendez-vous par ID', async () => {
+            const service = await serviceService.createService({
+                name: 'Service Test',
+                created_by: userCreated.id,
+            })
+            const appointmentData: CreateAppointmentDto = {
+                service_id: service.id,
+                mechanical_service_id: null,
+                appointment_start: new Date(),
+                appointment_end: new Date(),
+            }
+
+            const appointment = await appointmentController.createAppointment(appointmentData)
+            const retrievedAppointment = await appointmentController.getAppointment(`${appointment.id}`)
+
+            expect(retrievedAppointment).toBeDefined()
+            expect(retrievedAppointment[0].id).toEqual(appointment.id)
+        })
+
+        it('AppointmentController.updateAppointment devrait mettre à jour un rendez-vous avec succès', async () => {
+            const service = await serviceService.createService({
+                name: 'Service Test',
+                created_by: userCreated.id,
+            })
+            const service2 = await serviceService.createService({
+                name: 'Service Test2',
+                created_by: userCreated.id,
+            })
+            const appointmentData: CreateAppointmentDto = {
+                service_id: service.id,
+                mechanical_service_id: null,
+                appointment_start: new Date(),
+                appointment_end: new Date(),
+            }
+
+            const appointment = await appointmentController.createAppointment(appointmentData)
+            const updateData: UpdateAppointmentDto = { service_id: service2.id }
+
+            const updatedAppointment = await appointmentController.updateAppointments(
+                `${appointment.id}`,
+                updateData
+            )
+
+            expect(updatedAppointment[0].service.id).toEqual(service2.id)
+        })
+
+        it('AppointmentController.deleteAppointment devrait supprimer un rendez-vous avec succès', async () => {
+            const service = await serviceService.createService({
+                name: 'Service Test',
+                created_by: userCreated.id,
+            })
+            const appointmentData: CreateAppointmentDto = {
+                service_id: service.id,
+                mechanical_service_id: null,
+                appointment_start: new Date(),
+                appointment_end: new Date(),
+            }
+
+            const appointment = await appointmentController.createAppointment(appointmentData)
+            await appointmentController.deleteAppointments(`${appointment.id}`)
+
+            const appointments = await appointmentController.getAppointment('')
+
+            expect(appointments).toHaveLength(0)
         })
     })
 })
