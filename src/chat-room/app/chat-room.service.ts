@@ -3,6 +3,7 @@ import { ChatRoomRepository } from '../infra/chat-room.repository'
 import { CreateChatRoomDto } from './create-chat-room.dto'
 import { UpdateChatRoomDto } from './update-chat-room.dto'
 import { In } from 'typeorm'
+import { ChatRoom } from '../domaine/chat-room.entity'
 
 @Injectable()
 export class ChatRoomService {
@@ -24,6 +25,17 @@ export class ChatRoomService {
         return chatRooms
     }
 
+    findRoomByAccessCode = async (access_code: string): Promise<ChatRoom> => {
+        const room = await this.chatRoomRepository.repository.find({
+            where: { access_code },
+        })
+
+        if (room.length === 0) {
+            throw new NotFoundException(`Aucune chat room trouvée avec le code d'accès ${access_code}.`)
+        }
+
+        return room[0]
+    }
     createChatRoom = async (createChatRoomDto: CreateChatRoomDto) => {
         const existingChatRoom = await this.chatRoomRepository.repository.findOne({
             where: { email: createChatRoomDto.email },
