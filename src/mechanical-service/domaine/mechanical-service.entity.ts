@@ -10,6 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
 import { Contact } from '../../contact/domaine/contact.entity'
+import { Appointment } from '../../appointment/domaine/appointment.entity'
 
 @Entity()
 export class MechanicalService {
@@ -41,4 +42,12 @@ export class MechanicalService {
         type: () => [Contact],
     })
     contacts: Contact[]
+
+    @OneToMany(() => Appointment, (appointment) => appointment.mechanical_service, { nullable: true })
+    @ApiProperty({
+        description: 'Appointments liés au service mécanique',
+        required: false,
+        type: () => [Appointment],
+    })
+    appointments: Appointment[]
 }
