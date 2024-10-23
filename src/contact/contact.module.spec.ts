@@ -4,35 +4,67 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ContactService } from './app/contact.service'
 import { ContactController } from './app/contact.controller'
 import { ContactRepository } from './infra/contact.repository'
-import { ServiceRepository } from '../service/infra/service.repository'
-import { MechanicalServiceRepository } from '../mechanical-service/infra/mechanical-service.repository'
 import { CreateContactDto } from './app/create-contact.dto'
 import { UpdateContactDto } from './app/update-contact.dto'
 import { Contact } from './domaine/contact.entity'
 import { Service } from '../service/domaine/service.entity'
 import { MechanicalService } from '../mechanical-service/domaine/mechanical-service.entity'
 import { BadRequestException, NotFoundException } from '@nestjs/common'
+import { ServiceService } from '../service/app/service.service'
+import { MechanicalServiceService } from '../mechanical-service/app/mechanical-service.service'
+import { ServiceModule } from '../service/service.module'
+import { MechanicalServiceModule } from '../mechanical-service/mechanical-service.module'
+import { RoleService } from '../role/app/role.service'
+import { CreateUserDto } from '../user/app/create-user.dto'
+import { UserService } from '../user/app/user.service'
+import { RoleModule } from '../role/role.module'
+import { UserModule } from '../user/user.module'
 
 describe('ContactModule', () => {
     let contactService: ContactService
     let contactController: ContactController
     let contactRepository: ContactRepository
-    let serviceRepository: ServiceRepository
-    let mechanicalServiceRepository: MechanicalServiceRepository
+    let serviceService: ServiceService
+    let mechanicalServiceService: MechanicalServiceService
+    let roleService: RoleService
+    let userService: UserService
     let module: TestingModule
+    let userCreated: any
 
     beforeAll(async () => {
         module = await Test.createTestingModule({
-            imports: [DatabaseTestModule, TypeOrmModule.forFeature([Contact, Service, MechanicalService])],
+            imports: [
+                DatabaseTestModule,
+                TypeOrmModule.forFeature([Contact, Service, MechanicalService]),
+                ServiceModule,
+                MechanicalServiceModule,
+                RoleModule,
+                UserModule,
+            ],
             controllers: [ContactController],
-            providers: [ContactService, ContactRepository, ServiceRepository, MechanicalServiceRepository],
+            providers: [ContactService, ContactRepository],
         }).compile()
 
         contactService = module.get<ContactService>(ContactService)
         contactController = module.get<ContactController>(ContactController)
         contactRepository = module.get<ContactRepository>(ContactRepository)
-        serviceRepository = module.get<ServiceRepository>(ServiceRepository)
-        mechanicalServiceRepository = module.get<MechanicalServiceRepository>(MechanicalServiceRepository)
+        serviceService = module.get<ServiceService>(ServiceService)
+        mechanicalServiceService = module.get<MechanicalServiceService>(MechanicalServiceService)
+        roleService = module.get<RoleService>(RoleService)
+        userService = module.get<UserService>(UserService)
+    })
+
+    beforeEach(async () => {
+        const role = await roleService.createRole({ name: 'admin' })
+
+        const userData: CreateUserDto = {
+            username: 'user1',
+            email: 'user1@example.com',
+            password: 'password123',
+            role: role.id,
+        }
+
+        userCreated = await userService.createUser(userData)
     })
 
     describe('Service', () => {
@@ -45,22 +77,22 @@ describe('ContactModule', () => {
         })
 
         it('ServiceRepository est défini', () => {
-            expect(serviceRepository).toBeDefined()
+            expect(serviceService).toBeDefined()
         })
 
-        it('MechanicalServiceRepository est défini', () => {
-            expect(mechanicalServiceRepository).toBeDefined()
+        it('MechanicalServiceService est défini', () => {
+            expect(mechanicalServiceService).toBeDefined()
         })
 
         it('ContactService.createContact devrait créer un contact avec succès', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
-            const mechanicalService = await mechanicalServiceRepository.repository.save({
+            const mechanicalService = await mechanicalServiceService.createMechanicalService({
                 name: 'Mechanical Service Test',
                 lower_price: 100,
-                created_by: null,
+                created_by: userCreated.id,
             })
 
             const createContactDto: CreateContactDto = {
@@ -105,9 +137,9 @@ describe('ContactModule', () => {
         })
 
         it("ContactService.createContact devrait lancer une erreur si le service mécanique n'existe pas", async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
 
             const createContactDto: CreateContactDto = {
@@ -128,9 +160,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactService.getContact devrait récupérer tous les contacts', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
             const contactData: CreateContactDto = {
                 firstname: 'John',
@@ -155,9 +187,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactService.getContact devrait récupérer un contact par ID', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
             const contactData: CreateContactDto = {
                 firstname: 'John',
@@ -181,14 +213,14 @@ describe('ContactModule', () => {
         })
 
         it('ContactService.updateContact devrait mettre à jour un contact avec succès', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
-            const mechanicalService = await mechanicalServiceRepository.repository.save({
+            const mechanicalService = await mechanicalServiceService.createMechanicalService({
                 name: 'Mechanical Service Test',
                 lower_price: 100,
-                created_by: null,
+                created_by: userCreated.id,
             })
             const contactData: CreateContactDto = {
                 firstname: 'John',
@@ -219,9 +251,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactService.deleteContact devrait supprimer un contact avec succès', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
             const contactData: CreateContactDto = {
                 firstname: 'John',
@@ -260,11 +292,11 @@ describe('ContactModule', () => {
         })
 
         it('ContactController.createContact crée un contact', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
-            const mechanicalService = await mechanicalServiceRepository.repository.save({
+            const mechanicalService = await mechanicalServiceService.createMechanicalService({
                 name: 'Mechanical Service Test',
                 lower_price: 100,
                 created_by: null,
@@ -291,9 +323,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactController.getContact récupère tous les contacts', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
             await contactService.createContact({
                 firstname: 'John',
@@ -316,9 +348,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactController.getContactById récupère un contact par ID', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
             const contactCreated = await contactService.createContact({
                 firstname: 'John',
@@ -341,9 +373,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactController.updateContact met à jour un contact', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
 
             const contactCreated = await contactService.createContact({
@@ -367,9 +399,9 @@ describe('ContactModule', () => {
         })
 
         it('ContactController.deleteContact supprime un contact', async () => {
-            const service = await serviceRepository.repository.save({
+            const service = await serviceService.createService({
                 name: 'Service Test',
-                created_by: null,
+                created_by: userCreated.id,
             })
 
             const contactCreated = await contactService.createContact({
