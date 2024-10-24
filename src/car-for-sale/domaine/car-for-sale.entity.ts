@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
+import { CarForSaleImage } from '../../car-for-sale-image/domaine/car-for-sale-image.entity'
 
 @Entity()
 export class CarForSale {
@@ -54,4 +55,8 @@ export class CarForSale {
     @ManyToOne(() => User, (user) => user.id, { nullable: true })
     @ApiProperty({ description: "Utilisateur qui a crée l'annonce", required: true })
     created_by?: User
+
+    @OneToMany(() => CarForSaleImage, (carForSaleImage) => carForSaleImage.car_for_sale, { cascade: true })
+    @ApiProperty({ description: 'Images associées à la voiture', type: () => [CarForSaleImage] })
+    images?: CarForSaleImage[]
 }
