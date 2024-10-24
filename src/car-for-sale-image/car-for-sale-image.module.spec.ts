@@ -14,6 +14,7 @@ import { UserModule } from '../user/user.module'
 import { RoleModule } from '../role/role.module'
 import { RoleService } from '../role/app/role.service'
 import { Role } from '../role/domaine/role.entity'
+import { CarForSaleImage } from './domaine/car-for-sale-image.entity'
 
 describe('CarForSaleImageService', () => {
     let carForSaleImageService: CarForSaleImageService
@@ -30,18 +31,21 @@ describe('CarForSaleImageService', () => {
         module = await Test.createTestingModule({
             imports: [
                 DatabaseTestModule,
-                TypeOrmModule.forFeature([CarForSaleImageRepository]),
+                TypeOrmModule.forFeature([CarForSaleImage]),
                 CarForSaleModule,
-                UserModule,
                 RoleModule,
+                UserModule,
             ],
-            providers: [CarForSaleImageService, CarForSaleService, UserService],
+            providers: [CarForSaleImageService, CarForSaleImageRepository],
+            //controllers: [CarForSaleImageController],
         }).compile()
 
         carForSaleImageService = module.get<CarForSaleImageService>(CarForSaleImageService)
         carForSaleImageRepository = module.get<CarForSaleImageRepository>(CarForSaleImageRepository)
-        carForSaleService = module.get<CarForSaleService>(CarForSaleService)
+        // carForSaleImageController = module.get<CarForSaleImageController>(CarForSaleImageController)
+        roleService = module.get<RoleService>(RoleService)
         userService = module.get<UserService>(UserService)
+        carForSaleService = module.get<CarForSaleService>(CarForSaleService)
     })
 
     beforeEach(async () => {

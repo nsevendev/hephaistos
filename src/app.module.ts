@@ -13,6 +13,7 @@ import { ChatRoomModule } from './chat-room/chat-room.module'
 import { ChatModule } from './chat/chat.module'
 import { AppointmentModule } from './appointment/appointment.module'
 import { ContactModule } from './contact/contact.module'
+import { CarForSaleImageModule } from './car-for-sale-image/car-for-sale-image.module'
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { ContactModule } from './contact/contact.module'
         RoleModule,
         UserModule,
         CarForSaleModule,
+        CarForSaleImageModule,
         ServiceModule,
         NotificationModule,
         MechanicalServiceModule,
