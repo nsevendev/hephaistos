@@ -28,7 +28,7 @@ export class CarForSaleImageController {
 
     @Get()
     @ApiResponse({ status: 200, description: 'Renvoie toutes les images', type: [CarForSaleImage] })
-    async getAllImages(@Query('ids') ids: string) {
+    async getImages(@Query('ids') ids: string) {
         const idsArray = ids ? ids.split(',').map(Number) : []
         return this.carForSaleImageService.getImages(idsArray)
     }
