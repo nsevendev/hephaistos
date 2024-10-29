@@ -106,7 +106,7 @@ describe('MechanicalServiceModule', () => {
 
             const createdService =
                 await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
-            const result = await mechanicalServiceService.getMechanicalService([])
+            const result = await mechanicalServiceService.getMechanicalServices([])
 
             expect(result[0]).toEqual(
                 expect.objectContaining({
@@ -141,7 +141,7 @@ describe('MechanicalServiceModule', () => {
 
             const createdService =
                 await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
-            const result = await mechanicalServiceService.getMechanicalService([createdService.id])
+            const result = await mechanicalServiceService.getMechanicalServices([createdService.id])
 
             expect(result[0]).toEqual(
                 expect.objectContaining({
@@ -182,7 +182,7 @@ describe('MechanicalServiceModule', () => {
             await mechanicalServiceService.createMechanicalService(service1)
             await mechanicalServiceService.createMechanicalService(service2)
 
-            const result = await mechanicalServiceService.getMechanicalServiceByFilter('Révision')
+            const result = await mechanicalServiceService.getMechanicalServicesByFilter('Révision')
 
             expect(result.length).toBeGreaterThan(0)
             expect(result).toEqual(
@@ -262,19 +262,17 @@ describe('MechanicalServiceModule', () => {
             const createdService =
                 await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
 
-            await mechanicalServiceService.deleteMechanicalService(createdService.id)
+            await mechanicalServiceService.deleteMechanicalServices([createdService.id])
 
-            await expect(mechanicalServiceService.getMechanicalService([createdService.id])).resolves.toEqual(
-                []
-            )
+            await expect(mechanicalServiceService.getMechanicalServices([])).resolves.toEqual([])
         })
 
         it("MechanicalServiceService.deleteMechanicalService retourne une erreur si le service n'existe pas", async () => {
             const invalidServiceId = 999
 
-            await expect(mechanicalServiceService.deleteMechanicalService(invalidServiceId)).rejects.toThrow(
-                NotFoundException
-            )
+            await expect(
+                mechanicalServiceService.deleteMechanicalServices([invalidServiceId])
+            ).rejects.toThrow(NotFoundException)
         })
     })
 
@@ -296,12 +294,12 @@ describe('MechanicalServiceModule', () => {
         })
 
         it('MechanicalServiceController.getMechanicalService récupère tous les services', async () => {
-            const result = await mechanicalServiceController.getMechanicalService([])
+            const result = await mechanicalServiceController.getMechanicalServices([])
             expect(result).toBeDefined()
         })
 
         it("MechanicalServiceController.getMechanicalService renvoie une erreur si aucun service n'est trouvé avec les IDs fournis", async () => {
-            await expect(mechanicalServiceController.getMechanicalService([999])).rejects.toThrow(
+            await expect(mechanicalServiceController.getMechanicalServices([999])).rejects.toThrow(
                 NotFoundException
             )
         })
@@ -332,7 +330,7 @@ describe('MechanicalServiceModule', () => {
             await mechanicalServiceService.createMechanicalService(service1)
             await mechanicalServiceService.createMechanicalService(service2)
 
-            const result = await mechanicalServiceController.getMechanicalServiceByFilter('Révision')
+            const result = await mechanicalServiceController.getMechanicalServicesByFilter('Révision')
 
             expect(result.length).toBeGreaterThan(0)
             expect(result).toEqual(
@@ -445,18 +443,16 @@ describe('MechanicalServiceModule', () => {
             const createdService =
                 await mechanicalServiceService.createMechanicalService(createMechanicalServiceDto)
 
-            await mechanicalServiceController.deleteMechanicalService(createdService.id)
+            await mechanicalServiceController.deleteMechanicalServices([createdService.id])
 
-            await expect(mechanicalServiceService.getMechanicalService([createdService.id])).resolves.toEqual(
-                []
-            )
+            await expect(mechanicalServiceService.getMechanicalServices([])).resolves.toEqual([])
         })
 
         it("MechanicalServiceController.deleteMechanicalService retourne une erreur si le service n'existe pas", async () => {
             const invalidServiceId = 999
 
             await expect(
-                mechanicalServiceController.deleteMechanicalService(invalidServiceId)
+                mechanicalServiceController.deleteMechanicalServices([invalidServiceId])
             ).rejects.toThrow(NotFoundException)
         })
     })

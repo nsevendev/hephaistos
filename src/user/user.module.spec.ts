@@ -64,7 +64,7 @@ describe('UserModule', () => {
             expect(users).toContainEqual(userCreated)
         })
 
-        it('UserService.getUser récupère un user par ID', async () => {
+        it('UserService.getUsers récupère un user par ID', async () => {
             const role = await roleService.createRole({ name: 'user' })
 
             const userData: CreateUserDto = {
@@ -75,9 +75,9 @@ describe('UserModule', () => {
             }
 
             const userCreated = await userService.createUser(userData)
-            const userRetrieved = await userService.getUser(userCreated.id)
+            const userRetrieved = await userService.getUsers([userCreated.id])
 
-            expect(userRetrieved).toEqual(userCreated)
+            expect(userRetrieved[0]).toEqual(userCreated)
         })
 
         it("UserService.updateUser met à jour les informations de l'user", async () => {
@@ -107,9 +107,9 @@ describe('UserModule', () => {
             }
 
             const userCreated = await userService.createUser(userData)
-            await userService.deleteUser(userCreated.id)
+            await userService.deleteUsers([userCreated.id])
 
-            const users = await userService.getUsers()
+            const users = await userService.getUsers([])
 
             expect(users).toEqual([])
         })
@@ -117,7 +117,9 @@ describe('UserModule', () => {
         it("UserService.deleteUser retourne une erreur si l'user n'existe pas", async () => {
             const invalidUserId = 1111
 
-            await expect(userService.deleteUser(invalidUserId)).rejects.toThrow(`Une erreur est survenu`)
+            await expect(userService.deleteUsers([invalidUserId])).rejects.toThrow(
+                `Aucun utilisateur trouvé pour les ID fournis.`
+            )
         })
     })
 
@@ -142,7 +144,7 @@ describe('UserModule', () => {
             expect(result.role.id).toEqual(role.id)
         })
 
-        it('UserController.getAllUsers récupère tous les utilisateurs', async () => {
+        it('UserController.getUsers récupère tous les utilisateurs', async () => {
             const role = await roleService.createRole({ name: 'user' })
 
             await userService.createUser({
@@ -152,12 +154,12 @@ describe('UserModule', () => {
                 role: role.id,
             })
 
-            const result = await userController.getAllUsers()
+            const result = await userController.getUsers([])
 
             expect(result).toHaveLength(1)
         })
 
-        it('UserController.getUserById - utilisateur existant', async () => {
+        it('UserController.getUsers retourne un utilisateur existant', async () => {
             const role = await roleService.createRole({ name: 'user' })
 
             const userCreated = await userService.createUser({
@@ -167,14 +169,14 @@ describe('UserModule', () => {
                 role: role.id,
             })
 
-            const result = await userController.getUserById(userCreated.id)
+            const result = await userController.getUsers([userCreated.id])
 
             expect(result).toBeDefined()
-            expect(result.id).toEqual(userCreated.id)
+            expect(result[0].id).toEqual(userCreated.id)
         })
 
-        it('UserController.getUserById - utilisateur inexistant', async () => {
-            await expect(userController.getUserById(999)).rejects.toThrow(NotFoundException)
+        it('UserController.getUsers retourne une erreur avec un utilisateur inexistant', async () => {
+            await expect(userController.getUsers([999])).rejects.toThrow(NotFoundException)
         })
 
         it('UserController.updateUser met à jour un utilisateur', async () => {
@@ -193,7 +195,7 @@ describe('UserModule', () => {
             expect(result.username).toEqual('user_updated')
         })
 
-        it('UserController.deleteUser supprime un utilisateur', async () => {
+        it('UserController.deleteUsers supprime un utilisateur', async () => {
             const role = await roleService.createRole({ name: 'user' })
 
             const userCreated = await userService.createUser({
@@ -203,13 +205,13 @@ describe('UserModule', () => {
                 role: role.id,
             })
 
-            await userController.deleteUser(userCreated.id)
+            await userController.deleteUsers([userCreated.id])
 
-            await expect(userService.getUser(userCreated.id)).rejects.toThrow(NotFoundException)
+            await expect(userService.getUsers([userCreated.id])).rejects.toThrow(NotFoundException)
         })
 
-        it('UserController.deleteUser - utilisateur inexistant', async () => {
-            await expect(userController.deleteUser(999)).rejects.toThrow(NotFoundException)
+        it('UserController.deleteUsers retourne une erreur avec un utilisateur inexistant', async () => {
+            await expect(userController.deleteUsers([999])).rejects.toThrow(NotFoundException)
         })
     })
 
