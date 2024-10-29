@@ -4,6 +4,8 @@ import { CreateUserDto } from './create-user.dto'
 import * as bcrypt from 'bcrypt'
 import { RoleService } from '../../role/app/role.service'
 import { UpdateUserDto } from './update-user.dto'
+import { User } from '../domaine/user.entity'
+import { In } from 'typeorm'
 
 @Injectable()
 export class UserService {
@@ -12,18 +14,20 @@ export class UserService {
         private readonly roleService: RoleService
     ) {}
 
-    getUsers = async () => {
-        return await this.userRepository.repository.find({ relations: ['role'] })
-    }
+    getUsers = async (userIds?: number[]): Promise<User[]> => {
+        const users =
+            userIds && userIds.length > 0
+                ? await this.userRepository.repository.find({
+                      where: { id: In(userIds) },
+                      relations: ['role'],
+                  })
+                : await this.userRepository.repository.find({ relations: ['role'] })
 
-    getUser = async (id: number) => {
-        const user = await this.userRepository.repository.findOne({ where: { id }, relations: ['role'] })
-
-        if (!user) {
-            throw new NotFoundException(`Une erreur est survenu.`)
+        if (userIds && userIds.length > 0 && users.length === 0) {
+            throw new NotFoundException('Aucun utilisateur trouvé avec les IDs fournis.')
         }
 
-        return user
+        return users
     }
 
     createUser = async (createUserDto: CreateUserDto) => {
@@ -48,7 +52,8 @@ export class UserService {
     }
 
     updateUser = async (id: number, updatedData: UpdateUserDto) => {
-        const existingUser = await this.getUser(id)
+        const existingUsers = await this.getUsers([id])
+        const existingUser = existingUsers[0]
 
         const role = updatedData.role
             ? (await this.roleService.getRoles([updatedData.role]))[0] ||
@@ -66,14 +71,14 @@ export class UserService {
         return this.userRepository.repository.save(updatedUser)
     }
 
-    deleteUser = async (id: number) => {
-        const user = await this.getUser(id)
+    async deleteUsers(userIds: number[]) {
+        const result = await this.userRepository.repository.delete(userIds)
 
-        if (!user) {
-            throw new NotFoundException(`Une erreur est survenu.`)
+        if (result.affected === 0) {
+            throw new NotFoundException(`Aucun utilisateur trouvé pour les ID fournis.`)
         }
 
-        await this.userRepository.repository.remove(user)
+        return result
     }
 
     // TODO : faire les fonction login logout et generation token

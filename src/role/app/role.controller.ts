@@ -39,7 +39,11 @@ export class RoleController {
         required: true,
         isArray: true,
     })
-    @ApiResponse({ status: 200, description: 'Renvoie les rôles correspondant aux IDs fournis', type: Role })
+    @ApiResponse({
+        status: 200,
+        description: 'Renvoie les rôles correspondant aux IDs fournis',
+        type: [Role],
+    })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,

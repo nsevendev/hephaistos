@@ -15,7 +15,7 @@ export class MechanicalServiceService {
     createMechanicalService = async (createMechanicalServiceDto: CreateMechanicalServiceDto) => {
         const { name, lower_price, created_by } = createMechanicalServiceDto
 
-        const creator = await this.userService.getUser(created_by)
+        const creator = await this.userService.getUsers([created_by])[0]
         if (!creator) {
             throw new BadRequestException("L'utilisateur spécifié est introuvable.")
         }
