@@ -9,7 +9,7 @@ import { UpdateUserDto } from './update-user.dto'
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly roleservice: RoleService
+        private readonly roleService: RoleService
     ) {}
 
     getUsers = async () => {
@@ -29,7 +29,7 @@ export class UserService {
     createUser = async (createUserDto: CreateUserDto) => {
         const { role, password, username, email } = createUserDto
 
-        const roleForUser = await this.roleservice.getOneRole(role)
+        const roleForUser = await this.roleService.getRoles([role])
 
         if (!roleForUser) {
             throw new BadRequestException('Le rôle spécifié est introuvable.')
@@ -41,7 +41,7 @@ export class UserService {
             username,
             email,
             password: hashedPassword,
-            role: roleForUser,
+            role: roleForUser[0],
         })
 
         return await this.userRepository.repository.save(newUser)
@@ -51,7 +51,7 @@ export class UserService {
         const existingUser = await this.getUser(id)
 
         const role = updatedData.role
-            ? (await this.roleservice.getOneRole(updatedData.role)) ||
+            ? (await this.roleService.getRoles([updatedData.role]))[0] ||
               (() => {
                   throw new BadRequestException('Le rôle spécifié est introuvable.')
               })()

@@ -11,40 +11,25 @@ export class RoleService extends BaseService {
         super('RoleService')
     }
 
-    async getManyRoles(roleIds?: number[]): Promise<Role[]> {
-        if (roleIds && roleIds.length > 0) {
-            return await this.roleRepository.repository.findBy({ id: In(roleIds) })
-        } else {
-            return await this.roleRepository.repository.find()
-        }
-    }
+    async getRoles(roleIds?: number[]): Promise<Role[]> {
+        const roles =
+            roleIds && roleIds.length > 0
+                ? await this.roleRepository.repository.findBy({ id: In(roleIds) })
+                : await this.roleRepository.repository.find()
 
-    async getOneRole(roleId: number): Promise<Role> {
-        const role = await this.roleRepository.repository.findOne({ where: { id: roleId } })
-
-        if (!role) {
-            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
+        if (roleIds && roleIds.length > 0 && roles.length === 0) {
+            throw new NotFoundException('Aucun rôle trouvé avec les IDs fournis.')
         }
 
-        return role
+        return roles
     }
 
-    createRole = async (createRoleDto: CreateRoleDto) => {
+    async createRole(createRoleDto: CreateRoleDto) {
         const newRole = this.roleRepository.repository.create(createRoleDto)
         return await this.roleRepository.repository.save(newRole)
     }
 
-    async deleteOneRole(roleId: number) {
-        const result = await this.roleRepository.repository.delete(roleId)
-
-        if (result.affected === 0) {
-            throw new NotFoundException(`Le rôle avec l'ID ${roleId} est introuvable.`)
-        }
-
-        return result
-    }
-
-    async deleteManyRoles(roleIds: number[]) {
+    async deleteRoles(roleIds: number[]) {
         const result = await this.roleRepository.repository.delete(roleIds)
 
         if (result.affected === 0) {
