@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { NotificationRepository } from '../infra/notification.repository'
 import { CreateNotificationDto } from './create-notification.dto'
 import { UpdateNotificationDto } from './update-notification.dto'
+import { In } from 'typeorm'
 
 @Injectable()
 export class NotificationService {
@@ -18,21 +19,20 @@ export class NotificationService {
         return await this.notificationRepository.repository.save(newNotification)
     }
 
-    getNotifications = async (ids: number[]) => {
-        if (ids.length === 0) {
-            return await this.notificationRepository.repository.find()
-        }
+    getNotifications = async (notificationIds: number[]) => {
+        const notifications =
+            notificationIds && notificationIds.length > 0
+                ? await this.notificationRepository.repository.findBy({ id: In(notificationIds) })
+                : await this.notificationRepository.repository.find()
 
-        const notifications = await this.notificationRepository.repository.findByIds(ids)
-
-        if (notifications.length === 0) {
-            throw new NotFoundException('Aucune notification trouvée pour les IDs spécifiés.')
+        if (notificationIds && notificationIds.length > 0 && notifications.length === 0) {
+            throw new NotFoundException('Aucune notification trouvé avec les IDs fournis.')
         }
 
         return notifications
     }
 
-    getByFilter = async (readed: boolean) => {
+    getNotificationsByReadedStatus = async (readed: boolean) => {
         return await this.notificationRepository.repository.find({ where: { readed } })
     }
 
@@ -54,17 +54,18 @@ export class NotificationService {
         return this.notificationRepository.repository.save(updatedNotification)
     }
 
-    deleteNotifications = async (ids: number[]) => {
-        if (ids.length === 0) {
-            throw new BadRequestException("Le tableau d'IDs ne peut pas être vide.")
+    async deleteNotifications(notificationIds: number[]) {
+        const result = await this.notificationRepository.repository.delete(notificationIds)
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Aucune notification trouvé pour les ID fournis.`)
         }
 
-        const notifications = await this.notificationRepository.repository.findByIds(ids)
-
-        if (notifications.length === 0) {
-            throw new NotFoundException('Aucune notification trouvée pour les IDs spécifiés.')
+        const message = {
+            message: `${result.affected} notification(s) supprimée`,
+            deleteCount: result.affected,
         }
 
-        await this.notificationRepository.repository.remove(notifications)
+        return message
     }
 }

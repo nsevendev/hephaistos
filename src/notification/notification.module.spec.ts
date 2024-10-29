@@ -4,10 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Notification } from './domaine/notification.entity'
 import { NotificationService } from './app/notification.service'
 import { NotificationRepository } from './infra/notification.repository'
-import { NotFoundException, BadRequestException } from '@nestjs/common'
+import { NotFoundException } from '@nestjs/common'
 import { CreateNotificationDto } from './app/create-notification.dto'
 import { UpdateNotificationDto } from './app/update-notification.dto'
 import { NotificationController } from './app/notification.controller'
+import { TypeORMError } from 'typeorm'
 
 describe('NotificationModule', () => {
     let notificationService: NotificationService
@@ -90,7 +91,7 @@ describe('NotificationModule', () => {
             await expect(notificationService.getNotifications([9999])).rejects.toThrow(NotFoundException)
         })
 
-        it('NotificationService.getByFilter récupère les notifications filtrées par statut de lecture', async () => {
+        it('NotificationService.getNotificationsByReadedStatus récupère les notifications filtrées par statut de lecture', async () => {
             const notificationData: CreateNotificationDto = {
                 message: 'Message read',
                 readed: false,
@@ -99,7 +100,7 @@ describe('NotificationModule', () => {
 
             const updateData: UpdateNotificationDto = { readed: true }
             await notificationService.updateNotification(notificationCreated.id, updateData)
-            const notifications = await notificationService.getByFilter(true)
+            const notifications = await notificationService.getNotificationsByReadedStatus(true)
 
             expect(notifications.every((n) => n.readed === true)).toBeTruthy()
         })
@@ -183,7 +184,7 @@ describe('NotificationModule', () => {
         })
 
         it("NotificationService.deleteNotifications retourne une erreur si le tableau d'IDs est vide", async () => {
-            await expect(notificationService.deleteNotifications([])).rejects.toThrow(BadRequestException)
+            await expect(notificationService.deleteNotifications([])).rejects.toThrow(TypeORMError)
         })
     })
 
@@ -278,7 +279,7 @@ describe('NotificationModule', () => {
         })
 
         it("NotificationController.deleteNotifications retourne une erreur si le tableau d'IDs est vide", async () => {
-            await expect(notificationController.deleteNotifications([])).rejects.toThrow(BadRequestException)
+            await expect(notificationController.deleteNotifications([])).rejects.toThrow(TypeORMError)
         })
     })
 })

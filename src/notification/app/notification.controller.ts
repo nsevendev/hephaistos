@@ -7,13 +7,13 @@ import {
     Param,
     Post,
     Query,
-    Patch,
     BadRequestException,
+    Put,
 } from '@nestjs/common'
 import { NotificationService } from './notification.service'
 import { CreateNotificationDto } from './create-notification.dto'
 import { UpdateNotificationDto } from './update-notification.dto'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Notification } from '../domaine/notification.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
 
@@ -22,11 +22,28 @@ import { HttpExceptionResponse } from '../../shared/exception-response/http-exce
 export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
-    @Get()
+    @Post('create')
+    @ApiBody({ type: CreateNotificationDto, description: 'Données pour créer une notification' })
     @ApiResponse({
         status: 200,
-        description:
-            'Récupère toutes les notifications ou des notifications spécifiques selon les IDs fournis',
+        description: 'Renvoie la notification créée',
+        type: Notification,
+    })
+    async createNotification(@Body() createNotificationDto: CreateNotificationDto) {
+        return this.notificationService.createNotification(createNotificationDto)
+    }
+
+    @Get()
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs de notifications à rechercher',
+        required: true,
+        isArray: true,
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Renvoie les notifications correspondant aux IDs fournis',
         type: [Notification],
     })
     @ApiResponse({
@@ -39,29 +56,26 @@ export class NotificationController {
     }
 
     @Get('filter')
+    @ApiQuery({
+        name: 'readed',
+        type: Boolean,
+        description: 'Statut de lecture des notifications à filtrer',
+        required: true,
+    })
     @ApiResponse({
         status: 200,
-        description: 'Récupère les notifications filtrées par statut de lecture',
+        description: 'Renvoie les notifications filtrées par statut de lecture',
         type: [Notification],
     })
-    async getNotificationsByFilter(@Query('readed') readed: boolean) {
-        return this.notificationService.getByFilter(readed)
+    async getNotificationsByReadedStatus(@Query('readed') readed: boolean) {
+        return this.notificationService.getNotificationsByReadedStatus(readed)
     }
 
-    @Post('create')
+    @Put(':id')
+    @ApiBody({ type: UpdateNotificationDto, description: 'Données pour mettre à jour une notification' })
     @ApiResponse({
         status: 200,
-        description: 'Crée une nouvelle notification',
-        type: Notification,
-    })
-    async createNotification(@Body() createNotificationDto: CreateNotificationDto) {
-        return this.notificationService.createNotification(createNotificationDto)
-    }
-
-    @Patch(':id')
-    @ApiResponse({
-        status: 200,
-        description: 'Met à jour une notification',
+        description: 'Notification mise à jour avec succès',
         type: Notification,
     })
     @ApiResponse({
@@ -74,10 +88,14 @@ export class NotificationController {
     }
 
     @Delete()
-    @ApiResponse({
-        status: 200,
-        description: 'Supprime les notifications spécifiées par les IDs',
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs de notifications à supprimer',
+        required: true,
+        isArray: true,
     })
+    @ApiResponse({ status: 204, description: 'Notifications supprimées avec succès' })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
@@ -88,7 +106,7 @@ export class NotificationController {
         type: HttpExceptionResponse,
         description: `${BadRequestException.name} => Le tableau d'IDs ne peut pas être vide`,
     })
-    async deleteNotifications(@Body('ids') ids: number[]) {
+    async deleteNotifications(@Query('ids') ids: number[]) {
         return this.notificationService.deleteNotifications(ids)
     }
 }
