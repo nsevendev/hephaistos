@@ -14,23 +14,55 @@ import { CreateCarForSaleImageDto } from './create-car-for-sale-image.dto'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CarForSaleImage } from '../domaine/car-for-sale-image.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
+import { AwsS3Service } from './aws.service'
+import { z } from 'zod'
 
 @ApiTags('Car For Sale Image Controller')
 @Controller('car-for-sale-image')
 export class CarForSaleImageController {
-    constructor(private readonly carForSaleImageService: CarForSaleImageService) {}
+    constructor(
+        private readonly carForSaleImageService: CarForSaleImageService,
+        private readonly awsS3Service: AwsS3Service
+    ) {}
 
     @Post()
     @ApiResponse({ status: 201, description: 'Images ajoutées avec succès', type: [CarForSaleImage] })
-    async addImages(@Body() createCarForSaleImageDto: CreateCarForSaleImageDto[]) {
-        return this.carForSaleImageService.addImages(createCarForSaleImageDto)
+    async addImages(@Body() createCarForSaleImageDtos: CreateCarForSaleImageDto[]) {
+        const uploadedImages = []
+
+        for (const dto of createCarForSaleImageDtos) {
+            const fileSchemaValidation = z
+                .object({
+                    buffer: z.instanceof(Buffer),
+                    originalname: z.string(),
+                    mimetype: z.string(),
+                    size: z.number(),
+                })
+                .parse(dto)
+
+            const { fileKey } = await this.awsS3Service.uploadFile({ file: fileSchemaValidation })
+            const fileUrl = await this.awsS3Service.getFileUrl({ fileKey })
+
+            dto.aws_key = fileKey
+            dto.url = fileUrl
+
+            uploadedImages.push(dto)
+        }
+
+        return this.carForSaleImageService.addImages(uploadedImages)
     }
 
     @Get()
     @ApiResponse({ status: 200, description: 'Renvoie toutes les images', type: [CarForSaleImage] })
     async getImages(@Query('ids') ids: string) {
         const idsArray = ids ? ids.split(',').map(Number) : []
-        return this.carForSaleImageService.getImages(idsArray)
+        const images = await this.carForSaleImageService.getImages(idsArray)
+
+        for (const image of images) {
+            image.url = await this.awsS3Service.getFileUrl({ fileKey: image.aws_key })
+        }
+
+        return images
     }
 
     @Get('car-for-sale/:carForSaleId')
@@ -45,7 +77,13 @@ export class CarForSaleImageController {
         description: `${NotFoundException.name} => Aucune image trouvée pour la voiture spécifiée`,
     })
     async getImagesByCarForSale(@Param('carForSaleId') carForSaleId: number) {
-        return this.carForSaleImageService.getImagesByCarForSale(carForSaleId)
+        const images = await this.carForSaleImageService.getImagesByCarForSale(carForSaleId)
+
+        for (const image of images) {
+            image.url = await this.awsS3Service.getFileUrl({ fileKey: image.aws_key })
+        }
+
+        return images
     }
 
     @Delete(':ids')
@@ -62,6 +100,12 @@ export class CarForSaleImageController {
     })
     async deleteImages(@Param('ids') ids: string) {
         const idsArray = ids.split(',').map((id) => parseInt(id, 10))
+        const images = await this.carForSaleImageService.getImages(idsArray)
+
+        for (const image of images) {
+            await this.awsS3Service.deleteFile({ fileKey: image.aws_key })
+        }
+
         return this.carForSaleImageService.deleteImages(idsArray)
     }
 }
