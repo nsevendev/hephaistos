@@ -68,7 +68,6 @@ export class RoleController {
         description: `${NotFoundException.name} => Aucun rôle trouvé pour les IDs fournis`,
     })
     async deleteRoles(@Query('roleIds') roleIds: number[]) {
-        await this.roleService.deleteRoles(roleIds)
-        return
+        return this.roleService.deleteRoles(roleIds)
     }
 }

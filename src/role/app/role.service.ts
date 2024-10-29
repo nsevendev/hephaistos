@@ -36,6 +36,11 @@ export class RoleService extends BaseService {
             throw new NotFoundException(`Aucun rôle trouvé pour les ID fournis.`)
         }
 
-        return result
+        const message = {
+            message: `${result.affected} rôle(s) supprimée`,
+            deleteCount: result.affected,
+        }
+
+        return message
     }
 }
