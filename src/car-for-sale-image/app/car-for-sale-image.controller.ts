@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { CarForSaleImageService } from './car-for-sale-image.service'
 import { CreateCarForSaleImageDto } from './create-car-for-sale-image.dto'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiResponse, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger'
 import { CarForSaleImage } from '../domaine/car-for-sale-image.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
 import { AwsS3Service } from './aws.service'
@@ -26,6 +26,10 @@ export class CarForSaleImageController {
     ) {}
 
     @Post()
+    @ApiBody({
+        type: [CreateCarForSaleImageDto],
+        description: 'Données nécessaires pour ajouter des images de voiture à vendre',
+    })
     @ApiResponse({ status: 201, description: 'Images ajoutées avec succès', type: [CarForSaleImage] })
     async addImages(@Body() createCarForSaleImageDtos: CreateCarForSaleImageDto[]) {
         const uploadedImages = []
@@ -33,30 +37,42 @@ export class CarForSaleImageController {
         for (const dto of createCarForSaleImageDtos) {
             const fileSchemaValidation = z
                 .object({
-                    buffer: z.instanceof(Buffer),
-                    originalname: z.string(),
-                    mimetype: z.string(),
-                    size: z.number(),
+                    buffer: z.instanceof(Buffer).refine((buffer) => buffer.byteLength > 0, {
+                        message: 'Le buffer ne peut pas être vide',
+                    }),
+                    originalname: z.string().min(1, { message: 'Le nom de fichier est requis' }),
+                    mimetype: z.string().min(1, { message: 'Le type MIME est requis' }),
+                    size: z.number().positive({ message: 'La taille doit être positive' }),
                 })
                 .parse(dto)
 
             const { fileKey } = await this.awsS3Service.uploadFile({ file: fileSchemaValidation })
             const fileUrl = await this.awsS3Service.getFileUrl({ fileKey })
 
-            dto.aws_key = fileKey
-            dto.url = fileUrl
-
-            uploadedImages.push(dto)
+            uploadedImages.push({
+                ...dto,
+                aws_key: fileKey,
+                url: fileUrl,
+            })
         }
 
         return this.carForSaleImageService.addImages(uploadedImages)
     }
 
     @Get()
-    @ApiResponse({ status: 200, description: 'Renvoie toutes les images', type: [CarForSaleImage] })
-    async getImages(@Query('ids') ids: string) {
-        const idsArray = ids ? ids.split(',').map(Number) : []
-        const images = await this.carForSaleImageService.getImages(idsArray)
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs des images à rechercher',
+        required: false,
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Renvoie toutes les images ou celles correspondant aux IDs fournis',
+        type: [CarForSaleImage],
+    })
+    async getImages(@Query('ids') ids: number[]) {
+        const images = await this.carForSaleImageService.getImages(ids)
 
         for (const image of images) {
             image.url = await this.awsS3Service.getFileUrl({ fileKey: image.aws_key })
@@ -86,7 +102,13 @@ export class CarForSaleImageController {
         return images
     }
 
-    @Delete(':ids')
+    @Delete()
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs des images à supprimer',
+        required: true,
+    })
     @ApiResponse({ status: 204, description: 'Images supprimées avec succès' })
     @ApiResponse({
         status: 400,
@@ -98,14 +120,16 @@ export class CarForSaleImageController {
         type: HttpExceptionResponse,
         description: `${NotFoundException.name} => Aucune image trouvée avec les IDs spécifiés`,
     })
-    async deleteImages(@Param('ids') ids: string) {
-        const idsArray = ids.split(',').map((id) => parseInt(id, 10))
-        const images = await this.carForSaleImageService.getImages(idsArray)
+    async deleteImages(@Query('ids') ids: number[]) {
+        if (!ids || ids.length === 0) {
+            throw new BadRequestException(`Aucun ID fourni pour la suppression.`)
+        }
+        const images = await this.carForSaleImageService.getImages(ids)
 
         for (const image of images) {
             await this.awsS3Service.deleteFile({ fileKey: image.aws_key })
         }
 
-        return this.carForSaleImageService.deleteImages(idsArray)
+        return this.carForSaleImageService.deleteImages(ids)
     }
 }

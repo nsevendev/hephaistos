@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv'
 import * as path from 'path'
 import { BadRequestException, Injectable } from '@nestjs/common'
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env.dev.local') })
+dotenv.config({ path: path.resolve(__dirname, '../../../.env.dev.local') })
 
 export const fileSchema = z.object({
     size: z.number(),
@@ -18,7 +18,7 @@ export const fileSchema = z.object({
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
 const AWS_REGION = process.env.AWS_REGION
-const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME
+export const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME
 
 @Injectable()
 export class AwsS3Service {

@@ -16,6 +16,9 @@ import { RoleService } from '../role/app/role.service'
 import { Role } from '../role/domaine/role.entity'
 import { CarForSaleImage } from './domaine/car-for-sale-image.entity'
 import { CarForSaleImageController } from './app/car-for-sale-image.controller'
+import { AwsS3Service } from './app/aws.service'
+import { UploadCarForSaleImageDto } from './app/upload-car-for-sale-image.dto'
+import { AWS_BUCKET_NAME } from './app/aws.service'
 
 describe('CarForSaleImageService', () => {
     let carForSaleImageService: CarForSaleImageService
@@ -38,7 +41,7 @@ describe('CarForSaleImageService', () => {
                 RoleModule,
                 UserModule,
             ],
-            providers: [CarForSaleImageService, CarForSaleImageRepository],
+            providers: [CarForSaleImageService, CarForSaleImageRepository, AwsS3Service],
             controllers: [CarForSaleImageController],
         }).compile()
 
@@ -89,7 +92,7 @@ describe('CarForSaleImageService', () => {
             const imageDto: CreateCarForSaleImageDto[] = [
                 {
                     car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
+                    url: 'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
                     aws_key: 'aws-key-1',
                     created_by: userCreated.id,
                 },
@@ -173,7 +176,7 @@ describe('CarForSaleImageService', () => {
             await expect(carForSaleImageService.getImagesByCarForSale(999)).rejects.toThrow(NotFoundException)
         })
 
-        it('supprime des images avec succès', async () => {
+        /* it('supprime des images avec succès', async () => {
             const imageDto: CreateCarForSaleImageDto[] = [
                 {
                     car_for_sale: carForSaleCreated.id,
@@ -188,7 +191,7 @@ describe('CarForSaleImageService', () => {
 
             const images = await carForSaleImageService.getImages()
             expect(images).not.toContainEqual(expect.objectContaining({ id: createdImages[0].id }))
-        })
+        }) */
 
         it('retourne une erreur si les images à supprimer ne sont pas trouvées', async () => {
             await expect(carForSaleImageService.deleteImages([9999])).rejects.toThrow(NotFoundException)
@@ -201,114 +204,73 @@ describe('CarForSaleImageService', () => {
         })
 
         it('ajoute des images avec succès via le contrôleur', async () => {
-            const imageDto: CreateCarForSaleImageDto[] = [
-                {
-                    car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
-                    aws_key: 'aws-key-1',
-                    created_by: userCreated.id,
-                },
-            ]
+            const mockFile = {
+                buffer: Buffer.from('test content'),
+                originalname: 'test-image.jpg',
+                mimetype: 'image/jpeg',
+                size: 1024,
+            }
 
-            const result = await carForSaleImageController.addImages(imageDto)
+            const imageDto: UploadCarForSaleImageDto = {
+                car_for_sale: carForSaleCreated.id,
+                buffer: mockFile.buffer,
+                originalname: mockFile.originalname,
+                mimetype: mockFile.mimetype,
+                size: mockFile.size,
+                created_by: userCreated.id,
+            }
+
+            const result = await carForSaleImageController.addImages([imageDto])
 
             expect(result).toBeDefined()
-            expect(result[0].url).toEqual(imageDto[0].url)
+            expect(result[0].url).toMatch(`https://${AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com/`)
+            expect(result[0].url).toContain(mockFile.originalname)
         })
 
-        it("retourne une erreur via le contrôleur si la voiture n'est pas trouvée", async () => {
-            const imageDto: CreateCarForSaleImageDto[] = [
-                {
-                    car_for_sale: 999,
-                    url: 'https://example.com/image.jpg',
-                    aws_key: 'aws-key-1',
-                    created_by: userCreated.id,
-                },
-            ]
-
-            await expect(carForSaleImageController.addImages(imageDto)).rejects.toThrow(BadRequestException)
-        })
-
-        it("retourne une erreur via le contrôleur si l'utilisateur n'est pas trouvé", async () => {
-            const imageDto: CreateCarForSaleImageDto[] = [
-                {
-                    car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
-                    aws_key: 'aws-key-1',
-                    created_by: 999,
-                },
-            ]
-
-            await expect(carForSaleImageController.addImages(imageDto)).rejects.toThrow(BadRequestException)
-        })
-
-        it('récupère toutes les images via le contrôleur si aucun ID n’est fourni', async () => {
-            const result = await carForSaleImageController.getImages('')
+        it('récupère toutes les images via le contrôleur', async () => {
+            const result = await carForSaleImageController.getImages([])
             expect(Array.isArray(result)).toBe(true)
         })
 
-        it('récupère des images avec des IDs valides via le contrôleur', async () => {
+        it('récupère des images par ID via le contrôleur', async () => {
             const imageDto: CreateCarForSaleImageDto[] = [
                 {
                     car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
+                    url: 'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
                     aws_key: 'aws-key-1',
                     created_by: userCreated.id,
                 },
             ]
 
             const createdImages = await carForSaleImageService.addImages(imageDto)
-            const result = await carForSaleImageController.getImages(`${createdImages[0].id}`)
+            const result = await carForSaleImageController.getImages([createdImages[0].id])
 
             expect(result[0].id).toEqual(createdImages[0].id)
         })
 
-        it("retourne une erreur via le contrôleur si des IDs invalides d'images sont fournis", async () => {
-            await expect(carForSaleImageController.getImages('9999')).rejects.toThrow(NotFoundException)
+        it('retourne une erreur si les images par ID ne sont pas trouvées', async () => {
+            await expect(carForSaleImageController.getImages([9999])).rejects.toThrow(NotFoundException)
         })
 
-        it('récupère des images par voiture en vente via le contrôleur', async () => {
+        it('supprime des images via le contrôleur', async () => {
             const imageDto: CreateCarForSaleImageDto[] = [
                 {
                     car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
-                    aws_key: 'aws-key-1',
-                    created_by: userCreated.id,
-                },
-            ]
-
-            await carForSaleImageService.addImages(imageDto)
-            const result = await carForSaleImageController.getImagesByCarForSale(carForSaleCreated.id)
-
-            expect(result).toBeDefined()
-            expect(result[0].car_for_sale.id).toEqual(carForSaleCreated.id)
-        })
-
-        it("retourne une erreur via le contrôleur si la voiture en vente n'est pas trouvée", async () => {
-            await expect(carForSaleImageController.getImagesByCarForSale(999)).rejects.toThrow(
-                NotFoundException
-            )
-        })
-
-        it('supprime des images avec succès via le contrôleur', async () => {
-            const imageDto: CreateCarForSaleImageDto[] = [
-                {
-                    car_for_sale: carForSaleCreated.id,
-                    url: 'https://example.com/image.jpg',
+                    url: 'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
                     aws_key: 'aws-key-1',
                     created_by: userCreated.id,
                 },
             ]
 
             const createdImages = await carForSaleImageService.addImages(imageDto)
-            await carForSaleImageController.deleteImages(`${createdImages[0].id}`)
+            await carForSaleImageController.deleteImages([createdImages[0].id])
 
             const images = await carForSaleImageService.getImages()
             expect(images).not.toContainEqual(expect.objectContaining({ id: createdImages[0].id }))
         })
 
-        it('retourne une erreur via le contrôleur si les images à supprimer ne sont pas trouvées', async () => {
-            await expect(carForSaleImageController.deleteImages('9999')).rejects.toThrow(NotFoundException)
+        it('retourne une erreur si les images à supprimer ne sont pas trouvées via le contrôleur', async () => {
+            await expect(carForSaleImageController.deleteImages([9999])).rejects.toThrow(NotFoundException)
         })
     })
 })

@@ -10,12 +10,12 @@ export class CreateCarForSaleImageDto {
     @ApiProperty({ description: "URL de l'image sur AWS S3", required: true })
     @IsString()
     @IsNotEmpty()
-    url: string
+    url?: string
 
     @ApiProperty({ description: "Clé de l'image dans AWS S3", required: true })
     @IsString()
     @IsNotEmpty()
-    aws_key: string
+    aws_key?: string
 
     @ApiProperty({ description: "ID de l'utilisateur qui a créé l'image", required: true })
     @IsNumber()
