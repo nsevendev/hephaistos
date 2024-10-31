@@ -176,7 +176,7 @@ describe('CarForSaleImageService', () => {
             await expect(carForSaleImageService.getImagesByCarForSale(999)).rejects.toThrow(NotFoundException)
         })
 
-        /* it('supprime des images avec succès', async () => {
+        it('supprime des images avec succès', async () => {
             const imageDto: CreateCarForSaleImageDto[] = [
                 {
                     car_for_sale: carForSaleCreated.id,
@@ -191,7 +191,7 @@ describe('CarForSaleImageService', () => {
 
             const images = await carForSaleImageService.getImages()
             expect(images).not.toContainEqual(expect.objectContaining({ id: createdImages[0].id }))
-        }) */
+        })
 
         it('retourne une erreur si les images à supprimer ne sont pas trouvées', async () => {
             await expect(carForSaleImageService.deleteImages([9999])).rejects.toThrow(NotFoundException)
