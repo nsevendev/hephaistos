@@ -299,7 +299,7 @@ describe('ContactModule', () => {
             const mechanicalService = await mechanicalServiceService.createMechanicalService({
                 name: 'Mechanical Service Test',
                 lower_price: 100,
-                created_by: null,
+                created_by: userCreated.id,
             })
 
             const createContactDto: CreateContactDto = {
