@@ -4,11 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { InterfaceImageService } from './app/interface-image.service'
 import { InterfaceImageRepository } from './infra/interface-image.repository'
 import { InterfaceImageController } from './app/interface-image.controller'
-import { AwsS3Service } from '../aws/app/aws.service'
+import { AWS_BUCKET_NAME, AwsS3Service } from '../aws/app/aws.service'
 import { InterfaceImage } from './domaine/interface-image.entity'
 import { CreateInterfaceImageDto } from './app/create-interface-image.dto'
 import { UpdateInterfaceImageDto } from './app/update-interface-image.dto'
 import { NotFoundException } from '@nestjs/common'
+import { UploadInterfaceImageDto } from './app/upload-interface-image.dto'
 
 describe('InterfaceImageService', () => {
     let interfaceImageService: InterfaceImageService
@@ -110,6 +111,82 @@ describe('InterfaceImageService', () => {
     describe('Controller', () => {
         it('InterfaceImageController est défini', () => {
             expect(interfaceImageController).toBeDefined()
+        })
+
+        it('doit définir le contrôleur InterfaceImage', () => {
+            expect(interfaceImageController).toBeDefined()
+        })
+
+        it('ajoute une nouvelle image via le contrôleur', async () => {
+            const mockFile = {
+                buffer: Buffer.from('test content'),
+                originalname: 'test-image.jpg',
+                mimetype: 'image/jpeg',
+                size: 1024,
+            }
+
+            const imageDto: UploadInterfaceImageDto = {
+                url: 'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
+                aws_key: 'aws-key-1',
+                buffer: mockFile.buffer,
+                originalname: mockFile.originalname,
+                mimetype: mockFile.mimetype,
+                size: mockFile.size,
+            }
+
+            const result = await interfaceImageController.addInterfaceImage(imageDto)
+
+            expect(result).toBeDefined()
+            expect(result.url).toMatch(`https://${AWS_BUCKET_NAME}.s3.eu-central-1.amazonaws.com/`)
+            expect(result.url).toContain(mockFile.originalname)
+        })
+
+        it('récupère les images avec des IDs via le contrôleur', async () => {
+            const imageDto: CreateInterfaceImageDto = {
+                url: 'https://example.com/image.jpg',
+                aws_key: 'aws-key-1',
+            }
+            const createdImage = await interfaceImageService.addInterfaceImage(imageDto)
+
+            const result = await interfaceImageController.getInterfacesImages([createdImage.id])
+            expect(result.images[0].id).toEqual(createdImage.id)
+        })
+
+        it('met à jour une image via le contrôleur', async () => {
+            const imageDto: CreateInterfaceImageDto = {
+                url: 'https://example.com/image.jpg',
+                aws_key: 'aws-key-1',
+            }
+            const createdImage = await interfaceImageService.addInterfaceImage(imageDto)
+
+            const updateDto: UpdateInterfaceImageDto = { url: 'https://example.com/updated-image.jpg' }
+            const result = await interfaceImageController.updateInterfaceImage(createdImage.id, updateDto)
+
+            expect(result.url).toEqual(updateDto.url)
+        })
+
+        it("lance une NotFoundException si l'image à mettre à jour via le contrôleur n'est pas trouvée", async () => {
+            const updateDto: UpdateInterfaceImageDto = { url: 'https://example.com/nonexistent-image.jpg' }
+            await expect(interfaceImageController.updateInterfaceImage(9999, updateDto)).rejects.toThrow(
+                NotFoundException
+            )
+        })
+
+        it('supprime des images via le contrôleur', async () => {
+            const imageDto: CreateInterfaceImageDto = {
+                url: 'https://example.com/image.jpg',
+                aws_key: 'aws-key-1',
+            }
+            const createdImage = await interfaceImageService.addInterfaceImage(imageDto)
+
+            const result = await interfaceImageController.deleteInterfacesImages([createdImage.id])
+            expect(result.deletedCount).toEqual(1)
+        })
+
+        it('lance une NotFoundException si les images à supprimer via le contrôleur ne sont pas trouvées', async () => {
+            await expect(interfaceImageController.deleteInterfacesImages([9999])).rejects.toThrow(
+                NotFoundException
+            )
         })
     })
 })
