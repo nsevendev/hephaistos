@@ -14,6 +14,7 @@ import { ChatModule } from './chat/chat.module'
 import { AppointmentModule } from './appointment/appointment.module'
 import { ContactModule } from './contact/contact.module'
 import { CarForSaleImageModule } from './car-for-sale-image/car-for-sale-image.module'
+import { InterfaceImageModule } from './interface-image/interface-image.module'
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { CarForSaleImageModule } from './car-for-sale-image/car-for-sale-image.m
         ChatModule,
         AppointmentModule,
         ContactModule,
+        InterfaceImageModule,
     ],
     controllers: [],
     providers: [],

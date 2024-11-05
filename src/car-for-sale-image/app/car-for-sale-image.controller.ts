@@ -14,7 +14,7 @@ import { CreateCarForSaleImageDto } from './create-car-for-sale-image.dto'
 import { ApiResponse, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger'
 import { CarForSaleImage } from '../domaine/car-for-sale-image.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
-import { AwsS3Service } from './aws.service'
+import { AwsS3Service } from '../../aws/app/aws.service'
 import { z } from 'zod'
 
 @ApiTags('Car For Sale Image Controller')
