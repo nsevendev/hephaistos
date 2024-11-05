@@ -5,6 +5,7 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
+    JoinColumn,
 } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
@@ -28,8 +29,9 @@ export class CarForSaleImage {
     @ApiProperty({ description: "Clé de l'image dans AWS S3", required: true })
     aws_key: string
 
-    @ManyToOne(() => User, { nullable: false })
-    @ApiProperty({ description: "Utilisateur ayant créé l'image", required: true })
+    @ManyToOne(() => User, (user) => user.services, { eager: true })
+    @JoinColumn({ name: 'created_by' })
+    @ApiProperty({ description: 'Utilisateur ayant créé le service mécanique', type: () => User })
     created_by: User
 
     @CreateDateColumn()
