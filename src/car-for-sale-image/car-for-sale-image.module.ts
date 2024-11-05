@@ -7,7 +7,7 @@ import { UserModule } from '../user/user.module'
 import { RoleModule } from '../role/role.module'
 import { CarForSaleModule } from '../car-for-sale/car-for-sale.module'
 import { CarForSaleImageController } from './app/car-for-sale-image.controller'
-import { AwsS3Service } from './app/aws.service'
+import { AwsS3Service } from '../aws/app/aws.service'
 
 @Module({
     imports: [TypeOrmModule.forFeature([CarForSaleImage]), UserModule, RoleModule, CarForSaleModule],

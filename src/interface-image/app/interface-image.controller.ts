@@ -16,20 +16,45 @@ import { UpdateInterfaceImageDto } from './update-interface-image.dto'
 import { ApiResponse, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger'
 import { InterfaceImage } from '../domaine/interface-image.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
+import { AwsS3Service } from '../../aws/app/aws.service'
+import { z } from 'zod'
 
 @ApiTags('Interface Image Controller')
 @Controller('interface-image')
 export class InterfaceImageController {
-    constructor(private readonly interfaceImageService: InterfaceImageService) {}
+    constructor(
+        private readonly interfaceImageService: InterfaceImageService,
+        private readonly awsS3Service: AwsS3Service
+    ) {}
 
     @Post()
     @ApiBody({
         type: CreateInterfaceImageDto,
-        description: 'Données nécessaires pour ajouter une nouvelle image d’interface',
+        description: 'Données nécessaires pour ajouter une image d’interface',
     })
-    @ApiResponse({ status: 201, description: 'Image d’interface ajoutée avec succès', type: InterfaceImage })
+    @ApiResponse({ status: 201, description: 'Image ajoutée avec succès', type: InterfaceImage })
     async addInterfaceImage(@Body() createInterfaceImageDto: CreateInterfaceImageDto) {
-        return this.interfaceImageService.addInterfaceImage(createInterfaceImageDto)
+        const fileSchemaValidation = z
+            .object({
+                buffer: z.instanceof(Buffer).refine((buffer) => buffer.byteLength > 0, {
+                    message: 'Le buffer ne peut pas être vide',
+                }),
+                originalname: z.string().min(1, { message: 'Le nom de fichier est requis' }),
+                mimetype: z.string().min(1, { message: 'Le type MIME est requis' }),
+                size: z.number().positive({ message: 'La taille doit être positive' }),
+            })
+            .parse(createInterfaceImageDto)
+
+        const { fileKey } = await this.awsS3Service.uploadFile({ file: fileSchemaValidation })
+        const fileUrl = await this.awsS3Service.getFileUrl({ fileKey })
+
+        const newImage = {
+            ...createInterfaceImageDto,
+            aws_key: fileKey,
+            url: fileUrl,
+        }
+
+        return this.interfaceImageService.addInterfaceImage(newImage)
     }
 
     @Put(':id')
@@ -69,6 +94,10 @@ export class InterfaceImageController {
     async getInterfacesImages(@Query('ids') ids: number[]) {
         const { images, notFoundCount } = await this.interfaceImageService.getInterfacesImages(ids)
 
+        for (const image of images) {
+            image.url = await this.awsS3Service.getFileUrl({ fileKey: image.aws_key })
+        }
+
         return {
             images,
             notFoundCount,
@@ -96,6 +125,12 @@ export class InterfaceImageController {
     async deleteInterfacesImages(@Query('ids') ids: number[]) {
         if (!ids || ids.length === 0) {
             throw new BadRequestException(`Aucun ID fourni pour la suppression.`)
+        }
+
+        const { images } = await this.interfaceImageService.getInterfacesImages(ids)
+
+        for (const image of images) {
+            await this.awsS3Service.deleteFile({ fileKey: image.aws_key })
         }
 
         const { deletedCount } = await this.interfaceImageService.deleteInterfacesImages(ids)

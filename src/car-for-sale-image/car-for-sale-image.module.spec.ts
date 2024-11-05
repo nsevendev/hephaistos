@@ -16,9 +16,9 @@ import { RoleService } from '../role/app/role.service'
 import { Role } from '../role/domaine/role.entity'
 import { CarForSaleImage } from './domaine/car-for-sale-image.entity'
 import { CarForSaleImageController } from './app/car-for-sale-image.controller'
-import { AwsS3Service } from './app/aws.service'
+import { AwsS3Service } from '../aws/app/aws.service'
 import { UploadCarForSaleImageDto } from './app/upload-car-for-sale-image.dto'
-import { AWS_BUCKET_NAME } from './app/aws.service'
+import { AWS_BUCKET_NAME } from '../aws/app/aws.service'
 
 describe('CarForSaleImageService', () => {
     let carForSaleImageService: CarForSaleImageService
