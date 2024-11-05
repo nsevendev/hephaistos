@@ -1,15 +1,14 @@
 import {
     Body,
-    ConflictException,
     Controller,
     Delete,
     Get,
     NotFoundException,
     Param,
     Post,
-    Put,
     BadRequestException,
     Query,
+    Put,
 } from '@nestjs/common'
 import { ChatRoomService } from './chat-room.service'
 import { CreateChatRoomDto } from './create-chat-room.dto'
@@ -24,25 +23,30 @@ export class ChatRoomController {
     constructor(private readonly chatRoomService: ChatRoomService) {}
 
     @Get()
-    @ApiResponse({ status: 200, description: 'Renvoie toutes les chat rooms', type: [ChatRoom] })
-    async getAllChatRooms() {
-        return this.chatRoomService.getChatRooms([])
-    }
-
-    @Get(':ids')
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs de chat rooms à rechercher',
+        required: false,
+        isArray: true,
+    })
     @ApiResponse({
         status: 200,
-        description: 'Renvoie la ou les chat rooms correspondant aux IDs fournis',
+        description:
+            "Renvoie les chat rooms correspondant aux IDs fournis ou toutes les chat rooms si aucun ID n'est fourni",
         type: [ChatRoom],
     })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
-        description: `${NotFoundException.name} => Aucune chat room trouvée avec ces IDs`,
+        description: `${NotFoundException.name} => Aucune chat room trouvée avec les IDs spécifiés`,
     })
-    async getChatRoomById(@Param('ids') chatRoomIds: string) {
-        const idsArray = chatRoomIds.split(',').map(Number)
-        return this.chatRoomService.getChatRooms(idsArray)
+    async getChatRooms(@Query('ids') ids: number[]) {
+        const chatRooms = await this.chatRoomService.getChatRooms(ids)
+        if (!chatRooms || chatRooms.length === 0) {
+            throw new NotFoundException(`Aucune chat room trouvée.`)
+        }
+        return chatRooms
     }
 
     @Post('create')
@@ -50,19 +54,30 @@ export class ChatRoomController {
         type: CreateChatRoomDto,
         description: 'Données nécessaires pour créer une nouvelle chat room',
     })
-    @ApiResponse({ status: 201, description: 'Renvoie la chat room créée', type: ChatRoom })
     @ApiResponse({
-        status: 409,
+        status: 201,
+        description: 'Renvoie la chat room créée',
+        type: ChatRoom,
+    })
+    @ApiResponse({
+        status: 400,
         type: HttpExceptionResponse,
-        description: `${ConflictException.name} => Une chat room avec cet email existe déjà`,
+        description: `${BadRequestException.name} => Si les données fournies sont invalides`,
     })
     async createChatRoom(@Body() createChatRoomDto: CreateChatRoomDto) {
         return this.chatRoomService.createChatRoom(createChatRoomDto)
     }
 
-    @Put(':id')
-    @ApiBody({ type: UpdateChatRoomDto, description: 'Données pour mettre à jour une chat room' })
-    @ApiResponse({ status: 200, description: 'Renvoie la chat room mise à jour', type: ChatRoom })
+    @Put('update/:id')
+    @ApiBody({
+        type: UpdateChatRoomDto,
+        description: 'Données pour mettre à jour une chat room',
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Chat room mise à jour avec succès',
+        type: ChatRoom,
+    })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
@@ -75,26 +90,29 @@ export class ChatRoomController {
     @Delete()
     @ApiQuery({
         name: 'ids',
-        type: String,
-        description: 'Liste des IDs des chat rooms à supprimer, séparés par des virgules',
+        type: [Number],
+        description: 'Liste des IDs des chat rooms à supprimer',
         required: true,
+        isArray: true,
     })
-    @ApiResponse({ status: 204, description: 'Chat rooms supprimées avec succès' })
     @ApiResponse({
-        status: 400,
-        type: HttpExceptionResponse,
-        description: `${BadRequestException.name} => Aucun ID fourni ou tableau d'IDs vide`,
+        status: 204,
+        description: 'Chat rooms supprimées avec succès',
     })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
         description: `${NotFoundException.name} => Aucune chat room trouvée avec les IDs fournis`,
     })
-    async deleteChatRooms(@Query('ids') ids: string) {
+    @ApiResponse({
+        status: 400,
+        type: HttpExceptionResponse,
+        description: `${BadRequestException.name} => Aucun ID fourni pour la suppression`,
+    })
+    async deleteChatRooms(@Query('ids') ids: number[]) {
         if (!ids || ids.length === 0) {
             throw new BadRequestException(`Aucun ID fourni pour la suppression.`)
         }
-        const idsArray = ids.split(',').map((id) => parseInt(id, 10))
-        return this.chatRoomService.deleteChatRooms(idsArray)
+        return this.chatRoomService.deleteChatRooms(ids)
     }
 }
