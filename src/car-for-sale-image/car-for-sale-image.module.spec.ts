@@ -22,7 +22,6 @@ import { AWS_BUCKET_NAME } from '../aws/app/aws.service'
 
 describe('CarForSaleImageService', () => {
     let carForSaleImageService: CarForSaleImageService
-    let carForSaleImageRepository: CarForSaleImageRepository
     let carForSaleImageController: CarForSaleImageController
     let carForSaleService: CarForSaleService
     let userService: UserService
@@ -46,7 +45,6 @@ describe('CarForSaleImageService', () => {
         }).compile()
 
         carForSaleImageService = module.get<CarForSaleImageService>(CarForSaleImageService)
-        carForSaleImageRepository = module.get<CarForSaleImageRepository>(CarForSaleImageRepository)
         carForSaleImageController = module.get<CarForSaleImageController>(CarForSaleImageController)
         roleService = module.get<RoleService>(RoleService)
         userService = module.get<UserService>(UserService)
@@ -82,10 +80,6 @@ describe('CarForSaleImageService', () => {
     describe('Service', () => {
         it('CarForSaleImageService est défini', () => {
             expect(carForSaleImageService).toBeDefined()
-        })
-
-        it('CarForSaleImageRepository est défini', () => {
-            expect(carForSaleImageRepository).toBeDefined()
         })
 
         it('ajoute des images avec succès', async () => {

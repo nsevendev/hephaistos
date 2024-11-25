@@ -21,6 +21,8 @@ export class InterfaceHomeService {
         const section1Image = section1Result.images.length > 0 ? section1Result.images[0] : null
         const section2Image = section2Result.images.length > 0 ? section2Result.images[0] : null
         const section3Image = section3Result.images.length > 0 ? section3Result.images[0] : null
+        console.log('ICIIIIIIIIIIII', section1_image)
+        console.log('LAAAAAAAAAAAAAAAAAAAAAAAAAAAa', section1Result, section2Result, section3Result)
 
         if (!section1Image || !section2Image || !section3Image) {
             throw new BadRequestException('Les images spécifiées pour les sections sont introuvables.')

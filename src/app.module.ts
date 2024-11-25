@@ -15,6 +15,7 @@ import { AppointmentModule } from './appointment/appointment.module'
 import { ContactModule } from './contact/contact.module'
 import { CarForSaleImageModule } from './car-for-sale-image/car-for-sale-image.module'
 import { InterfaceImageModule } from './interface-image/interface-image.module'
+import { InterfaceHomeModule } from './interface-home/interface-home.module'
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { InterfaceImageModule } from './interface-image/interface-image.module'
         AppointmentModule,
         ContactModule,
         InterfaceImageModule,
+        InterfaceHomeModule,
     ],
     controllers: [],
     providers: [],
