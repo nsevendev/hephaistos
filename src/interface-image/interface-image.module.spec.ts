@@ -45,9 +45,10 @@ describe('InterfaceImageService', () => {
             }
 
             const result = await interfaceImageService.addInterfaceImage(imageDto)
-
+            const savedImage = await interfaceImageService.getInterfacesImages([result.id])
             expect(result).toBeDefined()
             expect(result.url).toEqual(imageDto.url)
+            console.log('LAAAAAAAAAAAAAA', savedImage)
         })
 
         it('met à jour une image existante avec succès', async () => {

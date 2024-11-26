@@ -12,11 +12,14 @@ import { InterfaceHome } from './domaine/interface-home.entity'
 import { InterfaceImage } from '../interface-image/domaine/interface-image.entity'
 import { CreateInterfaceImageDto } from '../interface-image/app/create-interface-image.dto'
 import { InterfaceImageModule } from '../interface-image/interface-image.module'
+import { AwsS3Service } from '../aws/app/aws.service'
+import { AwsServiceModule } from '../aws/aws.module'
 
 describe('InterfaceHome', () => {
     let interfaceHomeService: InterfaceHomeService
     let interfaceHomeController: InterfaceHomeController
     let interfaceImageService: InterfaceImageService
+    let awsS3Service: AwsS3Service
     let createdImage: InterfaceImage
     let module: TestingModule
 
@@ -26,9 +29,7 @@ describe('InterfaceHome', () => {
                 DatabaseTestModule,
                 TypeOrmModule.forFeature([InterfaceHome]),
                 InterfaceImageModule,
-                //CarForSaleModule,
-                //RoleModule,
-                //UserModule,
+                AwsServiceModule,
             ],
             providers: [InterfaceHomeService, InterfaceHomeRepository, InterfaceImageService],
             controllers: [InterfaceHomeController],
@@ -37,15 +38,27 @@ describe('InterfaceHome', () => {
         interfaceHomeService = module.get<InterfaceHomeService>(InterfaceHomeService)
         interfaceHomeController = module.get<InterfaceHomeController>(InterfaceHomeController)
         interfaceImageService = module.get<InterfaceImageService>(InterfaceImageService)
-        // userService = module.get<UserService>(UserService)
-        // carForSaleService = module.get<CarForSaleService>(CarForSaleService)
+        awsS3Service = module.get<AwsS3Service>(AwsS3Service)
 
-        const imageDto: CreateInterfaceImageDto = {
-            url: 'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
-            aws_key: 'aws-key-1',
+        const file = {
+            size: 12345,
+            buffer: Buffer.from('fake-image-content'),
+            originalname: 'test-image.jpg',
+            mimetype: 'image/jpeg',
         }
-
-        createdImage = await interfaceImageService.addInterfaceImage(imageDto)
+        const awsKey = await awsS3Service.uploadFile({ file })
+        const imageUrl = await awsS3Service.getFileUrl(awsKey)
+        createdImage = await interfaceImageService.addInterfaceImage({
+            url: imageUrl,
+            aws_key: awsKey.fileKey,
+        })
+        console.log('awskey : ' + createdImage.aws_key)
+        console.log('created_at : ' + createdImage.created_at)
+        console.log('id : ' + createdImage.id)
+        console.log('url : ' + createdImage.url)
+        const test = await interfaceImageService.getInterfacesImages([createdImage.id])
+        console.log('image : ' + JSON.stringify(test.images[0], null, 2))
+        console.log('imagenotfound : ' + test.notFoundCount)
     })
 
     afterAll(async () => {
@@ -199,11 +212,11 @@ describe('InterfaceHome', () => {
         })
     })
 
-    /*describe('Controller', () => {
+    describe('Controller', () => {
         it('InterfaceHomeController est défini', () => {
             expect(interfaceHomeController).toBeDefined()
         })
-
+        /*
         it("crée l'interface home via le contrôleur", async () => {})
 
         it("récupère les données actuelles de l'interface home via le contrôleur", async () => {})
@@ -211,5 +224,6 @@ describe('InterfaceHome', () => {
         it('met à jour une interface home via le contrôleur', async () => {})
 
         it('supprime une interface home via le contrôleur', async () => {})
-    }) */
+        */
+    })
 })
