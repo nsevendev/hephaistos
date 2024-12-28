@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '../../user/domaine/user.entity'
 import { Contact } from '../../contact/domaine/contact.entity'
+import { Appointment } from '../../appointment/domaine/appointment.entity'
 
 @Entity()
 export class Service {
@@ -25,4 +26,12 @@ export class Service {
     @OneToMany(() => Contact, (contact) => contact.service, { nullable: true })
     @ApiProperty({ description: 'Contacts liés à ce service', type: () => [Contact], required: false })
     contacts: Contact[]
+
+    @OneToMany(() => Appointment, (appointment) => appointment.service, { nullable: true })
+    @ApiProperty({
+        description: 'Appointments liés à ce service',
+        type: () => [Appointment],
+        required: false,
+    })
+    appointments: Appointment[]
 }

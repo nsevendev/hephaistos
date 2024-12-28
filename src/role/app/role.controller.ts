@@ -5,12 +5,12 @@ import {
     Delete,
     Get,
     NotFoundException,
-    Param,
     Post,
+    Query,
 } from '@nestjs/common'
 import { RoleService } from './role.service'
 import { CreateRoleDto } from './create-role.dto'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Role } from '../domaine/role.entity'
 import { HttpExceptionResponse } from '../../shared/exception-response/http-exception-response'
 
@@ -20,54 +20,54 @@ export class RoleController {
     constructor(private readonly roleService: RoleService) {}
 
     @Post('create')
+    @ApiBody({ type: CreateRoleDto, description: 'Données nécessaires pour créer un nouveau rôle' })
     @ApiResponse({ status: 200, description: 'Renvoie le rôle créé', type: Role })
     @ApiResponse({
         status: 409,
         type: HttpExceptionResponse,
-        description: `${ConflictException.name} => Si un rôle existe déjà, impossible de créer un rôle`,
+        description: `${ConflictException.name} => Si un rôle existe déjà, impossible de créer le rôle`,
     })
     async createRole(@Body() createRoleDto: CreateRoleDto) {
         return this.roleService.createRole(createRoleDto)
     }
 
     @Get()
-    @ApiResponse({ status: 200, description: 'Renvoie tous les rôles', type: [Role] })
-    async getAllRoles() {
-        return this.roleService.getManyRoles()
-    }
-
-    @Get(':id')
-    @ApiResponse({ status: 200, description: "Renvoie le rôle correspondant à l'ID", type: Role })
+    @ApiQuery({
+        name: 'roleIds',
+        type: [Number],
+        description: 'Liste des IDs de rôles à rechercher',
+        required: true,
+        isArray: true,
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Renvoie les rôles correspondant aux IDs fournis',
+        type: [Role],
+    })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
-        description: `${NotFoundException.name} => Aucun rôle trouvé avec cet ID`,
+        description: `${NotFoundException.name} => Aucun rôle trouvé avec ces IDs`,
     })
-    async getRoleById(@Param('id') roleId: number) {
-        return this.roleService.getOneRole(roleId)
-    }
-
-    @Delete(':id')
-    @ApiResponse({ status: 204, description: 'Rôle supprimé avec succès' })
-    @ApiResponse({
-        status: 404,
-        type: HttpExceptionResponse,
-        description: `${NotFoundException.name} => Aucun rôle trouvé avec cet ID`,
-    })
-    async deleteRole(@Param('id') roleId: number) {
-        await this.roleService.deleteOneRole(roleId)
-        return
+    async getRoles(@Query('roleIds') roleIds: number[]) {
+        return this.roleService.getRoles(roleIds)
     }
 
     @Delete()
+    @ApiQuery({
+        name: 'roleIds',
+        type: [Number],
+        description: 'Liste des IDs de rôles à supprimer',
+        required: true,
+        isArray: true,
+    })
     @ApiResponse({ status: 204, description: 'Rôles supprimés avec succès' })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
         description: `${NotFoundException.name} => Aucun rôle trouvé pour les IDs fournis`,
     })
-    async deleteManyRoles(@Body() roleIds: number[]) {
-        await this.roleService.deleteManyRoles(roleIds)
-        return
+    async deleteRoles(@Query('roleIds') roleIds: number[]) {
+        return this.roleService.deleteRoles(roleIds)
     }
 }

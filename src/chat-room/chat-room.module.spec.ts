@@ -48,9 +48,7 @@ describe('ChatRoomModule', () => {
                 firstname: 'User',
                 lastname: 'One',
             }
-            console.time('createChatRoom')
             const chatRoomCreated = await chatRoomService.createChatRoom(chatRoomData)
-            console.time('createChatRoom')
             const chatRooms = await chatRoomService.getChatRooms([])
 
             expect(chatRoomCreated.email).toEqual(chatRoomData.email)
@@ -137,31 +135,31 @@ describe('ChatRoomModule', () => {
             expect(result.email).toEqual(chatRoomData.email)
         })
 
-        it('ChatRoomController.getAllChatRooms récupère toutes les chat rooms', async () => {
+        it('ChatRoomController.getChatRooms récupère toutes les chat rooms', async () => {
             await chatRoomService.createChatRoom({
                 email: 'user6@example.com',
                 firstname: 'User',
                 lastname: 'Six',
             })
 
-            const result = await chatRoomController.getAllChatRooms()
+            const result = await chatRoomController.getChatRooms([])
             expect(result).toHaveLength(1)
         })
 
-        it('ChatRoomController.getChatRoomById - chat room existante', async () => {
+        it('ChatRoomController.getChatRooms - chat room existante', async () => {
             const chatRoomCreated = await chatRoomService.createChatRoom({
                 email: 'user7@example.com',
                 firstname: 'User',
                 lastname: 'Seven',
             })
 
-            const result = await chatRoomController.getChatRoomById([chatRoomCreated.id])
+            const result = await chatRoomController.getChatRooms([chatRoomCreated.id])
             expect(result).toBeDefined()
             expect(result[0].id).toEqual(chatRoomCreated.id)
         })
 
-        it('ChatRoomController.getChatRoomById - chat room inexistante', async () => {
-            await expect(chatRoomController.getChatRoomById([999])).rejects.toThrow(NotFoundException)
+        it('ChatRoomController.getChatRooms - chat room inexistante', async () => {
+            await expect(chatRoomController.getChatRooms([999])).rejects.toThrow(NotFoundException)
         })
 
         it('ChatRoomController.updateChatRoom met à jour une chat room', async () => {
@@ -183,14 +181,14 @@ describe('ChatRoomModule', () => {
                 lastname: 'Nine',
             })
 
-            await chatRoomController.deleteChatRooms(`${chatRoomCreated.id}`)
+            await chatRoomController.deleteChatRooms([chatRoomCreated.id])
             await expect(chatRoomService.getChatRooms([chatRoomCreated.id])).rejects.toThrow(
                 NotFoundException
             )
         })
 
         it('ChatRoomController.deleteChatRooms - chat room inexistante', async () => {
-            await expect(chatRoomController.deleteChatRooms('999')).rejects.toThrow(NotFoundException)
+            await expect(chatRoomController.deleteChatRooms([999])).rejects.toThrow(NotFoundException)
         })
     })
 })
