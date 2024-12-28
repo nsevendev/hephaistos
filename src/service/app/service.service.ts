@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { ServiceRepository } from '../infra/service.repository'
-import { UserRepository } from '../../user/infra/user.repository'
 import { CreateServiceDto } from './create-service.dto'
 import { In } from 'typeorm'
+import { UserService } from '../../user/app/user.service'
 
 @Injectable()
 export class ServiceService {
     constructor(
         private readonly serviceRepository: ServiceRepository,
-        private readonly userRepository: UserRepository
+        private readonly userService: UserService
     ) {}
 
     getServices = async (ids: number[] = []) => {
@@ -25,27 +25,20 @@ export class ServiceService {
             relations: ['created_by'],
         })
 
-        const notFoundIds = ids.filter((id) => !services.some((service) => service.id === id))
-        if (notFoundIds.length > 0) {
-            throw new NotFoundException(
-                `Les services avec les IDs suivants sont introuvables : ${notFoundIds.join(', ')}.`
-            )
-        }
-
         return services
     }
 
     createService = async (createServiceDto: CreateServiceDto) => {
         const { name, created_by } = createServiceDto
 
-        const user = await this.userRepository.repository.findOne({ where: { id: created_by } })
-        if (!user) {
+        const user = await this.userService.getUsers([created_by])
+        if (!user[0]) {
             throw new BadRequestException('L utilisateur spécifié est introuvable.')
         }
 
         return this.serviceRepository.createAndSave({
             name,
-            created_by: user,
+            created_by: user[0],
         })
     }
 
@@ -68,8 +61,18 @@ export class ServiceService {
         return await this.serviceRepository.repository.save(service)
     }
 
-    deleteService = async (id: number[]) => {
-        const service = await this.getServices(id)
-        await this.serviceRepository.repository.remove(service)
+    deleteService = async (serviceIds: number[]) => {
+        const result = await this.serviceRepository.repository.delete(serviceIds)
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Aucun service trouvé pour les ID fournis.`)
+        }
+
+        const message = {
+            message: `${result.affected} service(s) supprimée`,
+            deleteCount: result.affected,
+        }
+
+        return message
     }
 }

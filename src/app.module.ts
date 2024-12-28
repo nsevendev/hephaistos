@@ -10,6 +10,11 @@ import { ServiceModule } from './service/service.module'
 import { NotificationModule } from './notification/notification.module'
 import { MechanicalServiceModule } from './mechanical-service/mechanical-service.module'
 import { ChatRoomModule } from './chat-room/chat-room.module'
+import { ChatModule } from './chat/chat.module'
+import { AppointmentModule } from './appointment/appointment.module'
+import { ContactModule } from './contact/contact.module'
+import { CarForSaleImageModule } from './car-for-sale-image/car-for-sale-image.module'
+import { InterfaceImageModule } from './interface-image/interface-image.module'
 
 @Module({
     imports: [
@@ -20,10 +25,15 @@ import { ChatRoomModule } from './chat-room/chat-room.module'
         RoleModule,
         UserModule,
         CarForSaleModule,
+        CarForSaleImageModule,
         ServiceModule,
         NotificationModule,
         MechanicalServiceModule,
         ChatRoomModule,
+        ChatModule,
+        AppointmentModule,
+        ContactModule,
+        InterfaceImageModule,
     ],
     controllers: [],
     providers: [],

@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColum
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '../../role/domaine/role.entity'
 import { Service } from '../../service/domaine/service.entity'
+import { CarForSaleImage } from '../../car-for-sale-image/domaine/car-for-sale-image.entity'
 
 @Entity()
 export class User {
@@ -32,4 +33,8 @@ export class User {
     })
     @ApiProperty({ description: "Services créés par l'utilisateur", type: () => [Service] })
     services?: Service[]
+
+    @OneToMany(() => CarForSaleImage, (carForSaleImage) => carForSaleImage.created_by)
+    @ApiProperty({ description: "Images créées par l'utilisateur", type: () => [CarForSaleImage] })
+    car_for_sale_images?: CarForSaleImage[]
 }

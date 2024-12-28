@@ -7,11 +7,11 @@ import {
     Param,
     Post,
     BadRequestException,
-    Patch,
     Query,
+    Put,
 } from '@nestjs/common'
 import { ContactService } from './contact.service'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiResponse, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger'
 import { Contact } from '../domaine/contact.entity'
 import { CreateContactDto } from './create-contact.dto'
 import { UpdateContactDto } from './update-contact.dto'
@@ -23,15 +23,23 @@ export class ContactController {
     constructor(private readonly contactService: ContactService) {}
 
     @Get()
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs de contacts à rechercher',
+        required: false,
+        isArray: true,
+    })
     @ApiResponse({
         status: 200,
-        description: 'Renvoie tous les contacts ou ceux correspondant aux IDs fournis',
+        description:
+            "Renvoie les contacts correspondant aux IDs fournis ou tous les contacts si aucun ID n'est fourni",
         type: [Contact],
     })
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
-        description: `${NotFoundException.name} => Aucun contact trouvé`,
+        description: `${NotFoundException.name} => Aucun contact trouvé avec les IDs spécifiés`,
     })
     async getContact(@Query('ids') ids: number[]) {
         const contacts = await this.contactService.getContact(ids)
@@ -42,6 +50,7 @@ export class ContactController {
     }
 
     @Post('create')
+    @ApiBody({ type: CreateContactDto, description: 'Données nécessaires pour créer un nouveau contact' })
     @ApiResponse({
         status: 201,
         description: 'Renvoie le contact créé',
@@ -56,7 +65,8 @@ export class ContactController {
         return this.contactService.createContact(createContactDto)
     }
 
-    @Patch('update/:id')
+    @Put('update/:id')
+    @ApiBody({ type: UpdateContactDto, description: 'Données pour mettre à jour un contact' })
     @ApiResponse({
         status: 200,
         description: 'Contact mis à jour avec succès',
@@ -65,13 +75,20 @@ export class ContactController {
     @ApiResponse({
         status: 404,
         type: HttpExceptionResponse,
-        description: `${NotFoundException.name} => Si aucun contact correspondant à cet ID n'a été trouvé`,
+        description: `${NotFoundException.name} => Aucun contact correspondant à cet ID n'a été trouvé`,
     })
     async updateContact(@Param('id') id: number, @Body() updateContactDto: UpdateContactDto) {
         return this.contactService.updateContact(id, updateContactDto)
     }
 
     @Delete()
+    @ApiQuery({
+        name: 'ids',
+        type: [Number],
+        description: 'Liste des IDs de contacts à supprimer',
+        required: true,
+        isArray: true,
+    })
     @ApiResponse({
         status: 204,
         description: 'Contacts supprimés avec succès',
@@ -84,7 +101,7 @@ export class ContactController {
     @ApiResponse({
         status: 400,
         type: HttpExceptionResponse,
-        description: `${BadRequestException.name} => Si aucun ID n'est fourni`,
+        description: `${BadRequestException.name} => Aucun ID fourni pour la suppression`,
     })
     async deleteContact(@Query('ids') ids: number[]) {
         if (!ids || ids.length === 0) {

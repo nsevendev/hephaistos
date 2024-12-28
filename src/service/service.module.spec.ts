@@ -186,7 +186,7 @@ describe('ServiceService', () => {
             const invalidServiceId = 1111
 
             await expect(serviceService.deleteService([invalidServiceId])).rejects.toThrow(
-                `Les services avec les IDs suivants sont introuvables : ${invalidServiceId}.`
+                'Aucun service trouvé pour les ID fournis.'
             )
         })
     })
@@ -273,7 +273,7 @@ describe('ServiceService', () => {
             expect(serviceRetrieved).toEqual([serviceCreated1, serviceCreated2])
         })
 
-        it("getServices retourne une erreur si l'un des id donné est introuvable", async () => {
+        it("getServices retourne les élément trouvé si l'un des id donné est introuvable", async () => {
             const role = await roleService.createRole({ name: 'admin' })
 
             const userData: CreateUserDto = {
@@ -291,9 +291,9 @@ describe('ServiceService', () => {
             }
 
             const serviceCreated = await serviceService.createService(serviceData)
-            await expect(serviceController.getServices([serviceCreated.id, 1111])).rejects.toThrow(
-                NotFoundException
-            )
+            const serviceRetrieved = await serviceController.getServices([serviceCreated.id, 1111])
+
+            expect(serviceRetrieved).toEqual([serviceCreated])
         })
 
         it("getServices retourne une erreur si aucun service n'est trouvé", async () => {
@@ -374,7 +374,7 @@ describe('ServiceService', () => {
             }
 
             const serviceCreated = await serviceService.createService(serviceData)
-            await serviceController.deleteService(serviceCreated.id)
+            await serviceController.deleteServices([serviceCreated.id])
 
             const services = await serviceService.getServices([])
 
@@ -384,7 +384,9 @@ describe('ServiceService', () => {
         it("deleteService retourne une erreur si le service n'existe pas", async () => {
             const invalidServiceId = 9999
 
-            await expect(serviceController.deleteService(invalidServiceId)).rejects.toThrow(NotFoundException)
+            await expect(serviceController.deleteServices([invalidServiceId])).rejects.toThrow(
+                NotFoundException
+            )
         })
     })
 })

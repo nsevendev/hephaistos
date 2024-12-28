@@ -15,34 +15,37 @@ export class MechanicalServiceService {
     createMechanicalService = async (createMechanicalServiceDto: CreateMechanicalServiceDto) => {
         const { name, lower_price, created_by } = createMechanicalServiceDto
 
-        const creator = await this.userService.getUser(created_by)
-        if (!creator) {
+        const creator = await this.userService.getUsers([created_by])
+        if (!creator[0]) {
             throw new BadRequestException("L'utilisateur spécifié est introuvable.")
         }
 
         const newService = this.mechanicalServiceRepository.repository.create({
             name,
             lower_price,
-            created_by: creator,
+            created_by: creator[0],
         })
 
         return await this.mechanicalServiceRepository.repository.save(newService)
     }
 
-    getMechanicalService = async (ids: number[] = []) => {
-        if (ids.length > 0) {
-            return await this.mechanicalServiceRepository.repository.find({
-                where: { id: In(ids) },
-                relations: ['created_by'],
-            })
-        } else {
-            return await this.mechanicalServiceRepository.repository.find({
-                relations: ['created_by'],
-            })
+    getMechanicalServices = async (mechanicalServiceIds: number[] = []) => {
+        const mechanicalServices =
+            mechanicalServiceIds && mechanicalServiceIds.length > 0
+                ? await this.mechanicalServiceRepository.repository.find({
+                      where: { id: In(mechanicalServiceIds) },
+                      relations: ['created_by'],
+                  })
+                : await this.mechanicalServiceRepository.repository.find({ relations: ['created_by'] })
+
+        if (mechanicalServiceIds && mechanicalServiceIds.length > 0 && mechanicalServices.length === 0) {
+            throw new NotFoundException('Aucun service mécanique trouvé avec les IDs fournis.')
         }
+
+        return mechanicalServices
     }
 
-    getMechanicalServiceByFilter = async (nameToSearch: string) => {
+    getMechanicalServicesByFilter = async (nameToSearch: string) => {
         return await this.mechanicalServiceRepository.repository.find({
             where: { name: Like(`%${nameToSearch}%`) },
             relations: ['created_by'],
@@ -68,16 +71,13 @@ export class MechanicalServiceService {
         return await this.mechanicalServiceRepository.repository.save(updatedService)
     }
 
-    deleteMechanicalService = async (id: number) => {
-        const service = await this.mechanicalServiceRepository.repository.findOne({
-            where: { id },
-            relations: ['created_by'],
-        })
+    deleteMechanicalServices = async (mechanicalServiceIds: number[]) => {
+        const result = await this.mechanicalServiceRepository.repository.delete(mechanicalServiceIds)
 
-        if (!service) {
-            throw new NotFoundException(`Le service mécanique avec l'ID ${id} n'existe pas.`)
+        if (result.affected === 0) {
+            throw new NotFoundException(`Aucun service mécanique trouvé pour les ID fournis.`)
         }
 
-        await this.mechanicalServiceRepository.repository.remove(service)
+        return result
     }
 }

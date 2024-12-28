@@ -5,12 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { CarForSale } from './domaine/car-for-sale.entity'
 import { UserModule } from '../user/user.module'
 import { RoleModule } from '../role/role.module'
-//import { CarForSaleController } from './app/car-for-sale.controller'
+import { CarForSaleController } from './app/car-for-sale.controller'
 
 @Module({
     imports: [TypeOrmModule.forFeature([CarForSale]), RoleModule, UserModule],
     providers: [CarForSaleService, CarForSaleRepository],
     exports: [CarForSaleService, CarForSaleRepository],
-    //controllers: [CarForSaleController],
+    controllers: [CarForSaleController],
 })
 export class CarForSaleModule {}
