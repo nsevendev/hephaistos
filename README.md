@@ -1,66 +1,54 @@
-# Hephaistos
+# Hephaistos  
 
-## Prérequis
+> Api pour l'application nseven  
 
--   Copier le fichier `.env.public` en `.env.dev.local` et remplir les variables d'environnement  
-    demander à un membre de l'équipe pour les valeurs à mettre
+## Mode dev  
 
-## utilisation des containers (sans maker)
+- Copier le fichier `.env.dev` en `.env.dev.local` et modifier les valeurs  
+- Recuperer les fichiers `dev.decrypt.private` et les placer dans le dossier `config/secret/dev`  
 
--   Lancement des containers
+**Si vous êtes en production alors faites la meme chose mais avec les fichiers prod**  
+- Recuperer les fichiers `prod.decrypt.private` et les placer dans le dossier `config/secret/prod`  
 
+### Utilisation de docker
 ```bash
-# lancement de tout les containers api + bdd
-docker compose --env-file .env.dev.local up
+# build image (premier lancement)
+make build
 
-# lancement du container api
-# attention le container de la bdd doit être lancé
-docker compose --env-file .env.dev.local up api
+# lancer les containers dev
+make up
 
-# lancement du container bdd
-docker compose --env-file .env.dev.local up db
+# fait les deux commandes ci-dessus
+make start
 ```
+> pour d'autre commande taper `make` dans le terminal  
 
--   Arret des containers
+## Premiere utilisation des tests  
 
-```bash
-# arret de tout les containers
-docker compose --env-file .env.dev.local down
+### Creer la bdd de test  
 
-# arret du container api
-docker compose --env-file .env.dev.local down api
+- decommentez les lignes de 2 à 5 du `Makefile`  
+- decommentez la ligne de la commande `create-test-db`  
+- executer la commande `make create-test-db` dans un terminal, cela creera la bdd de test appeller `heph_test`  
+- commentez toutes les lignes que vous avez decommentez
+- executer les tests avec la commande `make test`
 
-# arret du container bdd
-docker compose --env-file .env.dev.local down db
+## Commandes utiles  
+
+- toutes ses commandes sont dans le compose.json et sont executer via make pour ne pas être obliger de se connecter au container  
+- pour voir les commandes taper `make` dans le terminal  
 ```
+# drop and create bdd de test pour réinitialiser le schema de la bdd
+make m-bdd
 
-## utilisation des containers (avec make)
+# lancer les tests
+make test
 
--   Tapez la commande `make` pour voir les commandes disponibles
+# lancer les tests avec coverage
+make test-cover
 
-## Utiisation des fixtures
+# voir les commandes SF
+make sf
 
--   Les fixtures sont executer dans un micro service de l'application de base
-    il replique l'application et lance la creation des fixtures. ATTENTION commande à ne pas lancer en production
-
-```bash
-# connection au container
-docker exec -it nest-dev-hephaistos bash
-
-# lancement des fixtures
-npm run seed
-```
-
-## Commandes utiles
-
-```bash
-# connexion au container
-docker exec -it nest-dev-hephaistos bash
-
-# lancement des tests dans le container
-#(vous pouvez regarder les commandes dans le package.json si besoin)
-npm run test
-
-# lancement des fixtures
-npm run seed
+... etc ...
 ```
