@@ -1,119 +1,105 @@
-# Variables
-ifneq (,$(wildcard .env.dev.local))
-    include .env.dev.local
-    export $(shell sed 's/=.*//' .env.dev.local)
-endif
+#find variable in .env.dev file
+#ifneq (,$(wildcard .env.dev))
+#   include .env.dev
+#   export $(shell sed 's/=.*//' .env.dev)
+#endif
 
-ENV_FILE=.env.dev.local
-DOCKER_COMPOSE=docker compose --env-file $(ENV_FILE)
-DOCKER_EXEC=docker exec -it ${API_CONTAINER_NAME} bash -c
-DOCKER_EXEC_CONNECT_API=docker exec -it ${API_CONTAINER_NAME} bash
-DOCKER_EXEC_CONNECT_DB=docker exec -it ${POSTGRES_CONTAINER_NAME} bash
+# Executables (local)
+DOCKER_COMP = docker compose
+DOCKER_COMP_PROD = docker compose -f compose.yaml -f compose.prod.yaml
 
-# Générer automatiquement l'aide en utilisant les commentaires ##
-.PHONY: help
-help:
-	@echo "Commandes disponibles :"
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  make %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+# Docker containers
+PHP_CONT = $(DOCKER_COMP) exec php
 
-.PHONY: up up-d up-api up-db down down-api down-db
+# Executables
+PHP      = $(PHP_CONT) php
+COMPOSER = $(PHP_CONT) composer
+SYMFONY  = $(PHP) bin/console
+SYMFONY_TEST  = $(PHP) bin/phpunit
 
-up: ## Lancer tous les conteneurs (API + BDD) avec logs
-	@echo "Lancement de tous les conteneurs (API + BDD)..."
-	$(DOCKER_COMPOSE) up
+# Files env
+ENV_FILE_DEV = .env.dev.local
+ENV_FILE_PROD = .env.prod.local
 
-up-d: ## Lancer tous les conteneurs (API + BDD) sans logs
-	@echo "Lancement de tous les conteneurs (API + BDD)..."
-	$(DOCKER_COMPOSE) up -d
+# Misc
+.DEFAULT_GOAL = help
+.PHONY        : help build up up-prod start start-prod down logs sh composer vendor sf cc test
 
-up-api: ## Lancer uniquement le conteneur API
-	@echo "Lancement du conteneur API..."
-	$(DOCKER_COMPOSE) up api -d
+## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
+help: ## Outputs this help screen
+	@grep -E '(^[a-zA-Z0-9\./_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-up-db: ## Lancer uniquement le conteneur BDD
-	@echo "Lancement du conteneur de la base de données..."
-	$(DOCKER_COMPOSE) up db -d
+## —— Docker dev 🐳 ————————————————————————————————————————————————————————————————
+build: ## Builds the Docker images
+	@$(DOCKER_COMP) build --pull --no-cache
 
-down: ## Arrêter tous les conteneurs
-	@echo "Arrêt de tous les conteneurs..."
-	$(DOCKER_COMPOSE) down
+up: ## Start the docker hub mode dev in detached mode (no logs)
+	@$(DOCKER_COMP) --env-file $(ENV_FILE_DEV) up --detach
 
-down-api: ## Arrêter uniquement le conteneur API
-	@echo "Arrêt du conteneur API..."
-	$(DOCKER_COMPOSE) down api
+start: build up ## Build and start the containers mode dev
 
-down-db: ## Arrêter uniquement le conteneur BDD
-	@echo "Arrêt du conteneur de la base de données..."
-	$(DOCKER_COMPOSE) down db
+## —— Docker generic 🐳 ————————————————————————————————————————————————————————————————
+down: ## Stop the docker hub
+	@$(DOCKER_COMP) down --remove-orphans
 
-.PHONY: clean clean-api clean-db clean-db-v
+logs: ## Show live logs
+	@$(DOCKER_COMP) logs --tail=0 --follow
 
-clean: ## Supprimer toutes les images du projet
-	@echo "Suppression de toutes les images du projet..."
-	$(DOCKER_COMPOSE) down --rmi all
+sh: ## Connect to the FrankenPHP container
+	@$(PHP_CONT) sh
 
-clean-api: ## Supprimer toutes les images de api
-	@echo "Suppression des images api..."
-	$(DOCKER_COMPOSE) down api --rmi all
+bash: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) bash
 
-clean-db: ## Supprimer toutes les images de db
-	@echo "Suppression des images db..."
-	$(DOCKER_COMPOSE) down db --rmi all
+test: ## Start tests with paratest, pass the parameter "c=" to add options, example: make test c="tests/Unit"
+	@$(eval c ?=)
+	@$(COMPOSER) test $(c)
 
-clean-db-v: ## Supprimer tous les volumes de db
-	@echo "Suppression des volumes de db..."
-	$(DOCKER_COMPOSE) down db -v
+test-cover: ## Start tests with paratest with coverage, pass the parameter "c=" to add options to command, example: make test-cover c="--stop-on-failure"
+	@$(eval c ?=)
+	@$(COMPOSER) test:cover $(c)
 
-.PHONY: test test-v test-w test-vw
+check: ## Start all process to check code quality, cs, phpstan, les tests, et normalise le fichier composer.json
+	@$(COMPOSER) check
 
-test: ## Exécuter les tests dans le conteneur (jest)
-	@echo "Exécution des tests dans le conteneur (jest)..."
-	$(DOCKER_EXEC) "npm run test"
+## —— Composer 🧙 ——————————————————————————————————————————————————————————————
+composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
+	@$(eval c ?=)
+	@$(COMPOSER) $(c)
 
-test-v: ## Exécuter les tests en mode verbose (jest --verbose)
-	@echo "Exécution des tests en mode verbose dans le conteneur..."
-	$(DOCKER_EXEC) "npm run test:v"
+composer-arg: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
+	@$(eval c ?=)
+	@$(eval arg ?=)
+	@$(COMPOSER) $(c) $(arg)
 
-test-w: ## Exécuter les tests en mode watch (jest --watch)
-	@echo "Exécution des tests en mode watch dans le conteneur..."
-	$(DOCKER_EXEC) "npm run test:w"
+vendor: ## Install vendors according to the current composer.lock file
+vendor: c=install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction
+vendor: composer
 
-test-vw: ## Exécuter les tests en mode watch + verbose (jest --watch --verbose)
-	@echo "Exécution des tests en mode watch + verbose dans le conteneur..."
-	$(DOCKER_EXEC) "npm run test:vw"
+## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
+sf: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make sf c=about
+	@$(eval c ?=)
+	@$(SYMFONY) $(c)
 
-.PHONY: migration-g
+sf-test: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make sf-test c=about
+	@$(eval c ?=)
+	@$(SYMFONY_TEST) $(c)
 
-migration-g: ## Creer une migration
-	@echo "Creation d'une migration"
-	$(DOCKER_EXEC) "npm run migration:generate -- src/migrations/migration"
+cc: c=c:c ## Clear the cache
+cc: sf
 
-.PHONY: migation-r
+## —— Docker prod 🐳 ————————————————————————————————————————————————————————————————
+up-prod: ## Start the docker hub mode prod in detached mode (no logs)
+	@$(DOCKER_COMP_PROD) --env-file $(ENV_FILE_PROD) up --detach
 
-migration-r: ## Executer les migrations
-	@echo "Execution des migrations"
-	$(DOCKER_EXEC) "npm run migration:run"
+start-prod: build up-prod ## Build and start the containers mode prod
 
-.PHONY: migration-rev
+## —— Docker other 🐳 ————————————————————————————————————————————————————————————————
+create-test-db: ## Create the test database (NOT USE by default, use sqlite for tests in cache)
+	#@$(DOCKER_COMP) exec database sh -c 'psql -U "$(POSTGRES_USER)" -d postgres -c "CREATE DATABASE $(POSTGRES_DB)_test OWNER = $(POSTGRES_USER);"'
 
-migration-rev: ## Annuler la dernière migration
-	@echo "Annulation de la dernière migration"
-	$(DOCKER_EXEC) "npm run migration:reverse"
+sh-database: ## Connect to the database container
+	@$(DOCKER_COMP) exec database sh
 
-.PHONY: seed
-
-seed: ## Executer les fixtures
-	@echo "Execute les fixtures sur la bdd principal (local)"
-	$(DOCKER_EXEC) "npm run seed"
-
-.PHONY: sh-api
-
-exec-api: ## Connexion container api
-	@echo "Connexion au container de l'api"
-	$(DOCKER_EXEC_CONNECT_API)
-
-.PHONY: sh-db
-
-exec-db: ## Connexion container db
-	@echo "Connexion au container de la database"
-	$(DOCKER_EXEC_CONNECT_DB)
+m-bdd: ## drop and create database for tests
+	@$(COMPOSER) migration-bdd-test
