@@ -6,17 +6,14 @@ namespace Heph\Fixtures\PingEntity;
 
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Heph\Entity\Ping\PingEntity;
 use Heph\Fixtures\AbstractFixture;
+use Heph\Tests\Faker\Entity\Ping\PingEntityFaker;
 
 final class PingEntityFixture extends AbstractFixture implements FixtureGroupInterface
 {
     protected function supply(ObjectManager $manager): iterable
     {
-        yield new PingEntity(
-            200,
-            "ping OK"
-        );
+        yield PingEntityFaker::new();
     }
 
     public static function getGroups(): array
