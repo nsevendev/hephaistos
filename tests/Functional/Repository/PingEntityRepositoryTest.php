@@ -9,6 +9,7 @@ use Heph\Entity\Ping\PingEntity;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\Ping\PingEntityRepository;
+use Heph\Tests\Faker\Entity\Ping\PingEntityFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
@@ -53,7 +54,7 @@ class PingEntityRepositoryTest extends HephFunctionalTestCase
      */
     public function testWeCanPersistAndFindPing(): void
     {
-        $ping = new PingEntity(200, 'Success from test');
+        $ping = PingEntityFaker::new();
 
         $this->persistAndFlush($ping);
 
@@ -62,6 +63,6 @@ class PingEntityRepositoryTest extends HephFunctionalTestCase
 
         self::assertNotNull($found, 'PingEntity non trouvé en base alors qu’on vient de le créer');
         self::assertSame(200, $found->status());
-        self::assertSame('Success from test', $found->message());
+        self::assertSame('Le ping à réussi', $found->message());
     }
 }
