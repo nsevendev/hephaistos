@@ -15,4 +15,12 @@ class PingEntityFaker
             "Le ping à réussi"
         );
     }
+
+    public static function newWithNullValues(): PingEntity
+    {
+        return new PingEntity(
+            null,
+            null
+        );
+    }
 }
