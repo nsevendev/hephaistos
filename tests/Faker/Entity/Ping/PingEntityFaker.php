@@ -6,13 +6,13 @@ namespace Heph\Tests\Faker\Entity\Ping;
 
 use Heph\Entity\Ping\PingEntity;
 
-class PingEntityFaker
+final class PingEntityFaker
 {
     public static function new(): PingEntity
     {
         return new PingEntity(
             200,
-            "Le ping à réussi"
+            'Le ping à réussi'
         );
     }
 
