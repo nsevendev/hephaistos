@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\Ping;
 
+use DateTimeImmutable;
 use Heph\Entity\Ping\PingEntity;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
+use Heph\Tests\Faker\Entity\Ping\PingEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -16,19 +18,28 @@ class PingEntityTest extends HephUnitTestCase
     public function testEntityInitialization(): void
     {
         $status = 200;
-        $message = 'Ping success';
+        $message = 'Le ping à réussi';
 
-        $pingEntity = new PingEntity($status, $message);
+        $pingEntity = PingEntityFaker::new();
 
         self::assertSame($status, $pingEntity->status());
         self::assertSame($message, $pingEntity->message());
+        self::assertNotNull($pingEntity->createdAt());
+        self::assertNotNull($pingEntity->updatedAt());
     }
 
     public function testEntityWithNullValues(): void
     {
-        $pingEntity = new PingEntity(null, null);
+        $pingEntity = PingEntityFaker::newWithNullValues();
 
         self::assertNull($pingEntity->status());
         self::assertNull($pingEntity->message());
+        self::assertNotNull($pingEntity->createdAt());
+        self::assertNotNull($pingEntity->updatedAt());
+
+        $newDateUpdated = new DateTimeImmutable();
+        $pingEntity->setUpdatedAt($newDateUpdated);
+
+        self::assertSame($newDateUpdated, $pingEntity->updatedAt());
     }
 }

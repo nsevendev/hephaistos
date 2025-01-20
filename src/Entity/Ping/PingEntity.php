@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Ping;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\Ping\Type\PingId;
 use Heph\Repository\Ping\PingEntityRepository;
@@ -36,6 +37,27 @@ class PingEntity
         return $this->message;
     }
 
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
+
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $updatedAt;
+
+    public function updatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
     public function __construct(
         ?int $status,
         ?string $message,
@@ -43,5 +65,7 @@ class PingEntity
         $this->id = PingId::create();
         $this->status = $status;
         $this->message = $message;
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = $this->createdAt;
     }
 }
