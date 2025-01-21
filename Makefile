@@ -1,8 +1,8 @@
 #find variable in .env.dev file
-#ifneq (,$(wildcard .env.dev))
-#   include .env.dev
-#   export $(shell sed 's/=.*//' .env.dev)
-#endif
+ifneq (,$(wildcard .env.dev))
+   include .env.dev
+   export $(shell sed 's/=.*//' .env.dev)
+endif
 
 # Executables (local)
 DOCKER_COMP = docker compose
@@ -96,7 +96,7 @@ start-prod: build up-prod ## Build and start the containers mode prod
 
 ## —— Docker other 🐳 ————————————————————————————————————————————————————————————————
 create-test-db: ## Create the test database (NOT USE by default, use sqlite for tests in cache)
-	#@$(DOCKER_COMP) exec database sh -c 'psql -U "$(POSTGRES_USER)" -d postgres -c "CREATE DATABASE $(POSTGRES_DB)_test OWNER = $(POSTGRES_USER);"'
+	@$(DOCKER_COMP) exec database sh -c 'psql -U "$(POSTGRES_USER)" -d postgres -c "CREATE DATABASE $(POSTGRES_DB)_test OWNER = $(POSTGRES_USER);"'
 
 sh-database: ## Connect to the database container
 	@$(DOCKER_COMP) exec database sh
