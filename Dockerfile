@@ -56,6 +56,8 @@ CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 # Dev FrankenPHP image
 FROM frankenphp_base AS frankenphp_dev
 
+RUN git config --system safe.directory /app
+
 ENV APP_ENV=dev XDEBUG_MODE=develop,debug
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
