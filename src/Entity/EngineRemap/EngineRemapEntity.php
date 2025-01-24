@@ -26,6 +26,11 @@ class EngineRemapEntity
     #[ORM\JoinColumn(name: 'info_description', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private InfoDescriptionModelEntity $infoDescriptionModel;
 
+    public function getInfoDescriptionModel(): InfoDescriptionModelEntity
+    {
+        return $this->infoDescriptionModel;
+    }
+
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
