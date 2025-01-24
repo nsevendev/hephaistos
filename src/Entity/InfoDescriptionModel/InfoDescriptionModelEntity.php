@@ -8,10 +8,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\InfoDescriptionModel\Type\InfoDescriptionModelId;
 use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
-use Heph\Entity\EngineRemap;
-use Heph\Entity\CarSales;
-use Heph\Entity\LmQuatre;
-use Heph\Entity\Workshop;
 
 #[ORM\Entity(repositoryClass: InfoDescriptionModelEntityRepository::class)]
 class InfoDescriptionModelEntity
@@ -61,18 +57,6 @@ class InfoDescriptionModelEntity
     {
         $this->updatedAt = $updatedAt;
     }
-
-    #[ORM\OneToOne(mappedBy: 'infoDescriptionModel', cascade: ['persist', 'remove'])]
-    private ?EngineRemap $engineRemap = null;
-
-    #[ORM\OneToOne(mappedBy: 'infoDescriptionModel', cascade: ['persist', 'remove'])]
-    private ?CarSales $carSales = null;
-
-    #[ORM\OneToOne(mappedBy: 'infoDescriptionModel', cascade: ['persist', 'remove'])]
-    private ?LmQuatre $lmQuatre = null;
-
-    #[ORM\OneToOne(mappedBy: 'infoDescriptionModel', cascade: ['persist', 'remove'])]
-    private ?Workshop $workshop = null;
 
     public function __construct(
         string $libelle,
