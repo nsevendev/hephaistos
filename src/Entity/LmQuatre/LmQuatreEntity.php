@@ -34,59 +34,63 @@ class LmQuatreEntity
     public function setInfoDescriptionModel(InfoDescriptionModelEntity $infoDescriptionModel): void
     {
         $this->infoDescriptionModel = $infoDescriptionModel;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column]
-    private ?string $owner;
+    private string $owner;
 
-    public function owner(): ?string
+    public function owner(): string
     {
         return $this->owner;
     }
 
     #[ORM\Column]
-    private ?string $adresse;
+    private string $adresse;
 
-    public function adresse(): ?string
+    public function adresse(): string
     {
         return $this->adresse;
     }
 
-    public function setadresse(?string $adresse): void
+    public function setAdresse(string $adresse): void
     {
         $this->adresse = $adresse;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column]
-    private ?string $email;
+    private string $email;
 
-    public function email(): ?string
+    public function email(): string
     {
         return $this->email;
     }
 
-    public function setEmail(?string $email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column]
-    private ?int $phoneNumber;
+    private int $phoneNumber;
 
-    public function phoneNumber(): ?int
+    public function phoneNumber(): int
     {
         return $this->phoneNumber;
     }
 
-    public function setphoneNumber(?int $phoneNumber): void
+    public function setPhoneNumber(int $phoneNumber): void
     {
         $this->phoneNumber = $phoneNumber;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?DateTimeImmutable $companyCreateDate;
+    private DateTimeImmutable $companyCreateDate;
 
-    public function companyCreateDate(): ?DateTimeImmutable
+    public function companyCreateDate(): DateTimeImmutable
     {
         return $this->companyCreateDate;
     }
@@ -114,11 +118,11 @@ class LmQuatreEntity
 
     public function __construct(
         InfoDescriptionModelEntity $infoDescriptionModel,
-        ?string $owner,
-        ?string $adresse,
-        ?string $email,
-        ?int $phoneNumber,
-        ?DateTimeImmutable $companyCreateDate,
+        string $owner,
+        string $adresse,
+        string $email,
+        int $phoneNumber,
+        DateTimeImmutable $companyCreateDate,
     ) {
         $this->id = LmQuatreId::create();
         $this->infoDescriptionModel = $infoDescriptionModel;

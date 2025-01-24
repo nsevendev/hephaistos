@@ -22,17 +22,17 @@ class PingEntity
     }
 
     #[ORM\Column]
-    private ?int $status;
+    private int $status;
 
-    public function status(): ?int
+    public function status(): int
     {
         return $this->status;
     }
 
     #[ORM\Column(length: 255)]
-    private ?string $message;
+    private string $message;
 
-    public function message(): ?string
+    public function message(): string
     {
         return $this->message;
     }
@@ -59,8 +59,8 @@ class PingEntity
     }
 
     public function __construct(
-        ?int $status,
-        ?string $message,
+        int $status,
+        string $message,
     ) {
         $this->id = PingId::create();
         $this->status = $status;

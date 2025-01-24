@@ -22,29 +22,31 @@ class InfoDescriptionModelEntity
     }
 
     #[ORM\Column]
-    private ?string $libelle;
+    private string $libelle;
 
-    public function libelle(): ?string
+    public function libelle(): string
     {
         return $this->libelle;
     }
 
-    public function setLibelle(?string $libelle): void
+    public function setLibelle(string $libelle): void
     {
         $this->libelle = $libelle;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column]
-    private ?string $description;
+    private string $description;
 
-    public function description(): ?string
+    public function description(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -69,8 +71,8 @@ class InfoDescriptionModelEntity
     }
 
     public function __construct(
-        ?string $libelle,
-        ?string $description,
+        string $libelle,
+        string $description,
     ) {
         $this->id = InfoDescriptionModelId::create();
         $this->libelle = $libelle;
