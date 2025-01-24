@@ -1,5 +1,6 @@
 .idea
 .github/workflows/.secrets
+.vscode
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
