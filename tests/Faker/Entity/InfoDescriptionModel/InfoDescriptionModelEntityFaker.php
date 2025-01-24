@@ -16,11 +16,11 @@ final class InfoDescriptionModelEntityFaker
         );
     }
 
-    public static function newWithNullValues(): InfoDescriptionModelEntity
+    public static function newWithNEmptyValues(): InfoDescriptionModelEntity
     {
         return new InfoDescriptionModelEntity(
-            libelle: null,
-            description: null
+            libelle: '',
+            description: ''
         );
     }
 }

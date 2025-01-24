@@ -16,11 +16,11 @@ final class PingEntityFaker
         );
     }
 
-    public static function newWithNullValues(): PingEntity
+    public static function newWithEmptyValues(): PingEntity
     {
         return new PingEntity(
-            null,
-            null
+            0,
+            ''
         );
     }
 }

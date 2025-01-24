@@ -24,17 +24,17 @@ final class LmQuatreEntityFaker
         );
     }
 
-    public static function newWithNullValues(): LmQuatreEntity
+    public static function newWithEmptyValues(): LmQuatreEntity
     {
-        $infoDescriptionModel = InfoDescriptionModelEntityFaker::newWithNullValues();
+        $infoDescriptionModel = InfoDescriptionModelEntityFaker::newWithNEmptyValues();
 
         return new LmQuatreEntity(
             $infoDescriptionModel,
-            null,
-            null,
-            null,
-            null,
-            null
+            '',
+            "",
+            '',
+            0,
+            new DateTimeImmutable('2000-03-31')
         );
     }
 }
