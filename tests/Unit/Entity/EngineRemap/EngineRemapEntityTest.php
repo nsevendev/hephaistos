@@ -9,6 +9,7 @@ use Heph\Entity\EngineRemap\EngineRemapEntity;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapEntityFaker;
+use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -23,11 +24,16 @@ class EngineRemapEntityTest extends HephUnitTestCase
         self::assertNotNull($EngineRemapEntity->id());
         self::assertInstanceOf(DateTimeImmutable::class, $EngineRemapEntity->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $EngineRemapEntity->updatedAt());
-        self::assertNotNull($EngineRemapEntity->getInfoDescriptionModel());
+        self::assertNotNull($EngineRemapEntity->infoDescriptionModel());
 
         $newDateUpdated = new DateTimeImmutable();
         $EngineRemapEntity->setUpdatedAt($newDateUpdated);
 
         self::assertSame($newDateUpdated, $EngineRemapEntity->updatedAt());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelEntityFaker::new();
+        $EngineRemapEntity->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $EngineRemapEntity->infoDescriptionModel());
     }
 }
