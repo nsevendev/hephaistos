@@ -26,7 +26,7 @@ class EngineRemapEntity
     #[ORM\JoinColumn(name: 'info_description', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private InfoDescriptionModelEntity $infoDescriptionModel;
 
-    public function getInfoDescriptionModel(): InfoDescriptionModelEntity
+    public function infoDescriptionModel(): InfoDescriptionModelEntity
     {
         return $this->infoDescriptionModel;
     }
