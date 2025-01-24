@@ -9,6 +9,7 @@ use Heph\Entity\CarSales\CarSalesEntity;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\CarSales\CarSalesEntityFaker;
+use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -23,11 +24,16 @@ class CarSalesEntityTest extends HephUnitTestCase
         self::assertNotNull($CarSalesEntity->id());
         self::assertInstanceOf(DateTimeImmutable::class, $CarSalesEntity->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $CarSalesEntity->updatedAt());
-        self::assertNotNull($CarSalesEntity->getInfoDescriptionModel());
+        self::assertNotNull($CarSalesEntity->infoDescriptionModel());
 
         $newDateUpdated = new DateTimeImmutable();
         $CarSalesEntity->setUpdatedAt($newDateUpdated);
 
         self::assertSame($newDateUpdated, $CarSalesEntity->updatedAt());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelEntityFaker::new();
+        $CarSalesEntity->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $CarSalesEntity->infoDescriptionModel());
     }
 }
