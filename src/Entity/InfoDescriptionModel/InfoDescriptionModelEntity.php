@@ -7,7 +7,7 @@ namespace Heph\Entity\InfoDescriptionModel;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\InfoDescriptionModel\Type\InfoDescriptionModelId;
-use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
+use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelEntityRepository;
 
 #[ORM\Entity(repositoryClass: InfoDescriptionModelEntityRepository::class)]
 class InfoDescriptionModelEntity
