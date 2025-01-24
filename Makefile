@@ -1,7 +1,8 @@
 #find variable in .env.dev file
+
 #ifneq (,$(wildcard .env.dev))
- #  include .env.dev
-  # export $(shell sed 's/=.*//' .env.dev)
+#   include .env.dev
+#   export $(shell sed 's/=.*//' .env.dev)
 #endif
 
 # Executables (local)
