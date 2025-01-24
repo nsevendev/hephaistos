@@ -15,5 +15,4 @@ class InfoDescriptionModelEntityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, InfoDescriptionModelEntity::class);
     }
-
 }
