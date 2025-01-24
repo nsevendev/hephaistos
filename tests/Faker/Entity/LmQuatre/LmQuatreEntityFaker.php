@@ -31,7 +31,7 @@ final class LmQuatreEntityFaker
         return new LmQuatreEntity(
             $infoDescriptionModel,
             '',
-            "",
+            '',
             '',
             0,
             new DateTimeImmutable('2000-03-31')

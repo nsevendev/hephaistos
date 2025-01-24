@@ -53,22 +53,22 @@ class LmQuatreEntityTest extends HephUnitTestCase
 
     public function testEntityWithNullValues(): void
     {
-        $entity = LmQuatreEntityFaker::newWithNullValues();
+        $LmQuatreEntity = LmQuatreEntityFaker::newWithEmptyValues();
 
-        self::assertInstanceOf(LmQuatreEntity::class, $entity);
-        self::assertNotNull($entity->id());
-        self::assertInstanceOf(DateTimeImmutable::class, $entity->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $entity->updatedAt());
-        self::assertNull($entity->owner());
-        self::assertNull($entity->adresse());
-        self::assertNull($entity->email());
-        self::assertNull($entity->phoneNumber());
-        self::assertNull($entity->companyCreateDate());
-        self::assertNotNull($entity->infoDescriptionModel());
+        self::assertInstanceOf(LmQuatreEntity::class, $LmQuatreEntity);
+        self::assertNotNull($LmQuatreEntity->id());
+        self::assertInstanceOf(DateTimeImmutable::class, $LmQuatreEntity->createdAt());
+        self::assertInstanceOf(DateTimeImmutable::class, $LmQuatreEntity->updatedAt());
+        self::assertSame('', $LmQuatreEntity->owner());
+        self::assertSame('', $LmQuatreEntity->adresse());
+        self::assertSame('', $LmQuatreEntity->email());
+        self::assertSame(0, $LmQuatreEntity->phoneNumber());
+        self::assertNotNull($LmQuatreEntity->companyCreateDate());
+        self::assertNotNull($LmQuatreEntity->infoDescriptionModel());
 
         $newDateUpdated = new DateTimeImmutable();
-        $entity->setUpdatedAt($newDateUpdated);
+        $LmQuatreEntity->setUpdatedAt($newDateUpdated);
 
-        self::assertSame($newDateUpdated, $entity->updatedAt());
+        self::assertSame($newDateUpdated, $LmQuatreEntity->updatedAt());
     }
 }

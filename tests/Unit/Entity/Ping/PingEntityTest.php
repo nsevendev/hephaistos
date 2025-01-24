@@ -28,12 +28,12 @@ class PingEntityTest extends HephUnitTestCase
         self::assertNotNull($pingEntity->updatedAt());
     }
 
-    public function testEntityWithNullValues(): void
+    public function testEntityWithEmptyValues(): void
     {
-        $pingEntity = PingEntityFaker::newWithNullValues();
+        $pingEntity = PingEntityFaker::newWithEmptyValues();
 
-        self::assertNull($pingEntity->status());
-        self::assertNull($pingEntity->message());
+        self::assertSame(0, $pingEntity->status());
+        self::assertSame('', $pingEntity->message());
         self::assertNotNull($pingEntity->createdAt());
         self::assertNotNull($pingEntity->updatedAt());
 
