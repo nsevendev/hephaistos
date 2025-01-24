@@ -19,8 +19,8 @@ final class InfoDescriptionModelEntityFaker
     public static function newWithNullValues(): InfoDescriptionModelEntity
     {
         return new InfoDescriptionModelEntity(
-            libelle: '',
-            description: ''
+            libelle: null,
+            description: null
         );
     }
 }

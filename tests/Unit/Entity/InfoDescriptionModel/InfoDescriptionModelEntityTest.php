@@ -17,29 +17,40 @@ class InfoDescriptionModelEntityTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
     {
-        $entity = InfoDescriptionModelEntityFaker::new();
+        $InfoDecriptionModelEntity = InfoDescriptionModelEntityFaker::new();
 
-        self::assertInstanceOf(InfoDescriptionModelEntity::class, $entity);
-        self::assertSame('libellé test', $entity->libelle());
-        self::assertSame('description test', $entity->description());
-        self::assertNotNull($entity->id());
-        self::assertNotNull($entity->createdAt());
-        self::assertNotNull($entity->updatedAt());
+        self::assertInstanceOf(InfoDescriptionModelEntity::class, $InfoDecriptionModelEntity);
+        self::assertSame('libellé test', $InfoDecriptionModelEntity->libelle());
+        self::assertSame('description test', $InfoDecriptionModelEntity->description());
+        self::assertNotNull($InfoDecriptionModelEntity->id());
+        self::assertNotNull($InfoDecriptionModelEntity->createdAt());
+        self::assertNotNull($InfoDecriptionModelEntity->updatedAt());
     }
 
     public function testNewWithNullValues(): void
     {
-        $entity = InfoDescriptionModelEntityFaker::newWithNullValues();
+        $InfoDescriptionModelEntity = InfoDescriptionModelEntityFaker::newWithNullValues();
 
-        self::assertInstanceOf(InfoDescriptionModelEntity::class, $entity);
-        self::assertSame('', $entity->libelle());
-        self::assertSame('', $entity->description());
-        self::assertNotNull($entity->id());
-        self::assertNotNull($entity->createdAt());
-        self::assertNotNull($entity->updatedAt());
+        self::assertInstanceOf(InfoDescriptionModelEntity::class, $InfoDescriptionModelEntity);
+        self::assertSame(null, $InfoDescriptionModelEntity->libelle());
+        self::assertSame(null, $InfoDescriptionModelEntity->description());
+        self::assertNotNull($InfoDescriptionModelEntity->id());
+        self::assertNotNull($InfoDescriptionModelEntity->createdAt());
+        self::assertNotNull($InfoDescriptionModelEntity->updatedAt());
 
         $newDateUpdated = new DateTimeImmutable();
-        $entity->setUpdatedAt($newDateUpdated);
-        self::assertSame($newDateUpdated, $entity->updatedAt());
+        $InfoDescriptionModelEntity->setUpdatedAt($newDateUpdated);
+
+        self::assertSame($newDateUpdated, $InfoDescriptionModelEntity->updatedAt());
+
+        $newLibelleUpdated = 'set test';
+        $InfoDescriptionModelEntity->setLibelle($newLibelleUpdated);
+
+        self::assertSame($newLibelleUpdated, $InfoDescriptionModelEntity->libelle());
+
+        $newDescriptionUpdated = 'set test';
+        $InfoDescriptionModelEntity->setDescription($newDescriptionUpdated);
+
+        self::assertSame($newDescriptionUpdated, $InfoDescriptionModelEntity->description());
     }
 }

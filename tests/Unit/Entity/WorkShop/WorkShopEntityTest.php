@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Entity\WorkShop\WorkShopEntity;
 use Heph\Infrastructure\Doctrine\Type\UidType;
-use Heph\Tests\Faker\Entity\WorkShop\WorkShopEntityFaker;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelEntityFaker;
+use Heph\Tests\Faker\Entity\WorkShop\WorkShopEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
