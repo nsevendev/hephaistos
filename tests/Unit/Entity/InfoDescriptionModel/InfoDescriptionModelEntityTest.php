@@ -26,4 +26,20 @@ class InfoDescriptionModelEntityTest extends HephUnitTestCase
         self::assertNotNull($entity->createdAt());
         self::assertNotNull($entity->updatedAt());
     }
+
+    public function testNewWithNullValues(): void
+    {
+        $entity = InfoDescriptionModelEntityFaker::newWithNullValues();
+
+        self::assertInstanceOf(InfoDescriptionModelEntity::class, $entity);
+        self::assertSame('', $entity->libelle());
+        self::assertSame('', $entity->description());
+        self::assertNotNull($entity->id());
+        self::assertNotNull($entity->createdAt());
+        self::assertNotNull($entity->updatedAt());
+
+        $newDateUpdated = new DateTimeImmutable();
+        $entity->setUpdatedAt($newDateUpdated);
+        self::assertSame($newDateUpdated, $entity->updatedAt());
+    }
 }
