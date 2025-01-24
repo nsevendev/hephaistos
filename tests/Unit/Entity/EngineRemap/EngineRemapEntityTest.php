@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(EngineRemapEntity::class), CoversClass(Uid::class), CoversClass(UidType::class)]
 class EngineRemapEntityTest extends HephUnitTestCase
 {
-    public function testNew(): void
+    public function testEntityInitialization(): void
     {
         $EngineRemapEntity = EngineRemapEntityFaker::new();
 

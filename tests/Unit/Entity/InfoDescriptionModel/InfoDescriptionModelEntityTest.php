@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(InfoDescriptionModelEntity::class), CoversClass(Uid::class), CoversClass(UidType::class)]
 class InfoDescriptionModelEntityTest extends HephUnitTestCase
 {
-    public function testNew(): void
+    public function testEntityInitialization(): void
     {
         $entity = InfoDescriptionModelEntityFaker::new();
 
