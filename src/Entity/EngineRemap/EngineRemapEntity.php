@@ -7,8 +7,8 @@ namespace Heph\Entity\EngineRemap;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\EngineRemap\Type\EngineRemapId;
-use Heph\Repository\EngineRemap\EngineRemapEntityRepository;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModelEntity;
+use Heph\Repository\EngineRemap\EngineRemapEntityRepository;
 
 #[ORM\Entity(repositoryClass: EngineRemapEntityRepository::class)]
 class EngineRemapEntity
@@ -22,8 +22,8 @@ class EngineRemapEntity
         return $this->id;
     }
 
-    #[ORM\OneToOne(targetEntity: InfoDescriptionModelEntity::class, cascade: ["persist", "remove"])]
-    #[ORM\JoinColumn(name: "info_description", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
+    #[ORM\OneToOne(targetEntity: InfoDescriptionModelEntity::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'info_description', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private InfoDescriptionModelEntity $infoDescriptionModel;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -48,7 +48,7 @@ class EngineRemapEntity
     }
 
     public function __construct(
-        InfoDescriptionModelEntity $infoDescriptionModel
+        InfoDescriptionModelEntity $infoDescriptionModel,
     ) {
         $this->id = EngineRemapId::create();
         $this->infoDescriptionModel = $infoDescriptionModel;
