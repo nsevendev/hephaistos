@@ -25,5 +25,4 @@ class EngineRemapEntityTest extends HephUnitTestCase
         self::assertInstanceOf(DateTimeImmutable::class, $entity->updatedAt());
         self::assertNotNull($entity->getInfoDescriptionModel());
     }
-
 }

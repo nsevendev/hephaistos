@@ -13,7 +13,7 @@ final class EngineRemapEntityFixture extends AbstractFixture implements FixtureG
 {
     protected function supply(ObjectManager $manager): iterable
     {
-        yield EngineRemapEntityFaker::new(); // à implementer
+        yield EngineRemapEntityFaker::new();
     }
 
     public static function getGroups(): array

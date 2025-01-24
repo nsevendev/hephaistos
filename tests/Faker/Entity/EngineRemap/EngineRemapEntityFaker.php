@@ -12,6 +12,7 @@ final class EngineRemapEntityFaker
     public static function new(): EngineRemapEntity
     {
         $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();
+
         return new EngineRemapEntity($infoDescriptionModel);
     }
 }
