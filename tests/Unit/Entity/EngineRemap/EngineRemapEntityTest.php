@@ -17,12 +17,17 @@ class EngineRemapEntityTest extends HephUnitTestCase
 {
     public function testNew(): void
     {
-        $entity = EngineRemapEntityFaker::new();
+        $EngineRemapEntity = EngineRemapEntityFaker::new();
 
-        self::assertInstanceOf(EngineRemapEntity::class, $entity);
-        self::assertNotNull($entity->id());
-        self::assertInstanceOf(DateTimeImmutable::class, $entity->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $entity->updatedAt());
-        self::assertNotNull($entity->getInfoDescriptionModel());
+        self::assertInstanceOf(EngineRemapEntity::class, $EngineRemapEntity);
+        self::assertNotNull($EngineRemapEntity->id());
+        self::assertInstanceOf(DateTimeImmutable::class, $EngineRemapEntity->createdAt());
+        self::assertInstanceOf(DateTimeImmutable::class, $EngineRemapEntity->updatedAt());
+        self::assertNotNull($EngineRemapEntity->getInfoDescriptionModel());
+
+        $newDateUpdated = new DateTimeImmutable();
+        $EngineRemapEntity->setUpdatedAt($newDateUpdated);
+
+        self::assertSame($newDateUpdated, $EngineRemapEntity->updatedAt());
     }
 }
