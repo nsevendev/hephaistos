@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Ping\ValueObject;
 
+use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PingStatus implements Stringable
+readonly class PingStatus implements Stringable, ValueObjectInterface
 {
     public function __construct(
-        #[Assert\NotBlank(message: "Le status est requis.")]
-        #[Assert\Choice(choices: [200], message: "Le status doit être de 200")]
-        private int $value
-    ){}
+        #[Assert\NotBlank(message: 'Le status est requis.')]
+        #[Assert\Choice(choices: [200], message: 'Le status doit être de {{ choices }}')]
+        private int $value,
+    ) {}
 
-    public static function fromString(string $value): self
+    public static function fromValue(mixed $value): self
     {
         return new self((int) $value);
     }
@@ -25,7 +26,7 @@ class PingStatus implements Stringable
         return $this->value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->value;
     }

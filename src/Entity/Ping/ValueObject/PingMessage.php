@@ -3,21 +3,22 @@
 declare(strict_types=1);
 
 namespace Heph\Entity\Ping\ValueObject;
+
+use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Stringable;
-
-class PingMessage implements Stringable
+readonly class PingMessage implements Stringable, ValueObjectInterface
 {
     public function __construct(
-        #[Assert\NotBlank(message: "Le message est requis.")]
-        #[Assert\Length(max: 255, maxMessage: "Le message doit contenir au plus {{ limit }} caractères.")]
-        private string $value
-    ){}
+        #[Assert\NotBlank(message: 'Le message est requis.')]
+        #[Assert\Length(max: 255, maxMessage: 'Le message doit contenir au plus {{ limit }} caractères.')]
+        private string $value,
+    ) {}
 
-    public static function fromString(string $value): self
+    public static function fromValue(mixed $value): self
     {
-        return new self($value);
+        return new self((string) $value);
     }
 
     public function value(): string
@@ -25,7 +26,7 @@ class PingMessage implements Stringable
         return $this->value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }
