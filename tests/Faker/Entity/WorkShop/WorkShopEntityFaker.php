@@ -11,7 +11,7 @@ final class WorkShopEntityFaker
 {
     public static function new(): WorkShopEntity
     {
-        $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();
+        info_description_model : $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();
 
         return new WorkShopEntity($infoDescriptionModel);
     }

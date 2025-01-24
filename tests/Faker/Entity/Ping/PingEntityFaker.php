@@ -11,16 +11,16 @@ final class PingEntityFaker
     public static function new(): PingEntity
     {
         return new PingEntity(
-            200,
-            'Le ping à réussi'
+            status: 200,
+            message: 'Le ping à réussi'
         );
     }
 
     public static function newWithEmptyValues(): PingEntity
     {
         return new PingEntity(
-            0,
-            ''
+            status: 0,
+            message: ''
         );
     }
 }

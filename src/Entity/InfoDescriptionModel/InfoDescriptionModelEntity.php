@@ -13,7 +13,7 @@ use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelEntityRepository;
 class InfoDescriptionModelEntity
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', unique: true)]
+    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
     private InfoDescriptionModelId $id;
 
     public function id(): InfoDescriptionModelId
@@ -21,7 +21,7 @@ class InfoDescriptionModelEntity
         return $this->id;
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'libelle', nullable: false)]
     private string $libelle;
 
     public function libelle(): string
@@ -35,7 +35,7 @@ class InfoDescriptionModelEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'description', nullable: false)]
     private string $description;
 
     public function description(): string
@@ -49,7 +49,7 @@ class InfoDescriptionModelEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
@@ -57,7 +57,7 @@ class InfoDescriptionModelEntity
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
     public function updatedAt(): DateTimeImmutable

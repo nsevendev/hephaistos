@@ -14,7 +14,7 @@ use Heph\Repository\EngineRemap\EngineRemapEntityRepository;
 class EngineRemapEntity
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', unique: true)]
+    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
     private EngineRemapId $id;
 
     public function id(): EngineRemapId
@@ -23,7 +23,7 @@ class EngineRemapEntity
     }
 
     #[ORM\OneToOne(targetEntity: InfoDescriptionModelEntity::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'info_description', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'info_description_model', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private InfoDescriptionModelEntity $infoDescriptionModel;
 
     public function infoDescriptionModel(): InfoDescriptionModelEntity
@@ -37,7 +37,7 @@ class EngineRemapEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
@@ -45,7 +45,7 @@ class EngineRemapEntity
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
     public function updatedAt(): DateTimeImmutable

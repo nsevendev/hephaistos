@@ -13,7 +13,7 @@ use Heph\Repository\Ping\PingEntityRepository;
 class PingEntity
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', unique: true)]
+    #[ORM\Column(type: 'app_uid', name: 'id', unique: true)]
     private PingId $id;
 
     public function id(): PingId
@@ -21,7 +21,7 @@ class PingEntity
         return $this->id;
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'status', nullable: false)]
     private int $status;
 
     public function status(): int
@@ -29,7 +29,7 @@ class PingEntity
         return $this->status;
     }
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'message', nullable: false, length: 255)]
     private string $message;
 
     public function message(): string
@@ -37,7 +37,7 @@ class PingEntity
         return $this->message;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
@@ -45,7 +45,7 @@ class PingEntity
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
     public function updatedAt(): DateTimeImmutable

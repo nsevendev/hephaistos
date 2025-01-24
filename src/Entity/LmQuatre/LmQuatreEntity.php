@@ -14,7 +14,7 @@ use Heph\Repository\LmQuatre\LmQuatreEntityRepository;
 class LmQuatreEntity
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', unique: true)]
+    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
     private LmQuatreId $id;
 
     public function id(): LmQuatreId
@@ -23,7 +23,7 @@ class LmQuatreEntity
     }
 
     #[ORM\OneToOne(targetEntity: InfoDescriptionModelEntity::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'info_description', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'info_description_model', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private InfoDescriptionModelEntity $infoDescriptionModel;
 
     public function infoDescriptionModel(): InfoDescriptionModelEntity
@@ -37,7 +37,7 @@ class LmQuatreEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'owner', nullable: false)]
     private string $owner;
 
     public function owner(): string
@@ -45,7 +45,7 @@ class LmQuatreEntity
         return $this->owner;
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'adresse', nullable: false)]
     private string $adresse;
 
     public function adresse(): string
@@ -59,7 +59,7 @@ class LmQuatreEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'email', nullable: false)]
     private string $email;
 
     public function email(): string
@@ -73,7 +73,7 @@ class LmQuatreEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'phone_number', nullable: false)]
     private int $phoneNumber;
 
     public function phoneNumber(): int
@@ -87,7 +87,7 @@ class LmQuatreEntity
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'company_create_date', nullable: false)]
     private DateTimeImmutable $companyCreateDate;
 
     public function companyCreateDate(): DateTimeImmutable
@@ -95,7 +95,7 @@ class LmQuatreEntity
         return $this->companyCreateDate;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
@@ -103,7 +103,7 @@ class LmQuatreEntity
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
     public function updatedAt(): DateTimeImmutable

@@ -12,15 +12,15 @@ final class LmQuatreEntityFaker
 {
     public static function new(): LmQuatreEntity
     {
-        $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();
+        info_description_model: $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();
 
         return new LmQuatreEntity(
-            $infoDescriptionModel,
-            'Math',
-            '33 rue du test',
-            'test@exemple.com',
-            123456789,
-            new DateTimeImmutable('2000-03-31')
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: 'Math',
+            adresse: '33 rue du test',
+            email: 'test@exemple.com',
+            phoneNumber: 123456789,
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 
@@ -29,12 +29,12 @@ final class LmQuatreEntityFaker
         $infoDescriptionModel = InfoDescriptionModelEntityFaker::newWithNEmptyValues();
 
         return new LmQuatreEntity(
-            $infoDescriptionModel,
-            '',
-            '',
-            '',
-            0,
-            new DateTimeImmutable('2000-03-31')
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: '',
+            adresse: '',
+            email: '',
+            phoneNumber: 0,
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 }
