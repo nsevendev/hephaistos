@@ -15,4 +15,12 @@ final class InfoDescriptionModelEntityFaker
             description: 'description test'
         );
     }
+
+    public static function newWithNullValues(): InfoDescriptionModelEntity
+    {
+        return new InfoDescriptionModelEntity(
+            libelle: '',
+            description: ''
+        );
+    }
 }
