@@ -31,6 +31,11 @@ class EngineRemapEntity
         return $this->infoDescriptionModel;
     }
 
+    public function setInfoDescriptionModel(InfoDescriptionModelEntity $infoDescriptionModel): void
+    {
+        $this->infoDescriptionModel = $infoDescriptionModel;
+    }
+
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
