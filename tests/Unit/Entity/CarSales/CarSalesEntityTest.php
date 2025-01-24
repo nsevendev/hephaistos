@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\CarSales;
 
 use DateTimeImmutable;
-use Heph\Entity\Shared\Type\Uid;
 use Heph\Entity\CarSales\CarSalesEntity;
+use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\CarSales\CarSalesEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;

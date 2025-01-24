@@ -6,8 +6,8 @@ namespace Heph\Entity\CarSales;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModelEntity;
 use Heph\Entity\CarSales\Type\CarSalesId;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModelEntity;
 use Heph\Repository\CarSales\CarSalesEntityRepository;
 
 #[ORM\Entity(repositoryClass: CarSalesEntityRepository::class)]
