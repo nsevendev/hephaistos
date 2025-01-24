@@ -10,7 +10,6 @@ use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelEntityFaker
 
 final class LmQuatreEntityFaker
 {
-
     public static function new(): LmQuatreEntity
     {
         $infoDescriptionModel = InfoDescriptionModelEntityFaker::new();

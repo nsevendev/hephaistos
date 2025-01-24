@@ -6,8 +6,8 @@ namespace Heph\Entity\LmQuatre;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\LmQuatre\Type\LmQuatreId;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModelEntity;
+use Heph\Entity\LmQuatre\Type\LmQuatreId;
 use Heph\Repository\LmQuatre\LmQuatreEntityRepository;
 
 #[ORM\Entity(repositoryClass: LmQuatreEntityRepository::class)]
@@ -118,7 +118,7 @@ class LmQuatreEntity
         ?string $adresse,
         ?string $email,
         ?int $phoneNumber,
-        ?DateTimeImmutable $companyCreateDate
+        ?DateTimeImmutable $companyCreateDate,
     ) {
         $this->id = LmQuatreId::create();
         $this->infoDescriptionModel = $infoDescriptionModel;

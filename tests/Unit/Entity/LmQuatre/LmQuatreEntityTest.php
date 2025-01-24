@@ -35,7 +35,7 @@ class LmQuatreEntityTest extends HephUnitTestCase
 
         self::assertSame($newDateUpdated, $LmQuatreEntity->updatedAt());
 
-        $newAdresseUpdate = "34 rue du test";
+        $newAdresseUpdate = '34 rue du test';
         $LmQuatreEntity->setadresse($newAdresseUpdate);
 
         self::assertSame($newAdresseUpdate, $LmQuatreEntity->adresse());
