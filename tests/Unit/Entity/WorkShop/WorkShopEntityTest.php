@@ -9,6 +9,7 @@ use Heph\Entity\Shared\Type\Uid;
 use Heph\Entity\WorkShop\WorkShopEntity;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\WorkShop\WorkShopEntityFaker;
+use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -23,11 +24,16 @@ class WorkShopEntityTest extends HephUnitTestCase
         self::assertNotNull($WorkShopEntity->id());
         self::assertInstanceOf(DateTimeImmutable::class, $WorkShopEntity->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $WorkShopEntity->updatedAt());
-        self::assertNotNull($WorkShopEntity->getInfoDescriptionModel());
+        self::assertNotNull($WorkShopEntity->infoDescriptionModel());
 
         $newDateUpdated = new DateTimeImmutable();
         $WorkShopEntity->setUpdatedAt($newDateUpdated);
 
         self::assertSame($newDateUpdated, $WorkShopEntity->updatedAt());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelEntityFaker::new();
+        $WorkShopEntity->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $WorkShopEntity->infoDescriptionModel());
     }
 }
