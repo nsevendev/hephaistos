@@ -34,6 +34,7 @@ class CarSalesEntity
     public function setInfoDescriptionModel(InfoDescriptionModelEntity $infoDescriptionModel): void
     {
         $this->infoDescriptionModel = $infoDescriptionModel;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column(type: 'datetime_immutable')]
