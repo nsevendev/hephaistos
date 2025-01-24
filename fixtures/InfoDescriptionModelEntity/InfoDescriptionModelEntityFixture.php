@@ -18,6 +18,6 @@ final class InfoDescriptionModelEntityFixture extends AbstractFixture implements
 
     public static function getGroups(): array
     {
-        return ['InfoDescriptionModel_entity'];
+        return ['info_description_model_entity'];
     }
 }
