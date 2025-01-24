@@ -29,7 +29,7 @@ class PingEntityRepositoryTest extends HephFunctionalTestCase
      */
     protected function setUp(): void
     {
-        $entityManager = $this->getEntityManager();
+        $entityManager = self::getEntityManager();
         $entityManager->getConnection()->beginTransaction();
 
         /** @var PingEntityRepository $repository */
@@ -64,5 +64,6 @@ class PingEntityRepositoryTest extends HephFunctionalTestCase
         self::assertNotNull($found, 'PingEntity non trouvé en base alors qu’on vient de le créer');
         self::assertSame(200, $found->status());
         self::assertSame('Le ping à réussi', $found->message());
+
     }
 }
