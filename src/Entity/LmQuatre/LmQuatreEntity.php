@@ -65,7 +65,7 @@ class LmQuatreEntity
         return $this->email;
     }
 
-    public function setemail(?string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
