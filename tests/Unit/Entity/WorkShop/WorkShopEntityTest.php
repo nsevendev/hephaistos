@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\WorkShop;
 
 use DateTimeImmutable;
-use Heph\Entity\WorkShop\WorkShopEntity;
 use Heph\Entity\Shared\Type\Uid;
+use Heph\Entity\WorkShop\WorkShopEntity;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\WorkShop\WorkShopEntityFaker;
 use Heph\Tests\Unit\HephUnitTestCase;

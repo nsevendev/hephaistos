@@ -6,8 +6,8 @@ namespace Heph\Entity\WorkShop;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\WorkShop\Type\WorkShopId;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModelEntity;
+use Heph\Entity\WorkShop\Type\WorkShopId;
 use Heph\Repository\WorkShop\WorkShopEntityRepository;
 
 #[ORM\Entity(repositoryClass: WorkShopEntityRepository::class)]
