@@ -15,7 +15,6 @@ framework:
         routing:
             # Route your messages to the transports
             'Heph\Message\Command\*': async
-            'Heph\Message\Query\*': 'query.bus'
 
 # when@test:
 #    framework:

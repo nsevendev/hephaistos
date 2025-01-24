@@ -23,3 +23,6 @@ services:
     Heph\Fixtures\:
         namespace: Heph\Fixtures\
         resource: '../fixtures/'
+        
+    Heph\Infrastructure\Serializer\HephSerializer:
+        public: true
