@@ -9,8 +9,8 @@ use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
-use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
+use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
