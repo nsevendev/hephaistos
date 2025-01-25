@@ -66,7 +66,7 @@ class LmQuatreRepositoryTest extends HephFunctionalTestCase
         self::assertSame('Math', $found->owner());
         self::assertSame('33 rue du test', $found->adresse());
         self::assertSame('test@exemple.com', $found->email());
-        self::assertSame(123456789, $found->phoneNumber());
+        self::assertSame('123456789', $found->phoneNumber());
         self::assertNotNull($found->infoDescriptionModel());
     }
 
@@ -81,7 +81,7 @@ class LmQuatreRepositoryTest extends HephFunctionalTestCase
 
         $lmQuatre->setAdresse('34 rue nouvelle');
         $lmQuatre->setEmail('updated@example.com');
-        $lmQuatre->setPhoneNumber(987654321);
+        $lmQuatre->setPhoneNumber('987654321');
 
         $this->persistAndFlush($lmQuatre);
 
@@ -91,6 +91,6 @@ class LmQuatreRepositoryTest extends HephFunctionalTestCase
         self::assertNotNull($found, 'LmQuatre non trouvé en base alors qu’on vient de le modifier');
         self::assertSame('34 rue nouvelle', $found->adresse());
         self::assertSame('updated@example.com', $found->email());
-        self::assertSame(987654321, $found->phoneNumber());
+        self::assertSame('987654321', $found->phoneNumber());
     }
 }

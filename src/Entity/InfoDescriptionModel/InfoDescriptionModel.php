@@ -21,7 +21,7 @@ class InfoDescriptionModel
         return $this->id;
     }
 
-    #[ORM\Column(type:'string', name: 'libelle', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'libelle', nullable: false)]
     private string $libelle;
 
     public function libelle(): string

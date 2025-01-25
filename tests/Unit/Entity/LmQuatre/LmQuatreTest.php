@@ -27,7 +27,7 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertSame('Math', $LmQuatre->owner());
         self::assertSame('33 rue du test', $LmQuatre->adresse());
         self::assertSame('test@exemple.com', $LmQuatre->email());
-        self::assertSame(123456789, $LmQuatre->phoneNumber());
+        self::assertSame('123456789', $LmQuatre->phoneNumber());
         self::assertNotNull($LmQuatre->infoDescriptionModel());
     }
 
