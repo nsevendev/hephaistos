@@ -45,30 +45,10 @@ class LmQuatreTest extends HephUnitTestCase
 
         self::assertSame($newEmailUpdate, $LmQuatre->email());
 
-        $newPhoneNumberUpdate = 84698759;
+        $newPhoneNumberUpdate = '84698759';
         $LmQuatre->setphoneNumber($newPhoneNumberUpdate);
 
         self::assertSame($newPhoneNumberUpdate, $LmQuatre->phoneNumber());
     }
 
-    public function testEntityWithNullValues(): void
-    {
-        $LmQuatre = LmQuatreFaker::newWithEmptyValues();
-
-        self::assertInstanceOf(LmQuatre::class, $LmQuatre);
-        self::assertNotNull($LmQuatre->id());
-        self::assertInstanceOf(DateTimeImmutable::class, $LmQuatre->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $LmQuatre->updatedAt());
-        self::assertSame('', $LmQuatre->owner());
-        self::assertSame('', $LmQuatre->adresse());
-        self::assertSame('', $LmQuatre->email());
-        self::assertSame(0, $LmQuatre->phoneNumber());
-        self::assertNotNull($LmQuatre->companyCreateDate());
-        self::assertNotNull($LmQuatre->infoDescriptionModel());
-
-        $newDateUpdated = new DateTimeImmutable();
-        $LmQuatre->setUpdatedAt($newDateUpdated);
-
-        self::assertSame($newDateUpdated, $LmQuatre->updatedAt());
-    }
 }

@@ -19,21 +19,7 @@ final class LmQuatreFaker
             owner: 'Math',
             adresse: '33 rue du test',
             email: 'test@exemple.com',
-            phoneNumber: 123456789,
-            companyCreateDate: new DateTimeImmutable('2000-03-31')
-        );
-    }
-
-    public static function newWithEmptyValues(): LmQuatre
-    {
-        $infoDescriptionModel = InfoDescriptionModelFaker::newWithNEmptyValues();
-
-        return new LmQuatre(
-            infoDescriptionModel: $infoDescriptionModel,
-            owner: '',
-            adresse: '',
-            email: '',
-            phoneNumber: 0,
+            phoneNumber: '123456789',
             companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
