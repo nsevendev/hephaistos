@@ -24,6 +24,10 @@ class PingInvalidArgumentException extends AbstractApiResponseException
             $getMessage = $statusTexts[$statusCode];
         }
 
-        parent::__construct($getMessage, $statusCode, $errors);
+        parent::__construct(
+            getMessage: $getMessage,
+            statusCode: $statusCode,
+            errors: $errors
+        );
     }
 }

@@ -18,7 +18,7 @@ readonly class PingStatus implements Stringable, ValueObjectInterface
 
     public static function fromValue(string|int|float|bool $value): self
     {
-        return new self((int) $value);
+        return new self(value: (int) $value);
     }
 
     public function value(): int

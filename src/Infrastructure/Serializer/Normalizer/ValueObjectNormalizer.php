@@ -38,7 +38,7 @@ class ValueObjectNormalizer implements NormalizerInterface, DenormalizerInterfac
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         // Désérialisation : Appelle la méthode `fromValue` pour créer l'objet
-        if (method_exists($type, 'fromValue')) {
+        if (true === method_exists($type, 'fromValue')) {
             return $type::fromValue($data);
         }
 
