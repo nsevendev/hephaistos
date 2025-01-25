@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Functional\Controller\Api;
+namespace Heph\Tests\Functional\Controller\Api\Ping;
 
 use Heph\Controller\Api\Ping\ListPing;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
@@ -35,7 +35,7 @@ class ListPingTest extends HephFunctionalTestCase
         $this->client = static::createClient();
     }
 
-    public function testIndexReturnsExpectedResponse(): void
+    public function testInvokeReturnsExpectedResponse(): void
     {
         $this->client->request('GET', '/api/pings');
         self::assertResponseIsSuccessful();
