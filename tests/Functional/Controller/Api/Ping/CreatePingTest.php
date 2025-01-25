@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Heph\Tests\Functional\Controller\Api\Ping;
 
 use Heph\Controller\Api\Ping\CreatePing;
-use Heph\Entity\Ping\Dto\PingEntityCreateDto;
+use Heph\Entity\Ping\Dto\PingCreateDto;
 use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
@@ -21,7 +21,7 @@ use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\ApiResponse\Exception\Event\ApiResponseExceptionListener;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
-use Heph\Message\Command\Ping\CreatePingEntityCommand;
+use Heph\Message\Command\Ping\CreatePingCommand;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -30,7 +30,7 @@ use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 #[
-    CoversClass(CreatePingEntityCommand::class),
+    CoversClass(CreatePingCommand::class),
     CoversClass(HephSerializer::class),
     CoversClass(CreatePing::class),
     CoversClass(PingMessage::class),
@@ -43,7 +43,7 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(ApiResponseMeta::class),
     CoversClass(ListError::class),
     CoversClass(ValueObjectNormalizer::class),
-    CoversClass(PingEntityCreateDto::class),
+    CoversClass(PingCreateDto::class),
     CoversClass(AbstractApiResponseException::class),
     CoversClass(PingInvalidArgumentException::class),
     CoversClass(Error::class),
