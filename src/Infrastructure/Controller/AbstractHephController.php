@@ -30,11 +30,7 @@ abstract class AbstractHephController
                 );
             }
 
-            if (is_callable($fnException)) {
-                throw $fnException($errorList);
-            }
-
-            throw new LogicException('Le handler exception n\'est pas valide.');
+            throw $fnException($errorList);
         }
     }
 
