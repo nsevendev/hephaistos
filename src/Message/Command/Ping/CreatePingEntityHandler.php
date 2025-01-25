@@ -27,3 +27,4 @@ readonly class CreatePingEntityHandler
         );
     }
 }
+

@@ -42,7 +42,6 @@ class CreatePing extends AbstractHephController
                 errors: $errors
             )
         );
-
         $commandBus->dispatch(
             new CreatePingEntityCommand(
                 pingEntityCreateDto: $dto
