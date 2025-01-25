@@ -6,7 +6,6 @@ namespace Heph\Infrastructure\Controller;
 
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\Serializer\HephSerializer;
-use LogicException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Throwable;
@@ -26,7 +25,7 @@ abstract class AbstractHephController
             foreach ($errors as $error) {
                 $errorList[] = Error::create(
                     key: $error->getPropertyPath(),
-                    message: $error->getMessage()
+                    message: (string) $error->getMessage()
                 );
             }
 

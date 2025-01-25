@@ -64,7 +64,7 @@ class CreatePingTest extends HephFunctionalTestCase
     {
         $payload = json_encode([
             'status' => 200,
-            'message' => 'Le ping à réussi controller'
+            'message' => 'Le ping à réussi controller',
         ]);
 
         $this->client->request('POST', '/api/ping', [], [], [], $payload);
@@ -80,7 +80,7 @@ class CreatePingTest extends HephFunctionalTestCase
         $this->assertSame('La demande a été prise en compte.', $responseData['data']['message']);
 
         // Vérifie que le message a bien été envoyé dans le bus
-        /** @var InMemoryTransport $transport */
+        /* @var InMemoryTransport $transport */
         $this->transport('async')->queue()->assertNotEmpty();
     }
 
@@ -88,7 +88,7 @@ class CreatePingTest extends HephFunctionalTestCase
     {
         $payload = json_encode([
             'status' => 10000,
-            'message' => 'Le ping à réussi controller'
+            'message' => 'Le ping à réussi controller',
         ]);
 
         $this->client->request('POST', '/api/ping', [], [], [], $payload);

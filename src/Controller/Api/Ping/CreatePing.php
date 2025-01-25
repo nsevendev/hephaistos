@@ -8,7 +8,6 @@ use Heph\Entity\Ping\Dto\PingEntityCreateDto;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingInvalidArgumentException;
 use Heph\Infrastructure\Controller\AbstractHephController;
-use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Message\Command\Ping\CreatePingEntityCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Throwable;
 
 #[AsController]
@@ -31,9 +29,8 @@ class CreatePing extends AbstractHephController
     public function __invoke(
         Request $request,
         MessageBusInterface $commandBus,
-        HephSerializer $serializer,
-        ValidatorInterface $validator,
     ): Response {
+        /** @var PingEntityCreateDto $dto */
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: PingEntityCreateDto::class,

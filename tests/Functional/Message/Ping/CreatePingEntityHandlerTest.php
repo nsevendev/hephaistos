@@ -19,8 +19,6 @@ use Heph\Repository\Ping\PingEntityRepository;
 use Heph\Tests\Faker\Dto\Ping\PingEntityCreateDtoFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 #[
@@ -85,13 +83,13 @@ class CreatePingEntityHandlerTest extends HephFunctionalTestCase
     {
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = PingEntityCreateDtoFaker::new();
-        //$handler = new CreatePingEntityHandler($this->repository);
+        // $handler = new CreatePingEntityHandler($this->repository);
         $command = new CreatePingEntityCommand($dto);
         // $handler($command);
         $bus->dispatch($command);
         $this->flush();
 
-        //$pings = $this->repository->findAll();
+        // $pings = $this->repository->findAll();
 
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();

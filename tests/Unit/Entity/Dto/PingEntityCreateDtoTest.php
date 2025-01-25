@@ -27,8 +27,8 @@ class PingEntityCreateDtoTest extends HephUnitTestCase
         self::assertSame(200, $pingEntityCreateDto->status()->value());
         self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message()->value());
 
-        self::assertSame("200", (string)$pingEntityCreateDto->status());
-        self::assertSame('Le ping à réussi en faker', (string)$pingEntityCreateDto->message());
+        self::assertSame('200', (string) $pingEntityCreateDto->status());
+        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message());
     }
 
     public function testPingEntityCreateDtoWithFunctionNew(): void
@@ -47,7 +47,7 @@ class PingEntityCreateDtoTest extends HephUnitTestCase
         self::assertSame(200, $pingEntityCreateDto->status()->value());
         self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message()->value());
 
-        self::assertSame("200", (string)$pingEntityCreateDto->status());
-        self::assertSame('Le ping à réussi en faker', (string)$pingEntityCreateDto->message());
+        self::assertSame('200', (string) $pingEntityCreateDto->status());
+        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message());
     }
 }

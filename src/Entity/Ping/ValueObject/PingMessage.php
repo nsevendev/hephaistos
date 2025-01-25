@@ -16,7 +16,7 @@ readonly class PingMessage implements Stringable, ValueObjectInterface
         private string $value,
     ) {}
 
-    public static function fromValue(mixed $value): self
+    public static function fromValue(string|int|float|bool $value): self
     {
         return new self((string) $value);
     }

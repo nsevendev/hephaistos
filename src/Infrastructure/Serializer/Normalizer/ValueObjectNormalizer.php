@@ -11,8 +11,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ValueObjectNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $object, ?string $format = null, array $context = []): string|int|float|bool
     {
+        if (false === $object instanceof ValueObjectInterface) {
+            throw new LogicException('Expected object to implement ValueObjectInterface.');
+        }
+
         // Sérialisation : Retourne la valeur interne du VO
         return $object->value();
     }

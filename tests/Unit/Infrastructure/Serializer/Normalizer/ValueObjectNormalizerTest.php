@@ -11,6 +11,7 @@ use Heph\Tests\Unit\HephUnitTestCase;
 use LogicException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use stdClass;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[
     CoversClass(ValueObjectNormalizer::class),
@@ -25,12 +26,30 @@ class ValueObjectNormalizerTest extends HephUnitTestCase
         $this->normalizer = new ValueObjectNormalizer();
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function testNormalize(): void
     {
         $vo = TestValueObject::fromValue('test-value');
         $result = $this->normalizer->normalize($vo);
 
         $this->assertSame('test-value', $result, 'The value returned by normalize is not correct.');
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    public function testNormalizeThrowsLogicException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Expected object to implement ValueObjectInterface.');
+
+        // Passez un objet qui n'implémente pas ValueObjectInterface
+        $invalidObject = new stdClass();
+
+        // Appel de la méthode normalize
+        $this->normalizer->normalize($invalidObject);
     }
 
     public function testSupportsNormalization(): void
@@ -57,6 +76,9 @@ class ValueObjectNormalizerTest extends HephUnitTestCase
         $this->assertTrue($types[ValueObjectInterface::class]);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function testDenormalize(): void
     {
         $result = $this->normalizer->denormalize('test-value', TestValueObject::class);
@@ -73,10 +95,13 @@ class ValueObjectNormalizerTest extends HephUnitTestCase
         );
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function testDenormalizeThrowsExceptionIfFromValueNotExists(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage("Cannot denormalize object of type stdClass without fromValue method.");
+        $this->expectExceptionMessage('Cannot denormalize object of type stdClass without fromValue method.');
 
         $this->normalizer->denormalize('test-value', stdClass::class);
     }
