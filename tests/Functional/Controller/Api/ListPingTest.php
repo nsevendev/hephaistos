@@ -32,7 +32,7 @@ class ListPingTest extends HephFunctionalTestCase
 
     public function setUp(): void
     {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
     }
 
     public function testIndexReturnsExpectedResponse(): void

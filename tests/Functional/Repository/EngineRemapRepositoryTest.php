@@ -6,6 +6,7 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\EngineRemap\EngineRemap;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
@@ -17,6 +18,7 @@ use ReflectionException;
 #[
     CoversClass(EngineRemapRepository::class),
     CoversClass(EngineRemap::class),
+    CoversClass(InfoDescriptionModel::class),
     CoversClass(Uid::class),
     CoversClass(UidType::class)
 ]

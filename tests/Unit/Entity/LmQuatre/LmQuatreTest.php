@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\LmQuatre;
 
 use DateTimeImmutable;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
@@ -12,7 +13,7 @@ use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(LmQuatre::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[CoversClass(LmQuatre::class), CoversClass(InfoDescriptionModel::class), CoversClass(Uid::class), CoversClass(UidType::class)]
 class LmQuatreTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

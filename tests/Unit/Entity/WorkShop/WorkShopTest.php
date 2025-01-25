@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\WorkShop;
 
 use DateTimeImmutable;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Entity\WorkShop\WorkShop;
 use Heph\Infrastructure\Doctrine\Type\UidType;
@@ -13,7 +14,7 @@ use Heph\Tests\Faker\Entity\WorkShop\WorkShopFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(WorkShop::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[CoversClass(WorkShop::class), CoversClass(InfoDescriptionModel::class), CoversClass(Uid::class), CoversClass(UidType::class)]
 class WorkShopTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
@@ -17,6 +18,7 @@ use ReflectionException;
 #[
     CoversClass(LmQuatreRepository::class),
     CoversClass(LmQuatre::class),
+    CoversClass(InfoDescriptionModel::class),
     CoversClass(Uid::class),
     CoversClass(UidType::class)
 ]
