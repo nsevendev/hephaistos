@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 53934,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "hephaistos",
+      "database": "heph",
+      "username": "heph"
+    }
+  ]
+}

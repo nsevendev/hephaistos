@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heph\Controller\Api\Ping;
 
-use Heph\Entity\Ping\Dto\PingEntityCreateDto;
+use Heph\Entity\Ping\Dto\PingCreateDto;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingInvalidArgumentException;
 use Heph\Infrastructure\Controller\AbstractHephController;
-use Heph\Message\Command\Ping\CreatePingEntityCommand;
+use Heph\Message\Command\Ping\CreatePingCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -30,10 +30,10 @@ class CreatePing extends AbstractHephController
         Request $request,
         MessageBusInterface $commandBus,
     ): Response {
-        /** @var PingEntityCreateDto $dto */
+        /** @var PingCreateDto $dto */
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
-            dtoClass: PingEntityCreateDto::class,
+            dtoClass: PingCreateDto::class,
             fnException: fn (array $errors) => new PingInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
@@ -41,7 +41,7 @@ class CreatePing extends AbstractHephController
         );
 
         $commandBus->dispatch(
-            new CreatePingEntityCommand(
+            new CreatePingCommand(
                 pingEntityCreateDto: $dto
             )
         );
