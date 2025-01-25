@@ -8,7 +8,7 @@ use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class PingEntityCreateDto
+readonly class PingCreateDto
 {
     public function __construct(
         #[Assert\Valid]

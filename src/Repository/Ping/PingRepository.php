@@ -16,7 +16,7 @@ class PingRepository extends ServiceEntityRepository
         parent::__construct($registry, Ping::class);
     }
 
-    public function save(PingEntity $ping): void
+    public function save(Ping $ping): void
     {
         $this->getEntityManager()->persist($ping);
         $this->getEntityManager()->flush();

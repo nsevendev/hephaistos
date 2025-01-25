@@ -7,38 +7,38 @@ namespace Heph\Tests\Functional\Message\Ping;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
-use Heph\Entity\Ping\Dto\PingEntityCreateDto;
-use Heph\Entity\Ping\PingEntity;
+use Heph\Entity\Ping\Dto\PingCreateDto;
+use Heph\Entity\Ping\Ping;
 use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
-use Heph\Message\Command\Ping\CreatePingEntityCommand;
-use Heph\Message\Command\Ping\CreatePingEntityHandler;
-use Heph\Repository\Ping\PingEntityRepository;
-use Heph\Tests\Faker\Dto\Ping\PingEntityCreateDtoFaker;
+use Heph\Message\Command\Ping\CreatePingCommand;
+use Heph\Message\Command\Ping\CreatePingHandler;
+use Heph\Repository\Ping\PingRepository;
+use Heph\Tests\Faker\Dto\Ping\PingCreateDtoFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 #[
-    CoversClass(PingEntityRepository::class),
-    CoversClass(PingEntity::class),
+    CoversClass(PingRepository::class),
+    CoversClass(Ping::class),
     CoversClass(Uid::class),
     CoversClass(UidType::class),
-    CoversClass(CreatePingEntityCommand::class),
-    CoversClass(PingEntityCreateDto::class),
+    CoversClass(CreatePingCommand::class),
+    CoversClass(PingCreateDto::class),
     CoversClass(PingMessage::class),
     CoversClass(PingStatus::class),
-    CoversClass(CreatePingEntityHandler::class),
+    CoversClass(CreatePingHandler::class),
 ]
-class CreatePingEntityHandlerTest extends HephFunctionalTestCase
+class CreatePingHandlerTest extends HephFunctionalTestCase
 {
     use InteractsWithMessenger;
 
     private EntityManagerInterface $entityManager;
-    private PingEntityRepository $repository;
-    private CreatePingEntityHandler $handler;
+    private PingRepository $repository;
+    private CreatePingHandler $handler;
 
     /**
      * @throws Exception
@@ -49,7 +49,7 @@ class CreatePingEntityHandlerTest extends HephFunctionalTestCase
         $this->entityManager = self::getEntityManager();
         $this->entityManager->getConnection()->beginTransaction();
 
-        $this->repository = $this->entityManager->getRepository(PingEntity::class);
+        $this->repository = $this->entityManager->getRepository(Ping::class);
     }
 
     /**
@@ -82,9 +82,9 @@ class CreatePingEntityHandlerTest extends HephFunctionalTestCase
     public function testHandlerProcessesMessage(): void
     {
         $bus = self::getContainer()->get('messenger.default_bus');
-        $dto = PingEntityCreateDtoFaker::new();
+        $dto = PingCreateDtoFaker::new();
         // $handler = new CreatePingEntityHandler($this->repository);
-        $command = new CreatePingEntityCommand($dto);
+        $command = new CreatePingCommand($dto);
         // $handler($command);
         $bus->dispatch($command);
         $this->flush();
@@ -93,7 +93,7 @@ class CreatePingEntityHandlerTest extends HephFunctionalTestCase
 
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();
-        self::assertInstanceOf(CreatePingEntityCommand::class, $m[0]);
+        self::assertInstanceOf(CreatePingCommand::class, $m[0]);
         $this->transport()->queue()->assertCount(1);
         $this->transport('async')->process(1);
         $this->transport()->queue()->assertCount(0);

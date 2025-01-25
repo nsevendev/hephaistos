@@ -58,7 +58,7 @@ class PingRepositoryTest extends HephFunctionalTestCase
 
         $this->persistAndFlush($ping);
 
-        /** @var PingEntity|null $found */
+        /** @var Ping|null $found */
         $found = $this->pingRepository->find($ping->id());
 
         self::assertNotNull($found, 'PingEntity non trouvé en base alors qu’on vient de le créer');
@@ -69,11 +69,11 @@ class PingRepositoryTest extends HephFunctionalTestCase
 
     public function testPersitAndFlushWithRepository(): void
     {
-        $ping = PingEntityFaker::new();
+        $ping = PingFaker::new();
 
         $this->pingRepository->save($ping);
 
-        /** @var PingEntity|null $found */
+        /** @var Ping|null $found */
         $found = $this->pingRepository->find($ping->id());
 
         self::assertNotNull($found, 'PingEntity non trouvé en base alors qu’on vient de le créer');
