@@ -12,7 +12,7 @@ final class LmQuatreFaker
 {
     public static function new(): LmQuatre
     {
-        info_description_model: $infoDescriptionModel = InfoDescriptionModelFaker::new();
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
 
         return new LmQuatre(
             infoDescriptionModel: $infoDescriptionModel,

@@ -15,12 +15,4 @@ final class InfoDescriptionModelFaker
             description: 'description test'
         );
     }
-
-    public static function newWithNEmptyValues(): InfoDescriptionModel
-    {
-        return new InfoDescriptionModel(
-            libelle: '',
-            description: ''
-        );
-    }
 }

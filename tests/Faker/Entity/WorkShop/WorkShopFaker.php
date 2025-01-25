@@ -11,7 +11,7 @@ final class WorkShopFaker
 {
     public static function new(): WorkShop
     {
-        info_description_model : $infoDescriptionModel = InfoDescriptionModelFaker::new();
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
 
         return new WorkShop($infoDescriptionModel);
     }

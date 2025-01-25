@@ -16,13 +16,4 @@ final class ScheduleFaker
             hoursEnd: '17:00',
         );
     }
-
-    public static function newWithEmptyValues(): Schedule
-    {
-        return new Schedule(
-            day: '',
-            hoursStart: '',
-            hoursEnd: '',
-        );
-    }
 }

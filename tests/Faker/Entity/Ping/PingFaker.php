@@ -15,12 +15,4 @@ final class PingFaker
             message: 'Le ping à réussi'
         );
     }
-
-    public static function newWithEmptyValues(): Ping
-    {
-        return new Ping(
-            status: 0,
-            message: ''
-        );
-    }
 }
