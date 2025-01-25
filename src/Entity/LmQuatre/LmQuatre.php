@@ -37,7 +37,7 @@ class LmQuatre
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'owner', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'owner', nullable: false)]
     private string $owner;
 
     public function owner(): string
@@ -45,7 +45,13 @@ class LmQuatre
         return $this->owner;
     }
 
-    #[ORM\Column(name: 'adresse', nullable: false)]
+    public function setOwner(string $owner): void
+    {
+        $this->owner = $owner;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    #[ORM\Column(type: 'string', name: 'adresse', nullable: false)]
     private string $adresse;
 
     public function adresse(): string
@@ -59,7 +65,7 @@ class LmQuatre
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'email', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'email', nullable: false)]
     private string $email;
 
     public function email(): string
@@ -73,15 +79,15 @@ class LmQuatre
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'phone_number', nullable: false)]
-    private int $phoneNumber;
+    #[ORM\Column(type: 'string', name: 'phone_number', nullable: false)]
+    private string $phoneNumber;
 
-    public function phoneNumber(): int
+    public function phoneNumber(): string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phoneNumber): void
+    public function setPhoneNumber(string $phoneNumber): void
     {
         $this->phoneNumber = $phoneNumber;
         $this->updatedAt = new DateTimeImmutable();
@@ -93,6 +99,12 @@ class LmQuatre
     public function companyCreateDate(): DateTimeImmutable
     {
         return $this->companyCreateDate;
+    }
+
+    public function setCompanyCreateDate(DateTimeImmutable $compagnyCreateDate): void
+    {
+        $this->companyCreateDate = $compagnyCreateDate;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
@@ -121,7 +133,7 @@ class LmQuatre
         string $owner,
         string $adresse,
         string $email,
-        int $phoneNumber,
+        string $phoneNumber,
         DateTimeImmutable $companyCreateDate,
     ) {
         $this->id = LmQuatreId::create();
