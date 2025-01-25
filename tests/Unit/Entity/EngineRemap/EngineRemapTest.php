@@ -36,4 +36,19 @@ class EngineRemapTest extends HephUnitTestCase
 
         self::assertSame($newInfoDescriptionModelUpdated, $EngineRemap->infoDescriptionModel());
     }
+
+    public function testEntitySetters(): void
+    {
+        $EngineRemap = EngineRemapFaker::new();
+
+        $newDateUpdated = new DateTimeImmutable();
+        $EngineRemap->setUpdatedAt($newDateUpdated);
+
+        self::assertSame($newDateUpdated, $EngineRemap->updatedAt());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelFaker::new();
+        $EngineRemap->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $EngineRemap->infoDescriptionModel());
+    }
 }

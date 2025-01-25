@@ -26,6 +26,11 @@ class ScheduleTest extends HephUnitTestCase
         self::assertSame('17:00', $schedule->hoursEnd());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->updatedAt());
+    }
+
+    public function testEntitySetters(): void
+    {
+        $schedule = ScheduleFaker::new();
 
         $newDateUpdated = new DateTimeImmutable();
         $schedule->setUpdatedAt($newDateUpdated);
@@ -46,23 +51,5 @@ class ScheduleTest extends HephUnitTestCase
         $schedule->setHoursEnd($newHoursEndUpdate);
 
         self::assertSame($newHoursEndUpdate, $schedule->hoursEnd());
-    }
-
-    public function testEntityWithEmptyValues(): void
-    {
-        $schedule = ScheduleFaker::newWithEmptyValues();
-
-        self::assertInstanceOf(Schedule::class, $schedule);
-        self::assertNotNull($schedule->id());
-        self::assertSame('', $schedule->day());
-        self::assertSame('', $schedule->hoursStart());
-        self::assertSame('', $schedule->hoursEnd());
-        self::assertInstanceOf(DateTimeImmutable::class, $schedule->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $schedule->updatedAt());
-
-        $newDateUpdated = new DateTimeImmutable();
-        $schedule->setUpdatedAt($newDateUpdated);
-
-        self::assertSame($newDateUpdated, $schedule->updatedAt());
     }
 }

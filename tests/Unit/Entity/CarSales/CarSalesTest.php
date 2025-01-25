@@ -36,4 +36,19 @@ class CarSalesTest extends HephUnitTestCase
 
         self::assertSame($newInfoDescriptionModelUpdated, $CarSales->infoDescriptionModel());
     }
+
+    public function testEntitySetters(): void
+    {
+        $CarSales = CarSalesFaker::new();
+
+        $newDateUpdated = new DateTimeImmutable();
+        $CarSales->setUpdatedAt($newDateUpdated);
+
+        self::assertSame($newDateUpdated, $CarSales->updatedAt());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelFaker::new();
+        $CarSales->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $CarSales->infoDescriptionModel());
+    }
 }

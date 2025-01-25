@@ -29,6 +29,11 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertSame('test@exemple.com', $LmQuatre->email());
         self::assertSame(123456789, $LmQuatre->phoneNumber());
         self::assertNotNull($LmQuatre->infoDescriptionModel());
+    }
+
+    public function testEntitySetters(): void
+    {
+        $LmQuatre = LmQuatreFaker::new();
 
         $newDateUpdated = new DateTimeImmutable();
         $LmQuatre->setUpdatedAt($newDateUpdated);
@@ -50,5 +55,4 @@ class LmQuatreTest extends HephUnitTestCase
 
         self::assertSame($newPhoneNumberUpdate, $LmQuatre->phoneNumber());
     }
-
 }

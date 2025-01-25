@@ -25,6 +25,11 @@ class WorkShopTest extends HephUnitTestCase
         self::assertInstanceOf(DateTimeImmutable::class, $WorkShop->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $WorkShop->updatedAt());
         self::assertNotNull($WorkShop->infoDescriptionModel());
+    }
+
+    public function testEntitySetters(): void
+    {
+        $WorkShop = WorkShopFaker::new();
 
         $newDateUpdated = new DateTimeImmutable();
         $WorkShop->setUpdatedAt($newDateUpdated);
