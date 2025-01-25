@@ -21,7 +21,7 @@ class Schedule
         return $this->id;
     }
 
-    #[ORM\Column(name: 'day', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'day', nullable: false)]
     private string $day;
 
     public function day(): string
@@ -32,9 +32,10 @@ class Schedule
     public function setDay(string $day): void
     {
         $this->day = $day;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'hours_start', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'hours_start', nullable: false)]
     private string $hoursStart;
 
     public function hoursStart(): string
@@ -45,9 +46,10 @@ class Schedule
     public function setHoursStart(string $hoursStart): void
     {
         $this->hoursStart = $hoursStart;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'hours_end', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'hours_end', nullable: false)]
     private string $hoursEnd;
 
     public function hoursEnd(): string
@@ -58,6 +60,7 @@ class Schedule
     public function setHoursEnd(string $hoursEnd): void
     {
         $this->hoursEnd = $hoursEnd;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]

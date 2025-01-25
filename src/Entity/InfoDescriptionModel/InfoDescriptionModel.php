@@ -21,7 +21,7 @@ class InfoDescriptionModel
         return $this->id;
     }
 
-    #[ORM\Column(name: 'libelle', nullable: false)]
+    #[ORM\Column(type:'string', name: 'libelle', nullable: false)]
     private string $libelle;
 
     public function libelle(): string
@@ -35,7 +35,7 @@ class InfoDescriptionModel
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(name: 'description', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'description', nullable: false)]
     private string $description;
 
     public function description(): string
