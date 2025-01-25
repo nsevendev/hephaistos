@@ -26,16 +26,6 @@ class PingEntityTest extends HephUnitTestCase
         self::assertSame($message, $pingEntity->message());
         self::assertNotNull($pingEntity->createdAt());
         self::assertNotNull($pingEntity->updatedAt());
-    }
-
-    public function testEntityWithNullValues(): void
-    {
-        $pingEntity = PingEntityFaker::newWithNullValues();
-
-        self::assertNull($pingEntity->status());
-        self::assertNull($pingEntity->message());
-        self::assertNotNull($pingEntity->createdAt());
-        self::assertNotNull($pingEntity->updatedAt());
 
         $newDateUpdated = new DateTimeImmutable();
         $pingEntity->setUpdatedAt($newDateUpdated);

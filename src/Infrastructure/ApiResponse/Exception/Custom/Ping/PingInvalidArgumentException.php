@@ -8,14 +8,14 @@ use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseExceptio
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Symfony\Component\HttpFoundation\Response;
 
-class PingBadRequestException extends AbstractApiResponseException
+class PingInvalidArgumentException extends AbstractApiResponseException
 {
     /**
      * @param array<Error>|null $errors
      */
     public function __construct(
         string $getMessage = '',
-        int $statusCode = Response::HTTP_BAD_REQUEST,
+        int $statusCode = 422,
         ?array $errors = null,
     ) {
         $statusTexts = Response::$statusTexts;

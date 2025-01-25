@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ListPing
 {
     #[Route(path: '/api/pings', name: 'heph_api_list_ping', methods: ['GET'])]
-    public function index(): Response
+    public function __invoke(): Response
     {
         return ApiResponseFactory::success(data: [['ping' => 'ping']]);
     }
