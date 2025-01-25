@@ -10,6 +10,7 @@ use Heph\Entity\LmQuatre\LmQuatre;
 use Heph\Entity\Shared\Type\Uid;
 use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
+use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -41,8 +42,13 @@ class LmQuatreTest extends HephUnitTestCase
 
         self::assertSame($newDateUpdated, $LmQuatre->updatedAt());
 
+        $newOwnerUpdate = 'Bob Marley';
+        $LmQuatre->setOwner($newOwnerUpdate);
+
+        self::assertSame($newOwnerUpdate, $LmQuatre->Owner());
+
         $newAdresseUpdate = '34 rue du test';
-        $LmQuatre->setadresse($newAdresseUpdate);
+        $LmQuatre->setAdresse($newAdresseUpdate);
 
         self::assertSame($newAdresseUpdate, $LmQuatre->adresse());
 
@@ -52,8 +58,18 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertSame($newEmailUpdate, $LmQuatre->email());
 
         $newPhoneNumberUpdate = '84698759';
-        $LmQuatre->setphoneNumber($newPhoneNumberUpdate);
+        $LmQuatre->setPhoneNumber($newPhoneNumberUpdate);
 
         self::assertSame($newPhoneNumberUpdate, $LmQuatre->phoneNumber());
+
+        $newCompanyCreateDateUpdate = new DateTimeImmutable();
+        $LmQuatre->setCompanyCreateDate($newCompanyCreateDateUpdate);
+
+        self::assertSame($newCompanyCreateDateUpdate, $LmQuatre->companyCreateDate());
+
+        $newInfoDescriptionModelUpdated = InfoDescriptionModelFaker::new();
+        $LmQuatre->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
+
+        self::assertSame($newInfoDescriptionModelUpdated, $LmQuatre->infoDescriptionModel());
     }
 }
