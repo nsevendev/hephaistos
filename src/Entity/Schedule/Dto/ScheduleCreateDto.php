@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Heph\Entity\Ping\Dto;
+namespace Heph\Entity\Schedule\Dto;
 
 use Heph\Entity\Shared\ValueObject\ScheduleDay;
 use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
 use Heph\Entity\Shared\ValueObject\ScheduleHoursEnd;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class SharedCreateDto
+readonly class ScheduleCreateDto
 {
     public function __construct(
         #[Assert\Valid]
