@@ -8,10 +8,10 @@ use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class ScheduleHoursStart implements Stringable, ValueObjectInterface
+readonly class HoursEndValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'La propriété hours_start est requise.')]
+        #[Assert\NotBlank(message: 'La propriété hours_end est requise.')]
         private string $value,
     ) {}
 

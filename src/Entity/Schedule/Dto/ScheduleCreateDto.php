@@ -4,42 +4,42 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Schedule\Dto;
 
-use Heph\Entity\Shared\ValueObject\ScheduleDay;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursEnd;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
+use Heph\Entity\Shared\ValueObject\DayValueObject;
+use Heph\Entity\Shared\ValueObject\HoursEndValueObject;
+use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ScheduleCreateDto
 {
     public function __construct(
         #[Assert\Valid]
-        private ScheduleDay $day,
+        private DayValueObject $day,
         #[Assert\Valid]
-        private ScheduleHoursStart $hoursStart,
+        private HoursStartValueObject $hoursStart,
         #[Assert\Valid]
-        private ScheduleHoursEnd $hoursEnd,
+        private HoursEndValueObject $hoursEnd,
     ) {}
 
     public static function new(string $day, string $hoursStart, string $hoursEnd): self
     {
         return new self(
-            day: ScheduleDay::fromValue($day),
-            hoursStart: ScheduleHoursStart::fromValue($hoursStart),
-            hoursEnd: ScheduleHoursEnd::fromValue($hoursEnd),
+            day: DayValueObject::fromValue($day),
+            hoursStart: HoursStartValueObject::fromValue($hoursStart),
+            hoursEnd: HoursEndValueObject::fromValue($hoursEnd),
         );
     }
 
-    public function day(): ScheduleDay
+    public function day(): DayValueObject
     {
         return $this->day;
     }
 
-    public function hours_start(): ScheduleHoursStart
+    public function hours_start(): HoursStartValueObject
     {
         return $this->hoursStart;
     }
 
-    public function hours_end(): ScheduleHoursEnd
+    public function hours_end(): HoursEndValueObject
     {
         return $this->hoursEnd;
     }

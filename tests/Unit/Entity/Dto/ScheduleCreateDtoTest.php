@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\Dto;
 
 use Heph\Entity\Schedule\Dto\ScheduleCreateDto;
-use Heph\Entity\Shared\ValueObject\ScheduleDay;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursEnd;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
+use Heph\Entity\Shared\ValueObject\DayValueObject;
+use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
+use Heph\Entity\Shared\ValueObject\HoursEndValueObject;
 use Heph\Tests\Faker\Dto\Schedule\ScheduleCreateDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ScheduleCreateDto::class), CoversClass(ScheduleDay::class), CoversClass(ScheduleHoursStart::class), CoversClass(ScheduleHoursEnd::class)]
+#[CoversClass(ScheduleCreateDto::class), CoversClass(DayValueObject::class), CoversClass(HoursStartValueObject::class), CoversClass(HoursEndValueObject::class)]
 class ScheduleCreateDtoTest extends HephUnitTestCase
 {
     public function testScheduleCreateDto(): void
@@ -22,9 +22,9 @@ class ScheduleCreateDtoTest extends HephUnitTestCase
         self::assertNotNull($scheduleCreateDto);
 
         self::assertInstanceOf(ScheduleCreateDto::class, $scheduleCreateDto);
-        self::assertInstanceOf(ScheduleDay::class, $scheduleCreateDto->day());
-        self::assertInstanceOf(ScheduleHoursStart::class, $scheduleCreateDto->hours_start());
-        self::assertInstanceOf(ScheduleHoursEnd::class, $scheduleCreateDto->hours_end());
+        self::assertInstanceOf(DayValueObject::class, $scheduleCreateDto->day());
+        self::assertInstanceOf(HoursStartValueObject::class, $scheduleCreateDto->hours_start());
+        self::assertInstanceOf(HoursEndValueObject::class, $scheduleCreateDto->hours_end());
 
         self::assertSame('Monday', $scheduleCreateDto->day()->value());
         self::assertSame('08:00', $scheduleCreateDto->hours_start()->value());
@@ -46,9 +46,9 @@ class ScheduleCreateDtoTest extends HephUnitTestCase
         self::assertNotNull($scheduleCreateDto);
 
         self::assertInstanceOf(ScheduleCreateDto::class, $scheduleCreateDto);
-        self::assertInstanceOf(ScheduleDay::class, $scheduleCreateDto->day());
-        self::assertInstanceOf(ScheduleHoursStart::class, $scheduleCreateDto->hours_start());
-        self::assertInstanceOf(ScheduleHoursEnd::class, $scheduleCreateDto->hours_end());
+        self::assertInstanceOf(DayValueObject::class, $scheduleCreateDto->day());
+        self::assertInstanceOf(HoursStartValueObject::class, $scheduleCreateDto->hours_start());
+        self::assertInstanceOf(HoursEndValueObject::class, $scheduleCreateDto->hours_end());
 
         self::assertSame('Friday', $scheduleCreateDto->day()->value());
         self::assertSame('07:00', $scheduleCreateDto->hours_start()->value());

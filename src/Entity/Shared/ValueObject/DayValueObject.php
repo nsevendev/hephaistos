@@ -8,7 +8,7 @@ use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class ScheduleDay implements Stringable, ValueObjectInterface
+readonly class DayValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'La propriété Day est requise.')]
