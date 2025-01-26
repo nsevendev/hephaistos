@@ -6,13 +6,11 @@ namespace Heph\Tests\Unit\Entity\Schedule;
 
 use DateTimeImmutable;
 use Heph\Entity\Schedule\Schedule;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(Schedule::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[CoversClass(Schedule::class)]
 class ScheduleTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

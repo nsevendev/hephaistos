@@ -6,17 +6,17 @@ namespace Heph\Entity\Schedule;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\Schedule\Type\ScheduleId;
 use Heph\Repository\Schedule\ScheduleRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
 class Schedule
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
-    private ScheduleId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): ScheduleId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -89,7 +89,7 @@ class Schedule
         string $hoursStart,
         string $hoursEnd,
     ) {
-        $this->id = ScheduleId::create();
+        $this->id = Uuid::v7();
         $this->day = $day;
         $this->hoursStart = $hoursStart;
         $this->hoursEnd = $hoursEnd;

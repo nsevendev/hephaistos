@@ -7,14 +7,15 @@ namespace Heph\Tests\Unit\Entity\CarSales;
 use DateTimeImmutable;
 use Heph\Entity\CarSales\CarSales;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\CarSales\CarSalesFaker;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CarSales::class), CoversClass(InfoDescriptionModel::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[
+    CoversClass(CarSales::class),
+    CoversClass(InfoDescriptionModel::class)
+]
 class CarSalesTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
