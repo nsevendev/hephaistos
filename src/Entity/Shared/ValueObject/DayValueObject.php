@@ -12,6 +12,7 @@ readonly class DayValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'La propriété Day est requise.')]
+        #[Assert\Choice(choices: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], message: 'Le day doit être de {{ choices }}')]
         private string $value,
     ) {}
 

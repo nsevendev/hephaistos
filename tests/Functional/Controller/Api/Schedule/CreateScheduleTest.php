@@ -90,9 +90,9 @@ class CreateScheduleTest extends HephFunctionalTestCase
     public function testInvokeInvalidateArgument(): void
     {
         $payload = json_encode([
-            'day' => 'Monday',
+            'day' => 'lundi',
             'hours_start' => '08:00',
-            'hours_end' => ''
+            'hours_end' => '18:00'
         ]);
 
         $this->client->request('POST', '/api/schedule', [], [], [], $payload);
