@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Unit\Entity\Dto;
+namespace Heph\Tests\Unit\Entity\Ping\Dto;
 
 use Heph\Entity\Ping\Dto\PingCreateDto;
 use Heph\Entity\Ping\ValueObject\PingMessage;
