@@ -6,17 +6,17 @@ namespace Heph\Entity\Ping;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\Ping\Type\PingId;
 use Heph\Repository\Ping\PingRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: PingRepository::class)]
 class Ping
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', unique: true)]
-    private PingId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): PingId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -62,7 +62,7 @@ class Ping
         int $status,
         string $message,
     ) {
-        $this->id = PingId::create();
+        $this->id = Uuid::v7();
         $this->status = $status;
         $this->message = $message;
         $this->createdAt = new DateTimeImmutable();

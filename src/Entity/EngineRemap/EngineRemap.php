@@ -6,18 +6,18 @@ namespace Heph\Entity\EngineRemap;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\EngineRemap\Type\EngineRemapId;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: EngineRemapRepository::class)]
 class EngineRemap
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
-    private EngineRemapId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): EngineRemapId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -61,7 +61,7 @@ class EngineRemap
     public function __construct(
         InfoDescriptionModel $infoDescriptionModel,
     ) {
-        $this->id = EngineRemapId::create();
+        $this->id = Uuid::v7();
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;

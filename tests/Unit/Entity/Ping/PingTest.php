@@ -6,13 +6,11 @@ namespace Heph\Tests\Unit\Entity\Ping;
 
 use DateTimeImmutable;
 use Heph\Entity\Ping\Ping;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\Ping\PingFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(Ping::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[CoversClass(Ping::class)]
 class PingTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

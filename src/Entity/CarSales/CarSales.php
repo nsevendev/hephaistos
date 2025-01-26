@@ -6,18 +6,18 @@ namespace Heph\Entity\CarSales;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\CarSales\Type\CarSalesId;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Repository\CarSales\CarSalesRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CarSalesRepository::class)]
 class CarSales
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
-    private CarSalesId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): CarSalesId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -61,7 +61,7 @@ class CarSales
     public function __construct(
         InfoDescriptionModel $infoDescriptionModel,
     ) {
-        $this->id = CarSalesId::create();
+        $this->id = Uuid::v7();
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;

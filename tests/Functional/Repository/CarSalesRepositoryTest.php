@@ -7,8 +7,6 @@ namespace Heph\Tests\Functional\Repository;
 use Doctrine\DBAL\Exception;
 use Heph\Entity\CarSales\CarSales;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\CarSales\CarSalesRepository;
 use Heph\Tests\Faker\Entity\CarSales\CarSalesFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -19,8 +17,6 @@ use ReflectionException;
     CoversClass(CarSalesRepository::class),
     CoversClass(CarSales::class),
     CoversClass(InfoDescriptionModel::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class)
 ]
 class CarSalesRepositoryTest extends HephFunctionalTestCase
 {

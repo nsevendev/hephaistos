@@ -7,8 +7,6 @@ namespace Heph\Tests\Functional\Repository;
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\LmQuatre\LmQuatreRepository;
 use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -19,8 +17,6 @@ use ReflectionException;
     CoversClass(LmQuatreRepository::class),
     CoversClass(LmQuatre::class),
     CoversClass(InfoDescriptionModel::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class)
 ]
 class LmQuatreRepositoryTest extends HephFunctionalTestCase
 {

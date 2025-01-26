@@ -7,17 +7,17 @@ namespace Heph\Entity\LmQuatre;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\LmQuatre\Type\LmQuatreId;
 use Heph\Repository\LmQuatre\LmQuatreRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: LmQuatreRepository::class)]
 class LmQuatre
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
-    private LmQuatreId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): LmQuatreId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -136,7 +136,7 @@ class LmQuatre
         string $phoneNumber,
         DateTimeImmutable $companyCreateDate,
     ) {
-        $this->id = LmQuatreId::create();
+        $this->id = Uuid::v7();
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->owner = $owner;
         $this->adresse = $adresse;

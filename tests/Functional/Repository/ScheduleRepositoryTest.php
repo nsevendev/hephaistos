@@ -6,8 +6,6 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\Schedule\Schedule;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\Schedule\ScheduleRepository;
 use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,8 +15,6 @@ use ReflectionException;
 #[
     CoversClass(ScheduleRepository::class),
     CoversClass(Schedule::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class)
 ]
 class ScheduleRepositoryTest extends HephFunctionalTestCase
 {
