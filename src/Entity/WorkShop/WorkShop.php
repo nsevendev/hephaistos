@@ -7,17 +7,17 @@ namespace Heph\Entity\WorkShop;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\WorkShop\Type\WorkShopId;
 use Heph\Repository\WorkShop\WorkShopRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: WorkShopRepository::class)]
 class WorkShop
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', unique: true)]
-    private WorkShopId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): WorkShopId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -61,7 +61,7 @@ class WorkShop
     public function __construct(
         InfoDescriptionModel $infoDescriptionModel,
     ) {
-        $this->id = WorkShopId::create();
+        $this->id = Uuid::v7();
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;

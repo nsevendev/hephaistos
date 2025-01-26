@@ -6,17 +6,17 @@ namespace Heph\Entity\InfoDescriptionModel;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Heph\Entity\InfoDescriptionModel\Type\InfoDescriptionModelId;
 use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: InfoDescriptionModelRepository::class)]
 class InfoDescriptionModel
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'app_uid', name: 'id', nullable: false, unique: true)]
-    private InfoDescriptionModelId $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $id;
 
-    public function id(): InfoDescriptionModelId
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -74,7 +74,7 @@ class InfoDescriptionModel
         string $libelle,
         string $description,
     ) {
-        $this->id = InfoDescriptionModelId::create();
+        $this->id = Uuid::v7();
         $this->libelle = $libelle;
         $this->description = $description;
         $this->createdAt = new DateTimeImmutable();

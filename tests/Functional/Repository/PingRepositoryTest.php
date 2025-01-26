@@ -6,8 +6,6 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\Ping\Ping;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\Ping\PingRepository;
 use Heph\Tests\Faker\Entity\Ping\PingFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,8 +15,6 @@ use ReflectionException;
 #[
     CoversClass(PingRepository::class),
     CoversClass(Ping::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class)
 ]
 class PingRepositoryTest extends HephFunctionalTestCase
 {

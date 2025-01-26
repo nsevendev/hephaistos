@@ -7,14 +7,15 @@ namespace Heph\Tests\Unit\Entity\EngineRemap;
 use DateTimeImmutable;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(EngineRemap::class), CoversClass(InfoDescriptionModel::class), CoversClass(Uid::class), CoversClass(UidType::class)]
+#[
+    CoversClass(EngineRemap::class),
+    CoversClass(InfoDescriptionModel::class),
+]
 class EngineRemapTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
