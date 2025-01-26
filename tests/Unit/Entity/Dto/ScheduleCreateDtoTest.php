@@ -6,8 +6,8 @@ namespace Heph\Tests\Unit\Entity\Dto;
 
 use Heph\Entity\Schedule\Dto\ScheduleCreateDto;
 use Heph\Entity\Shared\ValueObject\DayValueObject;
-use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
 use Heph\Entity\Shared\ValueObject\HoursEndValueObject;
+use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
 use Heph\Tests\Faker\Dto\Schedule\ScheduleCreateDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;

@@ -7,8 +7,8 @@ namespace Heph\Tests\Functional\Controller\Api\Schedule;
 use Heph\Controller\Api\Schedule\CreateSchedule;
 use Heph\Entity\Schedule\Dto\ScheduleCreateDto;
 use Heph\Entity\Shared\ValueObject\DayValueObject;
-use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
 use Heph\Entity\Shared\ValueObject\HoursEndValueObject;
+use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -67,7 +67,7 @@ class CreateScheduleTest extends HephFunctionalTestCase
         $payload = json_encode([
             'day' => 'Monday',
             'hours_start' => '08:00',
-            'hours_end' => '18:00'
+            'hours_end' => '18:00',
         ]);
 
         $this->client->request('POST', '/api/schedule', [], [], [], $payload);
@@ -92,7 +92,7 @@ class CreateScheduleTest extends HephFunctionalTestCase
         $payload = json_encode([
             'day' => 'lundi',
             'hours_start' => '08:00',
-            'hours_end' => '18:00'
+            'hours_end' => '18:00',
         ]);
 
         $this->client->request('POST', '/api/schedule', [], [], [], $payload);
