@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heph\Entity\Schedule\Dto;
 
 use Heph\Entity\Shared\ValueObject\ScheduleDay;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
 use Heph\Entity\Shared\ValueObject\ScheduleHoursEnd;
+use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ScheduleCreateDto
@@ -34,7 +34,7 @@ readonly class ScheduleCreateDto
         return $this->day;
     }
 
-    public function message(): ScheduleHoursStart
+    public function hours_start(): ScheduleHoursStart
     {
         return $this->hoursStart;
     }

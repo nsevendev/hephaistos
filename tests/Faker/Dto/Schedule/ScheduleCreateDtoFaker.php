@@ -6,8 +6,8 @@ namespace Heph\Tests\Faker\Dto\Schedule;
 
 use Heph\Entity\Schedule\Dto\ScheduleCreateDto;
 use Heph\Entity\Shared\ValueObject\ScheduleDay;
-use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
 use Heph\Entity\Shared\ValueObject\ScheduleHoursEnd;
+use Heph\Entity\Shared\ValueObject\ScheduleHoursStart;
 
 class ScheduleCreateDtoFaker
 {
