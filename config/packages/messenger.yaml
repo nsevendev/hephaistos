@@ -24,6 +24,7 @@ when@test:
                 # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
                 async: test://
                 sync: sync://
+                othersync: test://
             routing:
                 '*': async
                 'Heph\Message\Query\*': sync
