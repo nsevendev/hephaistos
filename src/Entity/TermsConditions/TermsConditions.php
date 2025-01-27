@@ -37,34 +37,6 @@ class TermsConditions
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'string', name: 'libelle', nullable: false)]
-    private string $libelle;
-
-    public function libelle(): string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(string $libelle): void
-    {
-        $this->libelle = $libelle;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'string', name: 'description', nullable: false)]
-    private string $description;
-
-    public function description(): string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
@@ -87,12 +59,10 @@ class TermsConditions
     }
 
     public function __construct(
-        string $libelle,
-        string $description,
+        InfoDescriptionModel $infoDescriptionModel,
     ) {
         $this->id = Uuid::v7();
-        $this->libelle = $libelle;
-        $this->description = $description;
+        $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;
     }
