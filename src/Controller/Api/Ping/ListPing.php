@@ -40,6 +40,6 @@ class ListPing extends AbstractHephController
     ): Response {
         $listPing = $this->handle(new GetListPingQuery());
 
-        return ApiResponseFactory::success(data: [$listPing]);
+        return ApiResponseFactory::success(data: $listPing);
     }
 }
