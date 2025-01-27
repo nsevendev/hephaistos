@@ -60,7 +60,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         $found = $this->termsConditionsRepository->find($workShop->id());
 
         // Vérifications
-        self::assertNotNull($found, 'WorkShop non trouvé en base alors qu’on vient de le créer');
+        self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le créer');
         self::assertInstanceOf(TermsConditions::class, $found);
         self::assertNotNull($found->infoDescriptionModel());
     }
@@ -84,7 +84,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         $found = $this->termsConditionsRepository->find($termsConditions->id());
 
         // Vérifications
-        self::assertNotNull($found, 'WorkShop non trouvé en base alors qu’on vient de le modifier');
+        self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le modifier');
         self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle());
         self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
     }

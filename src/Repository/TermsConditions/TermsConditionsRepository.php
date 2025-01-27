@@ -15,4 +15,19 @@ class TermsConditionsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TermsConditions::class);
     }
+
+    public function save(TermsConditions $termsConditions): void
+    {
+        $this->getEntityManager()->persist($termsConditions);
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(string $id): void
+    {
+        $termsConditions = $this->find($id);
+        if (null !== $termsConditions) {
+            $this->getEntityManager()->remove($termsConditions);
+            $this->save($termsConditions);
+        }
+    }
 }
