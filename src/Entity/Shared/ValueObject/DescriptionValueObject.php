@@ -8,7 +8,7 @@ use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class DescriptionStatus implements Stringable, ValueObjectInterface
+readonly class DescriptionValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'La description est requis.')]

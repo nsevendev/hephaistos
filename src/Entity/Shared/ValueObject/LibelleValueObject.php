@@ -8,7 +8,7 @@ use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class LibelleStatus implements Stringable, ValueObjectInterface
+readonly class LibelleValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Le libelle est requis.')]
