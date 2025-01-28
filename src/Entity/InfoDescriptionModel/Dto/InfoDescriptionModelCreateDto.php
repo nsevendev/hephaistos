@@ -15,6 +15,8 @@ readonly class InfoDescriptionModelCreateDto
         private LibelleValueObject $libelle,
         #[Assert\Valid]
         private DescriptionValueObject $description,
+        private \DateTimeImmutable $createdAt,
+        private \DateTimeImmutable $updatedAt,
     ) {}
 
     public static function new(string $libelle, string $description): self
@@ -22,6 +24,8 @@ readonly class InfoDescriptionModelCreateDto
         return new self(
             libelle: LibelleValueObject::fromValue($libelle),
             description: DescriptionValueObject::fromValue($description),
+            createdAt: new \DateTimeImmutable(),
+            updatedAt: new \DateTimeImmutable(),
         );
     }
 
@@ -33,5 +37,15 @@ readonly class InfoDescriptionModelCreateDto
     public function description(): DescriptionValueObject
     {
         return $this->description;
+    }
+
+    public function createdAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }

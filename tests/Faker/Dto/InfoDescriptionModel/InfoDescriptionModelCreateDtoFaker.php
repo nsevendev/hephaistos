@@ -12,9 +12,13 @@ class InfoDescriptionModelCreateDtoFaker
 {
     public static function new(): InfoDescriptionModelCreateDto
     {
+        $newDate = new \DateTimeImmutable('2000-03-31');
+
         return new InfoDescriptionModelCreateDto(
             LibelleValueObject::fromValue('Libelle test'),
-            DescriptionValueObject::fromValue('Description test')
+            DescriptionValueObject::fromValue('Description test'),
+            $newDate,
+            $newDate
         );
     }
 }
