@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Entity\TermsConditions\Dto;
 
-use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
+use Heph\Entity\TermsConditions\TermsConditions;
 
 class TermsConditionsDto
 {
@@ -16,7 +16,7 @@ class TermsConditionsDto
         public string $updatedAt,
     ) {}
 
-    public static function fromArray(TermsConditions $data): self
+    public static function fromEntity(TermsConditions $data): self
     {
         return new self(
             id: (string) $data->id(),
@@ -36,7 +36,7 @@ class TermsConditionsDto
         $listTermsConditions = [];
 
         foreach ($data as $termsConditions) {
-            $listTermsConditions[] = self::fromArray($termsConditions);
+            $listTermsConditions[] = self::fromEntity($termsConditions);
         }
 
         return $listTermsConditions;
