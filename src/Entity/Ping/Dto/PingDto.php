@@ -42,4 +42,18 @@ class PingDto
 
         return $listPing;
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'status' => $this->status,
+            'message' => $this->message,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+        ];
+    }
 }
