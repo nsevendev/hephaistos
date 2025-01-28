@@ -7,9 +7,11 @@ namespace Heph\Tests\Functional\Message\Ping;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\Ping\Dto\PingCreateDto;
+use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
 use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
+use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\CreatePingCommand;
 use Heph\Message\Command\Ping\CreatePingHandler;
 use Heph\Repository\Ping\PingRepository;
@@ -26,6 +28,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(PingMessage::class),
     CoversClass(PingStatus::class),
     CoversClass(CreatePingHandler::class),
+    CoversClass(MercurePublish::class),
+    CoversClass(PingDto::class)
 ]
 class CreatePingHandlerTest extends HephFunctionalTestCase
 {

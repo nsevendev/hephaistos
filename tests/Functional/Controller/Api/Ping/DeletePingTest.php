@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Functional\Controller\Api\Ping;
+namespace Functional\Controller\Api\Ping;
 
+use Heph\Controller\Api\Ping\DeletePing;
 use Heph\Controller\Api\Ping\ListPing;
 use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
@@ -15,6 +16,7 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\Serializer\HephSerializer;
+use Heph\Message\Command\Ping\DeletePingCommand;
 use Heph\Message\Query\Ping\GetListPingHandler;
 use Heph\Repository\Ping\PingRepository;
 use Heph\Tests\Faker\Entity\Ping\PingFaker;
@@ -36,9 +38,11 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(HephSerializer::class),
     CoversClass(GetListPingHandler::class),
     CoversClass(PingRepository::class),
-    CoversClass(Ping::class)
+    CoversClass(Ping::class),
+    CoversClass(DeletePing::class),
+    CoversClass(DeletePingCommand::class)
 ]
-class ListPingTest extends HephFunctionalTestCase
+class DeletePingTest extends HephFunctionalTestCase
 {
     private KernelBrowser $client;
 
@@ -47,22 +51,7 @@ class ListPingTest extends HephFunctionalTestCase
         $this->client = self::createClient();
     }
 
-    public function testInvokeReturnsExpectedResponse(): void
-    {
-        $this->client->request('GET', '/api/list-ping');
-
-        $content = $this->client->getResponse()->getContent();
-
-        self::assertResponseIsSuccessful();
-        self::assertResponseStatusCodeSame(Response::HTTP_OK);
-        self::assertJson($content);
-
-        $response = json_decode($content, true);
-
-        self::assertArrayHasKey('data', $response);
-    }
-
-    public function testCreateAndRetrievePing(): void
+    public function testCreateAndDeletePing(): void
     {
         $entityManager = $this->getEntityManager();
         $entityManager->getConnection()->beginTransaction();
@@ -72,22 +61,11 @@ class ListPingTest extends HephFunctionalTestCase
         $entityManager->persist($ping);
         $entityManager->flush();
 
-        $this->client->request('GET', '/api/list-ping');
-
-        $content = $this->client->getResponse()->getContent();
+        $this->client->request('DELETE', '/api/ping/'.$ping->id());
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
-        self::assertJson($content);
 
-        $response = json_decode($content, true);
-        self::assertArrayHasKey('data', $response);
-        self::assertNotEmpty($response['data']);
-
-        $retrievedPing = $response['data'][0];
-        self::assertSame(200, $retrievedPing['status']);
-        self::assertSame('Le ping à réussi', $retrievedPing['message']);
-
-        $entityManager->rollback();
+        $entityManager->rollBack();
     }
 }

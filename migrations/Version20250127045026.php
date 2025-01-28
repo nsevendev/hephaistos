@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250126150302 extends AbstractMigration
+final class Version20250127045026 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -66,7 +66,6 @@ final class Version20250126150302 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE car_sales DROP CONSTRAINT FK_B42AF59311469011');
         $this->addSql('ALTER TABLE engine_remap DROP CONSTRAINT FK_84CE46111469011');
         $this->addSql('ALTER TABLE lm_quatre DROP CONSTRAINT FK_C3D225B811469011');
