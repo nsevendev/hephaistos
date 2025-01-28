@@ -24,7 +24,7 @@ readonly class TermsConditionsCreateDto
         string $id,
         InfoDescriptionModelCreateDto $infoDescriptionModel,
         \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt
+        \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
             id: $id,

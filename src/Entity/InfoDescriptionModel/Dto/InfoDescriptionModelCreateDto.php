@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Entity\InfoDescriptionModel\Dto;
 
-use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class InfoDescriptionModelCreateDto
@@ -28,7 +28,7 @@ readonly class InfoDescriptionModelCreateDto
         string $libelle,
         string $description,
         \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt
+        \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
             id: $id,
