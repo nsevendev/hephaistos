@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
-use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
-use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
