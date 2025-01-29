@@ -22,6 +22,7 @@ class TermsConditionsArticleRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /*
     public function remove(string $id): void
     {
         $termsConditionsArticle = $this->find($id);
@@ -30,4 +31,5 @@ class TermsConditionsArticleRepository extends ServiceEntityRepository
             $this->save($termsConditionsArticle);
         }
     }
+        */
 }

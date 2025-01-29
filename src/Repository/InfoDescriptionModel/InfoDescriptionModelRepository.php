@@ -22,6 +22,7 @@ class InfoDescriptionModelRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /*
     public function remove(string $id): void
     {
         $infoDescriptionModel = $this->find($id);
@@ -30,4 +31,5 @@ class InfoDescriptionModelRepository extends ServiceEntityRepository
             $this->save($infoDescriptionModel);
         }
     }
+    */
 }

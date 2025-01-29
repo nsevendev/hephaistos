@@ -69,6 +69,20 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
         self::assertSame('article test', $found->article());
     }
 
+    public function testPersitAndFlushWithRepository(): void
+    {
+        $termsConditionsArticle = TermsConditionsArticleFaker::new();
+
+        $this->termsConditionsArticleRepository->save($termsConditionsArticle);
+
+        /** @var TermsConditionArticle|null $found */
+        $found = $this->termsConditionsArticleRepository->find($termsConditionsArticle->id());
+        self::assertNotNull($found, 'TermsConditionArticle non trouvé en base alors qu’on vient de le créer');
+        self::assertNotNull($found->termsConditions());
+        self::assertSame('titre test', $found->title());
+        self::assertSame('article test', $found->article());
+    }
+
     /**
      * @throws ReflectionException
      */
