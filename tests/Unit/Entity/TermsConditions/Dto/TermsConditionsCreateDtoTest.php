@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
-use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
 use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelCreateDtoFaker;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsCreateDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;

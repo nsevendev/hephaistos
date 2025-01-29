@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -16,6 +17,7 @@ use ReflectionException;
 #[
     CoversClass(TermsConditionsArticleRepository::class),
     CoversClass(TermsConditionsArticle::class),
+    CoversClass(TermsConditions::class),
     CoversClass(InfoDescriptionModel::class),
 ]
 class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
@@ -52,12 +54,12 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
      */
     public function testWeCanPersistAndFindTermsConditions(): void
     {
-        $TermsConditionsArticle = TermsConditionsArticleFaker::new();
+        $termsConditionsArticle = TermsConditionsArticleFaker::new();
 
-        $this->persistAndFlush($TermsConditionsArticle);
+        $this->persistAndFlush($termsConditionsArticle);
 
-        /** @var TermsConditions|null $found */
-        $found = $this->termsConditionsArticleRepository->find($TermsConditionsArticle->id());
+        /** @var TermsConditionsArticle|null $found */
+        $found = $this->termsConditionsArticleRepository->find($termsConditionsArticle->id());
 
         // Vérifications
         self::assertNotNull($found, 'TermsConditionsArticle non trouvé en base alors qu’on vient de le créer');

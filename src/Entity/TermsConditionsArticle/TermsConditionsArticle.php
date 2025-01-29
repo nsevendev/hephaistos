@@ -7,8 +7,6 @@ namespace Heph\Entity\TermsConditionsArticle;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\TermsConditions\TermsConditions;
-use Heph\Entity\Shared\ValueObject\TitleValueObject;
-use Heph\Entity\Shared\ValueObject\ArticleValueObject;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Symfony\Component\Uid\Uuid;
 
@@ -91,7 +89,7 @@ class TermsConditionsArticle
     public function __construct(
         TermsConditions $termsConditions,
         string $title,
-        string $article
+        string $article,
     ) {
         $this->id = Uuid::v7();
         $this->termsConditions = $termsConditions;

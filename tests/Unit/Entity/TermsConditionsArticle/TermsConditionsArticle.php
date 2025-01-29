@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\TermsConditionsArticle;
 
 use DateTimeImmutable;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
-use Heph\Entity\Shared\ValueObject\TitleValueObject;
-use Heph\Entity\Shared\ValueObject\ArticleValueObject;
-use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
+use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TermsConditionsArticle::class), CoversClass(InfoDescriptionModel::class)]
+#[CoversClass(TermsConditionsArticle::class), CoversClass(TermsConditions::class)]
 class TermsConditionsArticleTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
@@ -39,17 +37,15 @@ class TermsConditionsArticleTest extends HephUnitTestCase
 
         self::assertSame($newTermsConditionsUpdated, $termsConditionsArticle->termsConditions());
 
-        $newTitle = 'new title'; 
+        $newTitle = 'new title';
         $termsConditionsArticle->setTitle($newTitle);
 
         self::assertSame($newTitle, $termsConditionsArticle->title());
 
-
-        $newArticle = 'new article'; 
+        $newArticle = 'new article';
         $termsConditionsArticle->setArticle($newArticle);
 
         self::assertSame($newArticle, $termsConditionsArticle->article());
-
 
         $newDateUpdated = new DateTimeImmutable();
         $termsConditionsArticle->setUpdatedAt($newDateUpdated);
