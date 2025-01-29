@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\TermsConditionsArticle\Dto;
 
+use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
 use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleCreateDto;
-use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleCreateDtoFaker;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsCreateDtoFaker;
+use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleCreateDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -31,7 +32,7 @@ class TermsConditionsArticleCreateDtoTest extends HephUnitTestCase
 
         $termsConditionsDto = $dto->termsConditions();
         self::assertNotNull($termsConditionsDto);
-        self::assertInstanceOf(\Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto::class, $termsConditionsDto);
+        self::assertInstanceOf(TermsConditionsCreateDto::class, $termsConditionsDto);
 
         self::assertSame('1234', $termsConditionsDto->id());
     }
@@ -62,7 +63,7 @@ class TermsConditionsArticleCreateDtoTest extends HephUnitTestCase
 
         $termsConditionsDto = $dto->termsConditions();
         self::assertNotNull($termsConditionsDto);
-        self::assertInstanceOf(\Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto::class, $termsConditionsDto);
+        self::assertInstanceOf(TermsConditionsCreateDto::class, $termsConditionsDto);
 
         self::assertSame('1234', $termsConditionsDto->id());
     }

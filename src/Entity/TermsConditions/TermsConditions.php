@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Heph\Entity\TermsConditions;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 use Heph\Repository\TermsConditions\TermsConditionsRepository;
 use Symfony\Component\Uid\Uuid;
 
@@ -37,6 +40,29 @@ class TermsConditions
         $this->updatedAt = new DateTimeImmutable();
     }
 
+    #[ORM\OneToMany(mappedBy: 'termsConditions', targetEntity: TermsConditionsArticle::class, cascade: ['persist', 'remove'])]
+    private Collection $listTermsConditionsArticle;
+
+    public function listTermsConditionsArticle(): Collection
+    {
+        return $this->listTermsConditionsArticle;
+    }
+
+    public function addTermsConditionsArticle(TermsConditionsArticle $article): void
+    {
+        if (!$this->listTermsConditionsArticle->contains($article)) {
+            $this->listTermsConditionsArticle->add($article);
+            $article->setTermsConditions($this);
+        }
+    }
+
+    public function removeTermsConditionsArticle(TermsConditionsArticle $article): void
+    {
+        if ($this->listTermsConditionsArticle->contains($article)) {
+            $this->listTermsConditionsArticle->removeElement($article);
+        }
+    }
+
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
@@ -65,5 +91,6 @@ class TermsConditions
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;
+        $this->listTermsConditionsArticle = new ArrayCollection();
     }
 }

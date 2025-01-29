@@ -22,11 +22,11 @@ class TermsConditionsArticle
         return $this->id;
     }
 
-    #[ORM\OneToOne(targetEntity: TermsConditions::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'terms_conditions', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: TermsConditions::class, inversedBy: 'listTermsConditionsArticle', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private TermsConditions $termsConditions;
 
-    public function TermsConditions(): TermsConditions
+    public function termsConditions(): TermsConditions
     {
         return $this->termsConditions;
     }
