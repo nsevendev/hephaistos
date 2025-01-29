@@ -39,13 +39,13 @@ class TermsConditionsArticleTest extends HephUnitTestCase
 
         self::assertSame($newTermsConditionsUpdated, $termsConditionsArticle->termsConditions());
 
-        $newTitle = TitleValueObject::fromValue('new title'); 
+        $newTitle = 'new title'; 
         $termsConditionsArticle->setTitle($newTitle);
 
         self::assertSame($newTitle, $termsConditionsArticle->title());
 
 
-        $newArticle = ArticleValueObject::fromValue('new article'); 
+        $newArticle = 'new article'; 
         $termsConditionsArticle->setArticle($newArticle);
 
         self::assertSame($newArticle, $termsConditionsArticle->article());

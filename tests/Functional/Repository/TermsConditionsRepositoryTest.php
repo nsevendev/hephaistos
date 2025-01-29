@@ -52,12 +52,12 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
      */
     public function testWeCanPersistAndFindTermsConditions(): void
     {
-        $workShop = TermsConditionsFaker::new();
+        $termsConditions = TermsConditionsFaker::new();
 
-        $this->persistAndFlush($workShop);
+        $this->persistAndFlush($termsConditions);
 
         /** @var TermsConditions|null $found */
-        $found = $this->termsConditionsRepository->find($workShop->id());
+        $found = $this->termsConditionsRepository->find($termsConditions->id());
 
         // Vérifications
         self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le créer');

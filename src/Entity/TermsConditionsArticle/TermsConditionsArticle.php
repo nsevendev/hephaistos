@@ -47,7 +47,7 @@ class TermsConditionsArticle
         return $this->title;
     }
 
-    public function setTitle(TitleValueObject $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
         $this->updatedAt = new DateTimeImmutable();
@@ -61,7 +61,7 @@ class TermsConditionsArticle
         return $this->article;
     }
 
-    public function setArticle(ArticleValueObject $article): void
+    public function setArticle(string $article): void
     {
         $this->article = $article;
         $this->updatedAt = new DateTimeImmutable();
