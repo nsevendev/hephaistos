@@ -8,11 +8,11 @@ use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class DescriptionValueObject implements Stringable, ValueObjectInterface
+readonly class ArticleValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'La description est requis.')]
-        #[Assert\Length(max: 255, maxMessage: 'La description doit contenir au plus {{ limit }} caractères.')]
+        #[Assert\NotBlank(message: "L'article est requis.")]
+        #[Assert\Length(max: 255, maxMessage: "L'article doit contenir au plus {{ limit }} caractères.")]
         private string $value,
     ) {}
 

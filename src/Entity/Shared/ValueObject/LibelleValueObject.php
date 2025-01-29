@@ -12,7 +12,7 @@ readonly class LibelleValueObject implements Stringable, ValueObjectInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Le libelle est requis.')]
-        #[Assert\Length(max: 255, maxMessage: 'Le libelle doit contenir au plus {{ limit }} caractères.')]
+        #[Assert\Length(max: 75, maxMessage: 'Le libelle doit contenir au plus {{ limit }} caractères.')]
         private string $value,
     ) {}
 
