@@ -21,7 +21,7 @@ class Ping
         return $this->id;
     }
 
-    #[ORM\Column(type: 'int', name: 'status', nullable: false)]
+    #[ORM\Column(type: 'string', name: 'status', nullable: false)]
     private int $status;
 
     public function status(): int
