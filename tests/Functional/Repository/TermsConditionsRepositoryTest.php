@@ -65,6 +65,18 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         self::assertNotNull($found->infoDescriptionModel());
     }
 
+    public function testWeCanSaveTermsConditions(): void
+    {
+        $termsConditions = TermsConditionsFaker::new();
+
+        $this->termsConditionsRepository->save($termsConditions);
+
+        $found = $this->termsConditionsRepository->find($termsConditions->id());
+        self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le créer');
+        self::assertSame('libellé test', $found->infoDescriptionModel()->libelle());
+        self::assertSame('description test', $found->infoDescriptionModel()->description());
+    }
+
     /**
      * @throws ReflectionException
      */
