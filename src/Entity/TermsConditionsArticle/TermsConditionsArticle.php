@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Entity\WorkShop;
+namespace Heph\Entity\TermsConditionsArticle;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
