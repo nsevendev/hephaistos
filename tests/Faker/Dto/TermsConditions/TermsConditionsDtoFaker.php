@@ -20,15 +20,13 @@ class TermsConditionsDtoFaker
     }
 
     /**
-     * @param int $count
-     *
      * @return TermsConditionsDto[]
      */
     public static function collection(int $count = 3): array
     {
         $dtos = [];
 
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new TermsConditionsDto(
                 id: (string) ($i + 1), // Génère des IDs uniques
                 infoDescriptionModel: InfoDescriptionModelDtoFaker::new(),
