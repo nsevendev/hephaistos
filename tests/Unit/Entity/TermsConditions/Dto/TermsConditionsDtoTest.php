@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TermsConditionsDto::class)]
+#[CoversClass(TermsConditionsDto::class), CoversClass(InfoDescriptionModelDto::class)]
 class TermsConditionsDtoTest extends HephUnitTestCase
 {
     public function testTermsConditionsDto(): void
