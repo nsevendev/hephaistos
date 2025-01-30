@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\UidNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class HephSerializer extends Serializer
@@ -35,6 +36,7 @@ class HephSerializer extends Serializer
         // Normalizers
         $normalizers = [
             new ValueObjectNormalizer(),
+            new UidNormalizer(),                                     // Gère les Uuid
             new DateTimeNormalizer(['datetime_format' => 'Y-m-d']), // Format les dates
             new ArrayDenormalizer(),                                // Pour gérer les tableaux d'objets
             $objectNormalizer,

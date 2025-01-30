@@ -26,3 +26,7 @@ services:
         
     Heph\Infrastructure\Serializer\HephSerializer:
         public: true
+        
+    Heph\Infrastructure\Mercure\MercureJwtGenerator:
+        arguments:
+            $mercureSecret: '%env(CADDY_MERCURE_JWT_SECRET)%'

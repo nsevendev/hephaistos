@@ -21,4 +21,13 @@ class PingRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($ping);
         $this->getEntityManager()->flush();
     }
+
+    public function remove(string $id): void
+    {
+        $ping = $this->find($id);
+        if (null !== $ping) {
+            $this->getEntityManager()->remove($ping);
+            $this->save($ping);
+        }
+    }
 }

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Heph\Tests\Functional\Message\Ping;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\Ping\Dto\PingCreateDto;
+use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
 use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
+use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\CreatePingCommand;
 use Heph\Message\Command\Ping\CreatePingHandler;
 use Heph\Repository\Ping\PingRepository;
@@ -24,13 +23,13 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
 #[
     CoversClass(PingRepository::class),
     CoversClass(Ping::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class),
     CoversClass(CreatePingCommand::class),
     CoversClass(PingCreateDto::class),
     CoversClass(PingMessage::class),
     CoversClass(PingStatus::class),
     CoversClass(CreatePingHandler::class),
+    CoversClass(MercurePublish::class),
+    CoversClass(PingDto::class)
 ]
 class CreatePingHandlerTest extends HephFunctionalTestCase
 {
@@ -71,9 +70,6 @@ class CreatePingHandlerTest extends HephFunctionalTestCase
     {
         $connection = self::getEntityManager()->getConnection();
         self::assertTrue($connection->isConnected(), 'La connexion à la base de données est inactive');
-
-        $isRegistered = Type::hasType('app_uid');
-        self::assertTrue($isRegistered, 'Le type personnalisé "app_uid" n\'est pas enregistré dans Doctrine');
     }
 
     /**
@@ -94,8 +90,8 @@ class CreatePingHandlerTest extends HephFunctionalTestCase
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();
         self::assertInstanceOf(CreatePingCommand::class, $m[0]);
-        $this->transport()->queue()->assertCount(1);
+        $this->transport('async')->queue()->assertCount(1);
         $this->transport('async')->process(1);
-        $this->transport()->queue()->assertCount(0);
+        $this->transport('async')->queue()->assertCount(0);
     }
 }

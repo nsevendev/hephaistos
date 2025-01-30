@@ -6,8 +6,6 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\Shared\Type\Uid;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,8 +15,6 @@ use ReflectionException;
 #[
     CoversClass(InfoDescriptionModelRepository::class),
     CoversClass(InfoDescriptionModel::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class)
 ]
 class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
 {
@@ -63,6 +59,20 @@ class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
 
         self::assertNotNull($found, 'InfoDescriptionModel non trouvé en base alors qu’on vient de le créer');
         self::assertInstanceOf(InfoDescriptionModel::class, $found);
+        self::assertSame('libellé test', $found->libelle());
+        self::assertSame('description test', $found->description());
+    }
+
+    public function testPersitAndFlushWithRepository(): void
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        $this->infoDescriptionModelRepository->save($infoDescriptionModel);
+
+        /** @var InfoDescriptionModel|null $found */
+        $found = $this->infoDescriptionModelRepository->find($infoDescriptionModel->id());
+
+        self::assertNotNull($found, 'InfoDescriptionModel non trouvé en base alors qu’on vient de le créer');
         self::assertSame('libellé test', $found->libelle());
         self::assertSame('description test', $found->description());
     }
