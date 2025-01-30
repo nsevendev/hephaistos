@@ -4,51 +4,64 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\TermsConditionsArticle\Dto;
 
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
+use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleDtoFaker;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
-use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
-use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use Symfony\Component\Uid\Uuid;
 
 #[CoversClass(TermsConditionsArticleDto::class), CoversClass(InfoDescriptionModelDto::class), CoversClass(TermsConditionsDto::class)]
 class TermsConditionsArticleDtoTest extends HephUnitTestCase
 {
     public function testTermsConditionsArticleDto(): void
     {
-        $termsConditionsArticleDto = TermsConditionsArticleDtoFaker::new();
+        $dto = TermsConditionsArticleDtoFaker::new();
 
-        self::assertNotNull($termsConditionsArticleDto);
+        self::assertNotNull($dto);
+        self::assertInstanceOf(TermsConditionsArticleDto::class, $dto);
 
-        self::assertInstanceOf(TermsConditionsArticleDto::class, $termsConditionsArticleDto);
-        self::assertSame('1234', $termsConditionsArticleDto->id);
-        self::assertSame('Titre test', $termsConditionsArticleDto->title);
-        self::assertSame('Article de test', $termsConditionsArticleDto->article);
-        self::assertSame('2000-03-31 10:00:00', $termsConditionsArticleDto->createdAt);
-        self::assertSame('2000-03-31 12:00:00', $termsConditionsArticleDto->updatedAt);
-
-        self::assertNotNull($termsConditionsArticleDto->termsConditions);
-        self::assertSame('1234', $termsConditionsArticleDto->termsConditions->id);
-        self::assertSame('Libelle test', $termsConditionsArticleDto->termsConditions->infoDescriptionModel->libelle);
+        self::assertSame('1234', $dto->id);
+        self::assertSame('Titre test', $dto->title);
+        self::assertSame('Article de test', $dto->article);
+        self::assertSame('2000-03-31 10:00:00', $dto->createdAt);
+        self::assertSame('2000-03-31 12:00:00', $dto->updatedAt);
     }
 
-    public function testTermsConditionsArticleDtoCollection(): void
+    public function testToListTermsConditionsArticle(): void
     {
-        $dtos = TermsConditionsArticleDtoFaker::collection(3);
+        $termsConditionsArticleMock1 = $this->createMock(TermsConditionsArticle::class);
+        $termsConditionsArticleMock1->method('id')->willReturn(Uuid::fromString('12345678-1234-5678-1234-567812345678'));
+        $termsConditionsArticleMock1->method('title')->willReturn('Titre test 1');
+        $termsConditionsArticleMock1->method('article')->willReturn('Article de test 1');
+        $termsConditionsArticleMock1->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
+        $termsConditionsArticleMock1->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
 
-        self::assertNotEmpty($dtos);
-        self::assertCount(3, $dtos);
+        $termsConditionsArticleMock2 = $this->createMock(TermsConditionsArticle::class);
+        $termsConditionsArticleMock2->method('id')->willReturn(Uuid::fromString('56781234-5678-1234-5678-123456781234'));
+        $termsConditionsArticleMock2->method('title')->willReturn('Titre test 2');
+        $termsConditionsArticleMock2->method('article')->willReturn('Article de test 2');
+        $termsConditionsArticleMock2->method('createdAt')->willReturn(new \DateTimeImmutable('2001-03-31 10:00:00'));
+        $termsConditionsArticleMock2->method('updatedAt')->willReturn(new \DateTimeImmutable('2001-03-31 12:00:00'));
 
-        foreach ($dtos as $index => $dto) {
-            self::assertInstanceOf(TermsConditionsArticleDto::class, $dto);
-            self::assertSame((string) ($index + 1), $dto->id);
-            self::assertSame('Titre test '.($index + 1), $dto->title);
-            self::assertSame('Article de test '.($index + 1), $dto->article);
-            self::assertSame('2000-03-31 10:00:00', $dto->createdAt);
-            self::assertSame('2000-03-31 12:00:00', $dto->updatedAt);
+        $entities = [$termsConditionsArticleMock1, $termsConditionsArticleMock2];
 
-            self::assertNotNull($dto->termsConditions);
-            self::assertSame('1234', $dto->termsConditions->id);
-        }
+        $dtos = TermsConditionsArticleDto::toListTermsConditionsArticle($entities);
+
+        self::assertCount(2, $dtos);
+
+        self::assertSame('12345678-1234-5678-1234-567812345678', $dtos[0]->id);
+        self::assertSame('Titre test 1', $dtos[0]->title);
+        self::assertSame('Article de test 1', $dtos[0]->article);
+        self::assertSame('2000-03-31 10:00:00', $dtos[0]->createdAt);
+        self::assertSame('2000-03-31 12:00:00', $dtos[0]->updatedAt);
+
+        self::assertSame('56781234-5678-1234-5678-123456781234', $dtos[1]->id);
+        self::assertSame('Titre test 2', $dtos[1]->title);
+        self::assertSame('Article de test 2', $dtos[1]->article);
+        self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);
+        self::assertSame('2001-03-31 12:00:00', $dtos[1]->updatedAt);
     }
 }
