@@ -96,8 +96,8 @@ up-prod: ## Start the docker hub mode prod in detached mode (no logs)
 start-prod: build up-prod ## Build and start the containers mode prod
 
 ## —— Docker other 🐳 ————————————————————————————————————————————————————————————————
-create-test-db: ## Create the test database (NOT USE by default, use sqlite for tests in cache)
-	#@$(DOCKER_COMP) exec database sh -c 'psql -U "$(POSTGRES_USER)" -d postgres -c "CREATE DATABASE $(POSTGRES_DB)_test OWNER = $(POSTGRES_USER);"'
+#create-test-db: ## Create the test database (NOT USE by default, use sqlite for tests in cache)
+	@$(DOCKER_COMP) exec database sh -c 'psql -U "$(POSTGRES_USER)" -d postgres -c "CREATE DATABASE $(POSTGRES_DB)_test OWNER = $(POSTGRES_USER);"'
 
 sh-database: ## Connect to the database container
 	@$(DOCKER_COMP) exec database sh

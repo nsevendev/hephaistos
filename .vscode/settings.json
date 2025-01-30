@@ -3,10 +3,9 @@
     {
       "previewLimit": 50,
       "server": "localhost",
-      "port": 53934,
-      "askForPassword": true,
+      "port": 5432,
       "driver": "PostgreSQL",
-      "name": "hephaistos",
+      "name": "heph",
       "database": "heph",
       "username": "heph"
     }

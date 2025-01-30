@@ -63,6 +63,20 @@ class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
         self::assertSame('description test', $found->description());
     }
 
+    public function testPersitAndFlushWithRepository(): void
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        $this->infoDescriptionModelRepository->save($infoDescriptionModel);
+
+        /** @var InfoDescriptionModel|null $found */
+        $found = $this->infoDescriptionModelRepository->find($infoDescriptionModel->id());
+
+        self::assertNotNull($found, 'InfoDescriptionModel non trouvé en base alors qu’on vient de le créer');
+        self::assertSame('libellé test', $found->libelle());
+        self::assertSame('description test', $found->description());
+    }
+
     /**
      * @throws ReflectionException
      */
