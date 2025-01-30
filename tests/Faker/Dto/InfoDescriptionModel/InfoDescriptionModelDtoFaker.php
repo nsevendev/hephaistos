@@ -20,19 +20,17 @@ class InfoDescriptionModelDtoFaker
     }
 
     /**
-     * @param int $count
-     *
      * @return InfoDescriptionModelDto[]
      */
     public static function collection(int $count = 3): array
     {
         $dtos = [];
 
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new InfoDescriptionModelDto(
                 id: (string) ($i + 1),
-                libelle: 'Libelle test ' . ($i + 1),
-                description: 'Description test ' . ($i + 1),
+                libelle: 'Libelle test '.($i + 1),
+                description: 'Description test '.($i + 1),
                 createdAt: '2000-03-31 12:00:00',
                 updatedAt: '2000-03-31 13:00:00'
             );
