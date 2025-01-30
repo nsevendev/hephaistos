@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace Heph\Entity\TermsConditionsArticle\Dto;
 
+use Heph\Entity\Shared\ValueObject\ArticleValueObject;
+use Heph\Entity\Shared\ValueObject\TitleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
-use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class TermsConditionsArticleCreateDto
+class TermsConditionsArticleCreateDto
 {
     public function __construct(
-        #[Assert\Uuid]
         private string $id,
-        #[Assert\Valid]
         private TermsConditionsCreateDto $termsConditions,
-        #[Assert\NotBlank]
-        private string $title,
-        #[Assert\NotBlank]
-        private string $article,
-        #[Assert\NotBlank]
+        private TitleValueObject $title,
+        private ArticleValueObject $article,
         private \DateTimeImmutable $createdAt,
-        #[Assert\NotBlank]
         private \DateTimeImmutable $updatedAt,
     ) {}
 
@@ -35,10 +30,10 @@ readonly class TermsConditionsArticleCreateDto
         return new self(
             id: $id,
             termsConditions: $termsConditions,
-            title: $title,
-            article: $article,
+            title: TitleValueObject::fromValue($title),
+            article: ArticleValueObject::fromValue($article),
             createdAt: $createdAt,
-            updatedAt: $updatedAt,
+            updatedAt: $updatedAt
         );
     }
 
@@ -52,12 +47,12 @@ readonly class TermsConditionsArticleCreateDto
         return $this->termsConditions;
     }
 
-    public function title(): string
+    public function title(): TitleValueObject
     {
         return $this->title;
     }
 
-    public function article(): string
+    public function article(): ArticleValueObject
     {
         return $this->article;
     }
