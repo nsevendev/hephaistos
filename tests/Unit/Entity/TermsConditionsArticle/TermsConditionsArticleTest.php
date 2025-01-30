@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heph\Tests\Unit\Entity\TermsConditionsArticle;
 
 use DateTimeImmutable;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
@@ -12,7 +13,7 @@ use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TermsConditionsArticle::class), CoversClass(TermsConditions::class)]
+#[CoversClass(TermsConditionsArticle::class), CoversClass(TermsConditions::class), CoversClass(InfoDescriptionModel::class)]
 class TermsConditionsArticleTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

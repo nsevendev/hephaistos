@@ -40,9 +40,15 @@ class TermsConditions
         $this->updatedAt = new DateTimeImmutable();
     }
 
+    /**
+     * @var Collection<int, TermsConditionsArticle> $listTermsConditionsArticle
+     */
     #[ORM\OneToMany(mappedBy: 'termsConditions', targetEntity: TermsConditionsArticle::class, cascade: ['persist', 'remove'])]
     private Collection $listTermsConditionsArticle;
 
+    /**
+     * @return Collection<int, TermsConditionsArticle>
+     */
     public function listTermsConditionsArticle(): Collection
     {
         return $this->listTermsConditionsArticle;
@@ -90,7 +96,9 @@ class TermsConditions
         $this->id = Uuid::v7();
         $this->infoDescriptionModel = $infoDescriptionModel;
         $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = $this->createdAt;
+        $this->updatedAt = $this->createdAt();
+
+        /* @var Collection<int, TermsConditionsArticle> */
         $this->listTermsConditionsArticle = new ArrayCollection();
     }
 }

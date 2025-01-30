@@ -22,7 +22,7 @@ class TermsConditionsArticleDto
     {
         return new self(
             id: (string) $data->id(),
-            termsConditions: TermsConditionsDto::fromEntity($data->TermsConditions()),
+            termsConditions: TermsConditionsDto::fromEntity($data->termsConditions()),
             title: $data->title(),
             article: $data->article(),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
