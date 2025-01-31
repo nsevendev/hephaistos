@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Heph\Entity\Schedule\Dto;
 
 use Heph\Entity\Shared\ValueObject\DayValueObject;
-use Heph\Entity\Shared\ValueObject\HoursOpenAmValueObject;
 use Heph\Entity\Shared\ValueObject\HoursCloseAmValueObject;
-use Heph\Entity\Shared\ValueObject\HoursOpenPmValueObject;
 use Heph\Entity\Shared\ValueObject\HoursClosePmValueObject;
+use Heph\Entity\Shared\ValueObject\HoursOpenAmValueObject;
+use Heph\Entity\Shared\ValueObject\HoursOpenPmValueObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ScheduleCreateDto
@@ -31,7 +31,7 @@ readonly class ScheduleCreateDto
         string $hoursOpenAm,
         string $hoursCloseAm,
         string $hoursOpenPm,
-        string $hoursClosePm
+        string $hoursClosePm,
     ): self {
         return new self(
             day: DayValueObject::fromValue($day),
