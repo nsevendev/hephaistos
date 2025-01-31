@@ -12,8 +12,10 @@ final class ScheduleFaker
     {
         return new Schedule(
             day: 'Monday',
-            hoursStart: '09:00',
-            hoursEnd: '17:00',
+            hoursOpenAm: '09:00',
+            hoursCloseAm: '12:00',
+            hoursOpenPm: '13:00',
+            hoursClosePm: '17:00',
         );
     }
 }
