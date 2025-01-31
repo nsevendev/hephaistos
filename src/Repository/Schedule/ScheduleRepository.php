@@ -15,4 +15,10 @@ class ScheduleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Schedule::class);
     }
+
+    public function save(Schedule $schedule): void
+    {
+        $this->getEntityManager()->persist($schedule);
+        $this->getEntityManager()->flush();
+    }
 }

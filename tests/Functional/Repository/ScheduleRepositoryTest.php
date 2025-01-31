@@ -59,8 +59,28 @@ class ScheduleRepositoryTest extends HephFunctionalTestCase
 
         self::assertNotNull($found, 'Schedule non trouvé en base alors qu’on vient de le créer');
         self::assertSame('Monday', $found->day());
-        self::assertSame('09:00', $found->hoursStart());
-        self::assertSame('17:00', $found->hoursEnd());
+        self::assertSame('09:00', $found->hoursOpenAm());
+        self::assertSame('12:00', $found->hoursCloseAm());
+        self::assertSame('13:00', $found->hoursOpenPm());
+        self::assertSame('17:00', $found->hoursClosePm());
+        self::assertInstanceOf(Schedule::class, $found);
+    }
+
+    public function testPersitAndFlushWithRepository(): void
+    {
+        $schedule = ScheduleFaker::new();
+
+        $this->scheduleRepository->save($schedule);
+
+        /** @var Ping|null $found */
+        $found = $this->scheduleRepository->find($schedule->id());
+
+        self::assertNotNull($found, 'Schedule non trouvé en base alors qu’on vient de le créer');
+        self::assertSame('Monday', $found->day());
+        self::assertSame('09:00', $found->hoursOpenAm());
+        self::assertSame('12:00', $found->hoursCloseAm());
+        self::assertSame('13:00', $found->hoursOpenPm());
+        self::assertSame('17:00', $found->hoursClosePm());
         self::assertInstanceOf(Schedule::class, $found);
     }
 
@@ -74,8 +94,10 @@ class ScheduleRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($schedule);
 
         $schedule->setDay('Tuesday');
-        $schedule->setHoursStart('08:00');
-        $schedule->setHoursEnd('16:00');
+        $schedule->setHoursOpenAm('07:00');
+        $schedule->setHoursCloseAm('11:00');
+        $schedule->setHoursOpenPm('14:00');
+        $schedule->setHoursClosePm('17:30');
 
         $this->persistAndFlush($schedule);
 
@@ -84,7 +106,9 @@ class ScheduleRepositoryTest extends HephFunctionalTestCase
 
         self::assertNotNull($found, 'Schedule non trouvé en base alors qu’on vient de le modifier');
         self::assertSame('Tuesday', $found->day());
-        self::assertSame('08:00', $found->hoursStart());
-        self::assertSame('16:00', $found->hoursEnd());
+        self::assertSame('07:00', $found->hoursOpenAm());
+        self::assertSame('11:00', $found->hoursCloseAm());
+        self::assertSame('14:00', $found->hoursOpenPm());
+        self::assertSame('17:30', $found->hoursClosePm());
     }
 }
