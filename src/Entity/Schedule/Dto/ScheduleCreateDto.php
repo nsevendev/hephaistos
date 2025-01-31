@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Heph\Entity\Schedule\Dto;
 
 use Heph\Entity\Shared\ValueObject\DayValueObject;
-use Heph\Entity\Shared\ValueObject\HoursEndValueObject;
-use Heph\Entity\Shared\ValueObject\HoursStartValueObject;
+use Heph\Entity\Shared\ValueObject\HoursOpenAmValueObject;
+use Heph\Entity\Shared\ValueObject\HoursCloseAmValueObject;
+use Heph\Entity\Shared\ValueObject\HoursOpenPmValueObject;
+use Heph\Entity\Shared\ValueObject\HoursClosePmValueObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ScheduleCreateDto
@@ -15,17 +17,28 @@ readonly class ScheduleCreateDto
         #[Assert\Valid]
         private DayValueObject $day,
         #[Assert\Valid]
-        private HoursStartValueObject $hoursStart,
+        private HoursOpenAmValueObject $hoursOpenAm,
         #[Assert\Valid]
-        private HoursEndValueObject $hoursEnd,
+        private HoursCloseAmValueObject $hoursCloseAm,
+        #[Assert\Valid]
+        private HoursOpenPmValueObject $hoursOpenPm,
+        #[Assert\Valid]
+        private HoursClosePmValueObject $hoursClosePm,
     ) {}
 
-    public static function new(string $day, string $hoursStart, string $hoursEnd): self
-    {
+    public static function new(
+        string $day,
+        string $hoursOpenAm,
+        string $hoursCloseAm,
+        string $hoursOpenPm,
+        string $hoursClosePm
+    ): self {
         return new self(
             day: DayValueObject::fromValue($day),
-            hoursStart: HoursStartValueObject::fromValue($hoursStart),
-            hoursEnd: HoursEndValueObject::fromValue($hoursEnd),
+            hoursOpenAm: HoursOpenAmValueObject::fromValue($hoursOpenAm),
+            hoursCloseAm: HoursCloseAmValueObject::fromValue($hoursCloseAm),
+            hoursOpenPm: HoursOpenPmValueObject::fromValue($hoursOpenPm),
+            hoursClosePm: HoursClosePmValueObject::fromValue($hoursClosePm),
         );
     }
 
@@ -34,13 +47,23 @@ readonly class ScheduleCreateDto
         return $this->day;
     }
 
-    public function hours_start(): HoursStartValueObject
+    public function hoursOpenAm(): HoursOpenAmValueObject
     {
-        return $this->hoursStart;
+        return $this->hoursOpenAm;
     }
 
-    public function hours_end(): HoursEndValueObject
+    public function hoursCloseAm(): HoursCloseAmValueObject
     {
-        return $this->hoursEnd;
+        return $this->hoursCloseAm;
+    }
+
+    public function hoursOpenPm(): HoursOpenPmValueObject
+    {
+        return $this->hoursOpenPm;
+    }
+
+    public function hoursClosePm(): HoursClosePmValueObject
+    {
+        return $this->hoursClosePm;
     }
 }
