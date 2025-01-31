@@ -20,8 +20,10 @@ class ScheduleTest extends HephUnitTestCase
         self::assertInstanceOf(Schedule::class, $schedule);
         self::assertNotNull($schedule->id());
         self::assertSame('Monday', $schedule->day());
-        self::assertSame('09:00', $schedule->hoursStart());
-        self::assertSame('17:00', $schedule->hoursEnd());
+        self::assertSame('09:00', $schedule->hoursOpenAm());
+        self::assertSame('12:00', $schedule->hoursCloseAm());
+        self::assertSame('13:00', $schedule->hoursOpenPm());
+        self::assertSame('17:00', $schedule->hoursClosePm());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->updatedAt());
     }
@@ -32,22 +34,41 @@ class ScheduleTest extends HephUnitTestCase
 
         $newDateUpdated = new DateTimeImmutable();
         $schedule->setUpdatedAt($newDateUpdated);
-
         self::assertSame($newDateUpdated, $schedule->updatedAt());
 
-        $newDayUpdate = 'Tuesday';
-        $schedule->setDay($newDayUpdate);
+        $newDay = 'Tuesday';
+        $schedule->setDay($newDay);
+        self::assertSame($newDay, $schedule->day());
 
-        self::assertSame($newDayUpdate, $schedule->day());
+        $newHoursOpenAm = '08:30';
+        $schedule->setHoursOpenAm($newHoursOpenAm);
+        self::assertSame($newHoursOpenAm, $schedule->hoursOpenAm());
 
-        $newHoursStartUpdate = '08:00';
-        $schedule->setHoursStart($newHoursStartUpdate);
+        $newHoursCloseAm = '11:30';
+        $schedule->setHoursCloseAm($newHoursCloseAm);
+        self::assertSame($newHoursCloseAm, $schedule->hoursCloseAm());
 
-        self::assertSame($newHoursStartUpdate, $schedule->hoursStart());
+        $newHoursOpenPm = '14:00';
+        $schedule->setHoursOpenPm($newHoursOpenPm);
+        self::assertSame($newHoursOpenPm, $schedule->hoursOpenPm());
 
-        $newHoursEndUpdate = '16:00';
-        $schedule->setHoursEnd($newHoursEndUpdate);
+        $newHoursClosePm = '18:00';
+        $schedule->setHoursClosePm($newHoursClosePm);
+        self::assertSame($newHoursClosePm, $schedule->hoursClosePm());
+    }
 
-        self::assertSame($newHoursEndUpdate, $schedule->hoursEnd());
+    public function testAutomaticUpdatedAtChange(): void
+    {
+        $schedule = ScheduleFaker::new();
+        $initialUpdatedAt = $schedule->updatedAt();
+
+        $schedule->setDay('Wednesday');
+        self::assertNotSame($initialUpdatedAt, $schedule->updatedAt());
+
+        $schedule->setHoursOpenAm('08:00');
+        self::assertNotSame($initialUpdatedAt, $schedule->updatedAt());
+
+        $schedule->setHoursOpenPm('14:30');
+        self::assertNotSame($initialUpdatedAt, $schedule->updatedAt());
     }
 }
