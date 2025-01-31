@@ -25,8 +25,6 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
 #[
     CoversClass(ScheduleRepository::class),
     CoversClass(Schedule::class),
-    CoversClass(Uid::class),
-    CoversClass(UidType::class),
     CoversClass(CreateScheduleCommand::class),
     CoversClass(ScheduleCreateDto::class),
     CoversClass(DayValueObject::class),
@@ -96,8 +94,8 @@ class CreateScheduleHandlerTest extends HephFunctionalTestCase
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();
         self::assertInstanceOf(CreateScheduleCommand::class, $m[0]);
-        $this->transport()->queue()->assertCount(1);
+        $this->transport('async')->queue()->assertCount(1);
         $this->transport('async')->process(1);
-        $this->transport()->queue()->assertCount(0);
+        $this->transport('async')->queue()->assertCount(0);
     }
 }
