@@ -35,31 +35,59 @@ class Schedule
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'string', name: 'hours_start', nullable: false)]
-    private string $hoursStart;
+    #[ORM\Column(type: 'string', name: 'hours_open_am', nullable: false)]
+    private string $hoursOpenAm;
 
-    public function hoursStart(): string
+    public function hoursOpenAm(): string
     {
-        return $this->hoursStart;
+        return $this->hoursOpenAm;
     }
 
-    public function setHoursStart(string $hoursStart): void
+    public function setHoursOpenAm(string $hoursOpenAm): void
     {
-        $this->hoursStart = $hoursStart;
+        $this->hoursOpenAm = $hoursOpenAm;
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    #[ORM\Column(type: 'string', name: 'hours_end', nullable: false)]
-    private string $hoursEnd;
+    #[ORM\Column(type: 'string', name: 'hours_close_am', nullable: false)]
+    private string $hoursCloseAm;
 
-    public function hoursEnd(): string
+    public function hoursCloseAm(): string
     {
-        return $this->hoursEnd;
+        return $this->hoursCloseAm;
     }
 
-    public function setHoursEnd(string $hoursEnd): void
+    public function setHoursCloseAm(string $hoursCloseAm): void
     {
-        $this->hoursEnd = $hoursEnd;
+        $this->hoursCloseAm = $hoursCloseAm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    #[ORM\Column(type: 'string', name: 'hours_open_pm', nullable: false)]
+    private string $hoursOpenPm;
+
+    public function hoursOpenPm(): string
+    {
+        return $this->hoursOpenPm;
+    }
+
+    public function setHoursOpenPm(string $hoursOpenPm): void
+    {
+        $this->hoursOpenPm = $hoursOpenPm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    #[ORM\Column(type: 'string', name: 'hours_close_pm', nullable: false)]
+    private string $hoursClosePm;
+
+    public function hoursClosePm(): string
+    {
+        return $this->hoursClosePm;
+    }
+
+    public function setHoursClosePm(string $hoursClosePm): void
+    {
+        $this->hoursClosePm = $hoursClosePm;
         $this->updatedAt = new DateTimeImmutable();
     }
 
@@ -86,13 +114,17 @@ class Schedule
 
     public function __construct(
         string $day,
-        string $hoursStart,
-        string $hoursEnd,
+        string $hoursOpenAm,
+        string $hoursCloseAm,
+        string $hoursOpenPm,
+        string $hoursClosePm,
     ) {
         $this->id = Uuid::v7();
         $this->day = $day;
-        $this->hoursStart = $hoursStart;
-        $this->hoursEnd = $hoursEnd;
+        $this->hoursOpenAm = $hoursOpenAm;
+        $this->hoursCloseAm = $hoursCloseAm;
+        $this->hoursOpenPm = $hoursOpenPm;
+        $this->hoursClosePm = $hoursClosePm;
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;
     }

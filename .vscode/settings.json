@@ -3,7 +3,7 @@
     {
       "previewLimit": 50,
       "server": "localhost",
-      "port": 5432,
+      "port": 53934,
       "driver": "PostgreSQL",
       "name": "heph",
       "database": "heph",
