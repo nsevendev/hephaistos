@@ -28,8 +28,8 @@ readonly class CreateEngineRemapHandler
     public function __invoke(CreateEngineRemapCommand $command): void
     {
         $infoDescriptionModel = new InfoDescriptionModel(
-            libelle: $command->infoDescriptionModelCreateDto->libelle(),
-            description: $command->infoDescriptionModelCreateDto->description()
+            libelle: $command->infoDescriptionModelCreateDto->libelle()->value(),
+            description: $command->infoDescriptionModelCreateDto->description()->value()
         );
 
         $this->infoDescriptionModelRepository->save($infoDescriptionModel);
