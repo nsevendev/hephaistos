@@ -6,8 +6,8 @@ namespace Heph\Entity\EngineRemap\Dto;
 
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class EngineRemapCreateDto
 {
@@ -23,7 +23,7 @@ readonly class EngineRemapCreateDto
     ) {}
 
     public static function new(
-        InfoDescriptionModel $infoDescriptionModel
+        InfoDescriptionModel $infoDescriptionModel,
     ): self {
         return new self(
             id: Uuid::v7(),
