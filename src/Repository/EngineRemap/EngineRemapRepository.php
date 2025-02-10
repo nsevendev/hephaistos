@@ -15,4 +15,10 @@ class EngineRemapRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, EngineRemap::class);
     }
+
+    public function save(EngineRemap $engineRemap): void
+    {
+        $this->getEntityManager()->persist($engineRemap);
+        $this->getEntityManager()->flush();
+    }
 }
