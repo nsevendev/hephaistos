@@ -4,42 +4,41 @@ declare(strict_types=1);
 
 namespace Heph\Entity\InfoDescriptionModel\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class InfoDescriptionModelCreateDto
 {
     public function __construct(
         #[Assert\Uuid]
-        private string $id,
+        private Uuid $id,
         #[Assert\Valid]
         private LibelleValueObject $libelle,
         #[Assert\Valid]
         private DescriptionValueObject $description,
         #[Assert\NotBlank]
-        private \DateTimeImmutable $createdAt,
+        private DateTimeImmutable $createdAt,
         #[Assert\NotBlank]
-        private \DateTimeImmutable $updatedAt,
+        private DateTimeImmutable $updatedAt,
     ) {}
 
     public static function new(
-        string $id,
         string $libelle,
         string $description,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
-            id: $id,
+            id: Uuid::v7(),
             libelle: LibelleValueObject::fromValue($libelle),
             description: DescriptionValueObject::fromValue($description),
-            createdAt: $createdAt,
-            updatedAt: $updatedAt,
+            createdAt: new DateTimeImmutable(),
+            updatedAt: new DateTimeImmutable(),
         );
     }
 
-    public function id(): string
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -54,12 +53,12 @@ readonly class InfoDescriptionModelCreateDto
         return $this->description;
     }
 
-    public function createdAt(): \DateTimeImmutable
+    public function createdAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function updatedAt(): \DateTimeImmutable
+    public function updatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }

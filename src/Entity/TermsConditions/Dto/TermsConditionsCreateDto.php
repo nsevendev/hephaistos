@@ -4,37 +4,36 @@ declare(strict_types=1);
 
 namespace Heph\Entity\TermsConditions\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class TermsConditionsCreateDto
 {
     public function __construct(
         #[Assert\Uuid]
-        private string $id,
+        private Uuid $id,
         #[Assert\Valid]
         private InfoDescriptionModelCreateDto $infoDescriptionModel,
         #[Assert\NotBlank]
-        private \DateTimeImmutable $createdAt,
+        private DateTimeImmutable $createdAt,
         #[Assert\NotBlank]
-        private \DateTimeImmutable $updatedAt,
+        private DateTimeImmutable $updatedAt,
     ) {}
 
     public static function new(
-        string $id,
         InfoDescriptionModelCreateDto $infoDescriptionModel,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
-            id: $id,
+            id: Uuid::v7(),
             infoDescriptionModel: $infoDescriptionModel,
-            createdAt: $createdAt,
-            updatedAt: $updatedAt,
+            createdAt: new DateTimeImmutable(),
+            updatedAt: new DateTimeImmutable(),
         );
     }
 
-    public function id(): string
+    public function id(): Uuid
     {
         return $this->id;
     }
@@ -44,12 +43,12 @@ readonly class TermsConditionsCreateDto
         return $this->infoDescriptionModel;
     }
 
-    public function createdAt(): \DateTimeImmutable
+    public function createdAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function updatedAt(): \DateTimeImmutable
+    public function updatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }

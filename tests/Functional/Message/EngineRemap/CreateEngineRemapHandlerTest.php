@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Functional\Message\EngineRemap;
 
-use DateTimeImmutable;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\EngineRemap\Dto\EngineRemapCreateDto;
@@ -84,7 +83,7 @@ class CreateEngineRemapHandlerTest extends HephFunctionalTestCase
     {
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = EngineRemapCreateDtoFaker::new();
-        $infoDto = new InfoDescriptionModelCreateDto('id test', new LibelleValueObject('Test Libelle'), new DescriptionValueObject('Test Description'), new DateTimeImmutable(), new DateTimeImmutable());
+        $infoDto = InfoDescriptionModelCreateDto::new('libelle test', 'description test');
         $command = new CreateEngineRemapCommand($dto, $infoDto);
         $bus->dispatch($command);
         $this->flush();

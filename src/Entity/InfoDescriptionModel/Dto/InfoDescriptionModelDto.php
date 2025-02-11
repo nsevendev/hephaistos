@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Heph\Entity\InfoDescriptionModel\Dto;
 
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Symfony\Component\Uid\Uuid;
 
 class InfoDescriptionModelDto
 {
     public function __construct(
-        public string $id,
+        public Uuid $id,
         public string $libelle,
         public string $description,
         public string $createdAt,
@@ -19,7 +20,7 @@ class InfoDescriptionModelDto
     public static function fromArray(InfoDescriptionModel $data): self
     {
         return new self(
-            id: (string) $data->id(),
+            id: Uuid::v7(),
             libelle: $data->libelle(),
             description: $data->description(),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),

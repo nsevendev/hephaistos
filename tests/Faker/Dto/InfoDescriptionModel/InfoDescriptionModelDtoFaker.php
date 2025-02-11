@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Heph\Tests\Faker\Dto\InfoDescriptionModel;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
+use Symfony\Component\Uid\Uuid;
 
 class InfoDescriptionModelDtoFaker
 {
     public static function new(): InfoDescriptionModelDto
     {
         return new InfoDescriptionModelDto(
-            id: '1234',
+            id: Uuid::v7(),
             libelle: 'Libelle test',
             description: 'Description test',
             createdAt: '2000-03-31 12:00:00',
@@ -28,7 +29,7 @@ class InfoDescriptionModelDtoFaker
 
         for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new InfoDescriptionModelDto(
-                id: (string) ($i + 1),
+                id: Uuid::v7(),
                 libelle: 'Libelle test '.($i + 1),
                 description: 'Description test '.($i + 1),
                 createdAt: '2000-03-31 12:00:00',

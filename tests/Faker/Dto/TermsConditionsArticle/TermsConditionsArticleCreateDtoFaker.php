@@ -8,18 +8,20 @@ use Heph\Entity\Shared\ValueObject\ArticleValueObject;
 use Heph\Entity\Shared\ValueObject\TitleValueObject;
 use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleCreateDto;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsCreateDtoFaker;
+use Symfony\Component\Uid\Uuid;
+use DateTimeImmutable;
 
 class TermsConditionsArticleCreateDtoFaker
 {
     public static function new(): TermsConditionsArticleCreateDto
     {
         return new TermsConditionsArticleCreateDto(
-            id: '1234',
+            id: Uuid::v7(),
             termsConditions: TermsConditionsCreateDtoFaker::new(),
             title: TitleValueObject::fromValue('titre test'),
             article: ArticleValueObject::fromValue('article test'),
-            createdAt: new \DateTimeImmutable('2000-03-31 10:00:00'),
-            updatedAt: new \DateTimeImmutable('2000-03-31 12:00:00')
+            createdAt: new DateTimeImmutable('2000-03-31 10:00:00'),
+            updatedAt: new DateTimeImmutable('2000-03-31 12:00:00')
         );
     }
 }

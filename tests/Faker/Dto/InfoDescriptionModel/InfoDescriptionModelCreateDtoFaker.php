@@ -7,17 +7,19 @@ namespace Heph\Tests\Faker\Dto\InfoDescriptionModel;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Symfony\Component\Uid\Uuid;
+use DateTimeImmutable;
 
 class InfoDescriptionModelCreateDtoFaker
 {
     public static function new(): InfoDescriptionModelCreateDto
     {
         return new InfoDescriptionModelCreateDto(
-            id: '1234',
+            id: Uuid::v7(),
             libelle: LibelleValueObject::fromValue('Libelle test'),
             description: DescriptionValueObject::fromValue('Description test'),
-            createdAt: new \DateTimeImmutable('2000-03-31 12:00:00'),
-            updatedAt: new \DateTimeImmutable('2000-03-31 13:00:00')
+            createdAt: new DateTimeImmutable('2000-03-31 12:00:00'),
+            updatedAt: new DateTimeImmutable('2000-03-31 13:00:00')
         );
     }
 }
