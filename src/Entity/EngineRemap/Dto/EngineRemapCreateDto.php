@@ -10,10 +10,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 readonly class EngineRemapCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank]
+        #[Assert\Valid]
         private InfoDescriptionModelCreateDto $infoDescriptionModel,
 
     ) {}
+
+    public static function new(string $libelle, string $description): self
+    {
+        return new self(
+            infoDescriptionModel: InfoDescriptionModelCreateDto::new(
+                $libelle,
+                $description
+            )
+        );
+    }
 
     public function infoDescriptionModel(): InfoDescriptionModelCreateDto
     {

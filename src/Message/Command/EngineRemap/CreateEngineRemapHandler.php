@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace Heph\Message\Command\EngineRemap;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\Mercure\MercurePublish;
-use Heph\Repository\EngineRemap\EngineRemapRepository;
-use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'command.bus')]
 readonly class CreateEngineRemapHandler
 {
     public function __construct(
-        private EngineRemapRepository $engineRemapRepository,
-        private InfoDescriptionModelRepository $infoDescriptionModelRepository,
+        private EntityManagerInterface $entityManager,
         private MercurePublish $mercurePublish,
     ) {}
 
@@ -31,14 +29,12 @@ readonly class CreateEngineRemapHandler
             libelle: $command->engineRemapCreateDto->infoDescriptionModel()->libelle()->value(),
             description: $command->engineRemapCreateDto->infoDescriptionModel()->description()->value()
         );
+        $this->entityManager->persist($infoDescriptionModel);
 
-        $this->infoDescriptionModelRepository->save($infoDescriptionModel);
+        $engineRemap = new EngineRemap(infoDescriptionModel: $infoDescriptionModel);
+        $this->entityManager->persist($engineRemap);
 
-        $engineRemap = new EngineRemap(
-            infoDescriptionModel: $infoDescriptionModel
-        );
-
-        $this->engineRemapRepository->save($engineRemap);
+        $this->entityManager->flush();
 
         $engineRemapDto = EngineRemapDto::fromArray($engineRemap);
 
