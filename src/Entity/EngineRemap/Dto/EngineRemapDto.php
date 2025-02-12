@@ -26,22 +26,6 @@ class EngineRemapDto
     }
 
     /**
-     * @param EngineRemap[] $data
-     *
-     * @return EngineRemapDto[]
-     */
-    public static function toListEngineRemap(array $data): array
-    {
-        $listEngineRemap = [];
-
-        foreach ($data as $engineRemap) {
-            $listEngineRemap[] = self::fromArray($engineRemap);
-        }
-
-        return $listEngineRemap;
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function toArray(): array

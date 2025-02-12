@@ -4,44 +4,32 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\EngineRemap\Dto;
 
-use DateTimeImmutable;
 use Heph\Entity\EngineRemap\Dto\EngineRemapCreateDto;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(EngineRemapCreateDto::class)]
+#[CoversClass(EngineRemapCreateDto::class), CoversClass(InfoDescriptionModelCreateDto::class), CoversClass(LibelleValueObject::class), CoversClass(DescriptionValueObject::class),]
 class EngineRemapCreateDtoTest extends HephUnitTestCase
 {
     public function testEngineRemapCreateDto(): void
     {
-        $infoDescriptionModel = $this->createMock(InfoDescriptionModel::class);
-        $engineRemapDto = new EngineRemapCreateDto(
-            id: Uuid::v7(),
-            infoDescriptionModel: $infoDescriptionModel,
-            createdAt: new DateTimeImmutable(),
-            updatedAt: new DateTimeImmutable()
-        );
+        $infoDescriptionModel = InfoDescriptionModelCreateDto::new('libelle test', 'description test');
+        $engineRemapDto = new EngineRemapCreateDto($infoDescriptionModel);
 
         self::assertNotNull($engineRemapDto);
         self::assertInstanceOf(EngineRemapCreateDto::class, $engineRemapDto);
-        self::assertInstanceOf(Uuid::class, $engineRemapDto->id());
-        self::assertInstanceOf(InfoDescriptionModel::class, $engineRemapDto->infoDescriptionModel());
-        self::assertInstanceOf(DateTimeImmutable::class, $engineRemapDto->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $engineRemapDto->updatedAt());
+        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel());
     }
 
     public function testEngineRemapCreateDtoWithFunctionNew(): void
     {
-        $infoDescriptionModel = $this->createMock(InfoDescriptionModel::class);
-        $engineRemapDto = EngineRemapCreateDto::new($infoDescriptionModel);
+        $engineRemapDto = EngineRemapCreateDto::new('libelle test', 'description test');
 
         self::assertNotNull($engineRemapDto);
         self::assertInstanceOf(EngineRemapCreateDto::class, $engineRemapDto);
-        self::assertInstanceOf(Uuid::class, $engineRemapDto->id());
-        self::assertInstanceOf(InfoDescriptionModel::class, $engineRemapDto->infoDescriptionModel());
-        self::assertInstanceOf(DateTimeImmutable::class, $engineRemapDto->createdAt());
-        self::assertInstanceOf(DateTimeImmutable::class, $engineRemapDto->updatedAt());
+        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel());
     }
 }
