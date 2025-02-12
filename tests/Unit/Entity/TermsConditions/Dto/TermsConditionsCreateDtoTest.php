@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
@@ -13,7 +14,6 @@ use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsCreateDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Uid\Uuid;
-use DateTimeImmutable;
 
 #[CoversClass(TermsConditionsCreateDto::class), CoversClass(InfoDescriptionModelCreateDto::class), CoversClass(LibelleValueObject::class), CoversClass(DescriptionValueObject::class)]
 class TermsConditionsCreateDtoTest extends HephUnitTestCase

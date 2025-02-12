@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Faker\Dto\InfoDescriptionModel;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Symfony\Component\Uid\Uuid;
-use DateTimeImmutable;
 
 class InfoDescriptionModelCreateDtoFaker
 {

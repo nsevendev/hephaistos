@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heph\Controller\Api\EngineRemap;
 
 use Heph\Entity\EngineRemap\Dto\EngineRemapCreateDto;
-use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\EngineRemap\EngineRemapInvalidArgumentException;
 use Heph\Infrastructure\Controller\AbstractHephController;
@@ -40,16 +39,10 @@ class CreateEngineRemap extends AbstractHephController
                 errors: $errors
             )
         );
-
-        $infoDescriptionDto = InfoDescriptionModelCreateDto::new(
-            libelle: $dto->infoDescriptionModel()->libelle(),
-            description: $dto->infoDescriptionModel()->description()
-        );
-
+        
         $commandBus->dispatch(
             new CreateEngineRemapCommand(
                 engineRemapCreateDto: $dto,
-                infoDescriptionModelCreateDto: $infoDescriptionDto
             )
         );
 

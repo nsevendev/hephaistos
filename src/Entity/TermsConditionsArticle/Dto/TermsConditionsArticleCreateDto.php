@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heph\Entity\TermsConditionsArticle\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\Shared\ValueObject\ArticleValueObject;
 use Heph\Entity\Shared\ValueObject\TitleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
 use Symfony\Component\Uid\Uuid;
-use DateTimeImmutable;
 
 class TermsConditionsArticleCreateDto
 {
@@ -31,8 +31,8 @@ class TermsConditionsArticleCreateDto
             termsConditions: $termsConditions,
             title: TitleValueObject::fromValue($title),
             article: ArticleValueObject::fromValue($article),
-            createdAt: new DateTimeImmutable,
-            updatedAt: new DateTimeImmutable
+            createdAt: new DateTimeImmutable(),
+            updatedAt: new DateTimeImmutable()
         );
     }
 

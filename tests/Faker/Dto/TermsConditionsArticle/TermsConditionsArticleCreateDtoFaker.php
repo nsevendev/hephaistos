@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Faker\Dto\TermsConditionsArticle;
 
+use DateTimeImmutable;
 use Heph\Entity\Shared\ValueObject\ArticleValueObject;
 use Heph\Entity\Shared\ValueObject\TitleValueObject;
 use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleCreateDto;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsCreateDtoFaker;
 use Symfony\Component\Uid\Uuid;
-use DateTimeImmutable;
 
 class TermsConditionsArticleCreateDtoFaker
 {
