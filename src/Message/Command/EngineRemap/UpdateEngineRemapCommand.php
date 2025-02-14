@@ -9,6 +9,6 @@ use Heph\Entity\EngineRemap\Dto\EngineRemapUpdateDto;
 class UpdateEngineRemapCommand
 {
     public function __construct(
-        public readonly EngineRemapUpdateDto $engineRemapUpdateDto
+        public readonly EngineRemapUpdateDto $engineRemapUpdateDto,
     ) {}
 }
