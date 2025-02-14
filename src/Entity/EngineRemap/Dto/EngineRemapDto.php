@@ -26,10 +26,6 @@ class EngineRemapDto
         );
     }
 
-    /**
-     * @param EngineRemap $data
-     * @return self
-     */
     public static function fromEntity(EngineRemap $data): self
     {
         return new self(

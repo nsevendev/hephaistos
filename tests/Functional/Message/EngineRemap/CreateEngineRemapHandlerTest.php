@@ -10,6 +10,7 @@ use Heph\Entity\EngineRemap\Dto\EngineRemapCreateDto;
 use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
@@ -35,7 +36,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(InfoDescriptionModel::class),
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleValueObject::class),
-    CoversClass(InfoDescriptionModelRepository::class)
+    CoversClass(InfoDescriptionModelRepository::class),
+    CoversClass(InfoDescriptionModelDto::class)
 ]
 class CreateEngineRemapHandlerTest extends HephFunctionalTestCase
 {

@@ -14,9 +14,6 @@ class GetFirstEngineRemapHandler
 {
     public function __construct(private EngineRemapRepository $engineRemapRepository) {}
 
-    /**
-     * @return EngineRemapDto|null
-     */
     public function __invoke(GetFirstEngineRemapQuery $query): ?EngineRemapDto
     {
         /** @var EngineRemap|null $firstEngineRemap */
@@ -25,4 +22,3 @@ class GetFirstEngineRemapHandler
         return $firstEngineRemap ? EngineRemapDto::fromEntity($firstEngineRemap) : null;
     }
 }
-

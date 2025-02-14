@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heph\Entity\InfoDescriptionModel\Dto;
 
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Symfony\Component\Uid\Uuid;
 
 class InfoDescriptionModelDto
 {
@@ -28,10 +27,6 @@ class InfoDescriptionModelDto
         );
     }
 
-    /**
-     * @param InfoDescriptionModel $data
-     * @return self
-     */
     public static function fromEntity(InfoDescriptionModel $data): self
     {
         return new self(
