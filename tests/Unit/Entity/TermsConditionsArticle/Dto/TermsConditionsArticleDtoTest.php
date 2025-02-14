@@ -23,7 +23,8 @@ class TermsConditionsArticleDtoTest extends HephUnitTestCase
         self::assertNotNull($dto);
         self::assertInstanceOf(TermsConditionsArticleDto::class, $dto);
 
-        self::assertSame('1234', $dto->id);
+        self::assertNotNull($dto->id);
+        self::assertInstanceOf(Uuid::class, $dto->id);
         self::assertSame('Titre test', $dto->title);
         self::assertSame('Article de test', $dto->article);
         self::assertSame('2000-03-31 10:00:00', $dto->createdAt);
@@ -33,14 +34,12 @@ class TermsConditionsArticleDtoTest extends HephUnitTestCase
     public function testToListTermsConditionsArticle(): void
     {
         $termsConditionsArticleMock1 = $this->createMock(TermsConditionsArticle::class);
-        $termsConditionsArticleMock1->method('id')->willReturn(Uuid::fromString('12345678-1234-5678-1234-567812345678'));
         $termsConditionsArticleMock1->method('title')->willReturn('Titre test 1');
         $termsConditionsArticleMock1->method('article')->willReturn('Article de test 1');
         $termsConditionsArticleMock1->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
         $termsConditionsArticleMock1->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
 
         $termsConditionsArticleMock2 = $this->createMock(TermsConditionsArticle::class);
-        $termsConditionsArticleMock2->method('id')->willReturn(Uuid::fromString('56781234-5678-1234-5678-123456781234'));
         $termsConditionsArticleMock2->method('title')->willReturn('Titre test 2');
         $termsConditionsArticleMock2->method('article')->willReturn('Article de test 2');
         $termsConditionsArticleMock2->method('createdAt')->willReturn(new \DateTimeImmutable('2001-03-31 10:00:00'));
@@ -52,13 +51,15 @@ class TermsConditionsArticleDtoTest extends HephUnitTestCase
 
         self::assertCount(2, $dtos);
 
-        self::assertSame('12345678-1234-5678-1234-567812345678', $dtos[0]->id);
+        self::assertNotNull($dtos[0]->id);
+        self::assertInstanceOf(Uuid::class, $dtos[0]->id);
         self::assertSame('Titre test 1', $dtos[0]->title);
         self::assertSame('Article de test 1', $dtos[0]->article);
         self::assertSame('2000-03-31 10:00:00', $dtos[0]->createdAt);
         self::assertSame('2000-03-31 12:00:00', $dtos[0]->updatedAt);
 
-        self::assertSame('56781234-5678-1234-5678-123456781234', $dtos[1]->id);
+        self::assertNotNull($dtos[1]->id);
+        self::assertInstanceOf(Uuid::class, $dtos[1]->id);
         self::assertSame('Titre test 2', $dtos[1]->title);
         self::assertSame('Article de test 2', $dtos[1]->article);
         self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);

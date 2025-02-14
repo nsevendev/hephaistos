@@ -11,37 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 readonly class InfoDescriptionModelCreateDto
 {
     public function __construct(
-        #[Assert\Uuid]
-        private string $id,
         #[Assert\Valid]
         private LibelleValueObject $libelle,
         #[Assert\Valid]
         private DescriptionValueObject $description,
-        #[Assert\NotBlank]
-        private \DateTimeImmutable $createdAt,
-        #[Assert\NotBlank]
-        private \DateTimeImmutable $updatedAt,
     ) {}
 
     public static function new(
-        string $id,
         string $libelle,
         string $description,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt,
     ): self {
         return new self(
-            id: $id,
             libelle: LibelleValueObject::fromValue($libelle),
             description: DescriptionValueObject::fromValue($description),
-            createdAt: $createdAt,
-            updatedAt: $updatedAt,
         );
-    }
-
-    public function id(): string
-    {
-        return $this->id;
     }
 
     public function libelle(): LibelleValueObject
@@ -52,15 +35,5 @@ readonly class InfoDescriptionModelCreateDto
     public function description(): DescriptionValueObject
     {
         return $this->description;
-    }
-
-    public function createdAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function updatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 }

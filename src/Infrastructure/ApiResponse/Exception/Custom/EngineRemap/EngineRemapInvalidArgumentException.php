@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure;
+namespace Heph\Infrastructure\ApiResponse\Exception\Custom\EngineRemap;
 
 use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Symfony\Component\HttpFoundation\Response;
 
-class MercureInvalidArgumentException extends AbstractApiResponseException
+class EngineRemapInvalidArgumentException extends AbstractApiResponseException
 {
     /**
      * @param array<Error>|null $errors
      */
     public function __construct(
         string $getMessage = '',
-        int $statusCode = Response::HTTP_BAD_REQUEST,
+        int $statusCode = 422,
         ?array $errors = null,
     ) {
         $statusTexts = Response::$statusTexts;
