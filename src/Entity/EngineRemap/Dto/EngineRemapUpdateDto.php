@@ -21,6 +21,9 @@ class EngineRemapUpdateDto
         return $this->description;
     }
 
+    /**
+     * @param array<string, string|null> $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(

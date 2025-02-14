@@ -6,8 +6,8 @@ namespace Heph\Tests\Functional\Message\EngineRemap;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\EngineRemap\Dto\EngineRemapUpdateDto;
+use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapHandler;
@@ -22,7 +22,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(EngineRemap::class),
     CoversClass(UpdateEngineRemapCommand::class),
     CoversClass(UpdateEngineRemapHandler::class),
-    CoversClass(EngineRemapUpdateDto::class)
+    CoversClass(EngineRemapUpdateDto::class),
+    CoversClass(InfoDescriptionModel::class)
 ]
 class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
 {
@@ -42,7 +43,7 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $this->entityManager->getConnection()->beginTransaction();
         $this->repository = $this->entityManager->getRepository(EngineRemap::class);
 
-        $engineRemap = new EngineRemap(new InfoDescriptionModel("libelle avant update", "description avant update"));
+        $engineRemap = new EngineRemap(new InfoDescriptionModel('libelle avant update', 'description avant update'));
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
     }
@@ -77,7 +78,7 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $command = new UpdateEngineRemapCommand($dto);
         $bus->dispatch($command);
         $this->flush();
-        
+
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();
         self::assertInstanceOf(UpdateEngineRemapCommand::class, $m[0]);
@@ -86,11 +87,11 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
 
         $engineRemap = $this->repository->findFirst();
         $info = $engineRemap->infoDescriptionModel();
-        
-        if ($dto->libelle() !== null) {
+
+        if (null !== $dto->libelle()) {
             self::assertEquals($dto->libelle(), $info->libelle());
         }
-        if ($dto->description() !== null) {
+        if (null !== $dto->description()) {
             self::assertEquals($dto->description(), $info->description());
         }
 
