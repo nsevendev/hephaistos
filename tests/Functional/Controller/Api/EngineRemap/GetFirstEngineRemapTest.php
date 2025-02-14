@@ -7,6 +7,8 @@ namespace Heph\Tests\Functional\Controller\Api\EngineRemap;
 use Heph\Controller\Api\EngineRemap\GetFirstEngineRemap;
 use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -36,7 +38,9 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(HephSerializer::class),
     CoversClass(GetFirstEngineRemapHandler::class),
     CoversClass(EngineRemapRepository::class),
-    CoversClass(EngineRemap::class)
+    CoversClass(EngineRemap::class),
+    CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(InfoDescriptionModel::class)
 ]
 class GetFirstEngineRemapTest extends HephFunctionalTestCase
 {
@@ -84,14 +88,17 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
         self::assertJson($content);
 
         $response = json_decode($content, true);
-        self::assertArrayHasKey('data', $response);
-        self::assertNotEmpty($response['data']);
+        self::assertArrayHasKey('statusCode', $response);
+        self::assertSame(200, $response['statusCode']);  // Vérification du statusCode
+        self::assertSame('Success', $response['message']);
 
-        $retrievedEngineRemap = $response['data'][0];
-        self::assertSame(200, $retrievedEngineRemap['statusCode']);
-        self::assertSame('Success', $retrievedEngineRemap['message']);
+        $retrievedEngineRemap = $response['data'];
+        self::assertArrayHasKey('id', $retrievedEngineRemap);
+        self::assertArrayHasKey('infoDescriptionModel', $retrievedEngineRemap);
+        self::assertArrayHasKey('createdAt', $retrievedEngineRemap);
+        self::assertArrayHasKey('updatedAt', $retrievedEngineRemap);
 
         $entityManager->rollback();
-        
+
     }
 }
