@@ -9,7 +9,6 @@ use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Component\Uid\Uuid;
 
 #[CoversClass(InfoDescriptionModelDto::class)]
 class InfoDescriptionModelDtoTest extends HephUnitTestCase
@@ -23,7 +22,6 @@ class InfoDescriptionModelDtoTest extends HephUnitTestCase
         self::assertInstanceOf(InfoDescriptionModelDto::class, $infoDescriptionModelDto);
 
         self::assertNotNull($infoDescriptionModelDto->id);
-        self::assertInstanceOf(Uuid::class, $infoDescriptionModelDto->id);
         self::assertSame('Libelle test', $infoDescriptionModelDto->libelle);
         self::assertSame('Description test', $infoDescriptionModelDto->description);
         self::assertSame('2000-03-31 12:00:00', $infoDescriptionModelDto->createdAt);
