@@ -20,4 +20,12 @@ class EngineRemapUpdateDto
     {
         return $this->description;
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            libelle: $data['libelle'] ?? null,
+            description: $data['description'] ?? null
+        );
+    }
 }
