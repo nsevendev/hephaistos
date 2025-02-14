@@ -12,7 +12,7 @@ class InfoDescriptionModelDtoFaker
     public static function new(): InfoDescriptionModelDto
     {
         return new InfoDescriptionModelDto(
-            id: Uuid::v7(),
+            id: Uuid::v7()->toRfc4122(),
             libelle: 'Libelle test',
             description: 'Description test',
             createdAt: '2000-03-31 12:00:00',
@@ -29,7 +29,7 @@ class InfoDescriptionModelDtoFaker
 
         for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new InfoDescriptionModelDto(
-                id: Uuid::v7(),
+                id: Uuid::v7()->toRfc4122(),
                 libelle: 'Libelle test '.($i + 1),
                 description: 'Description test '.($i + 1),
                 createdAt: '2000-03-31 12:00:00',
