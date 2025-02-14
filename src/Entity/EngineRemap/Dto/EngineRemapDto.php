@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Heph\Entity\EngineRemap\Dto;
 
 use Heph\Entity\EngineRemap\EngineRemap;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 
 class EngineRemapDto
 {
     public function __construct(
         public string $id,
-        public string $infoDescriptionModelId,
+        public InfoDescriptionModelDto $infoDescriptionModel,
         public string $createdAt,
         public string $updatedAt,
     ) {}
@@ -19,7 +20,7 @@ class EngineRemapDto
     {
         return new self(
             id: (string) $data->id(),
-            infoDescriptionModelId: (string) $data->infoDescriptionModel()->id(),
+            infoDescriptionModel: InfoDescriptionModelDto::fromEntity($data->infoDescriptionModel()),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
@@ -33,7 +34,7 @@ class EngineRemapDto
     {
         return new self(
             id: (string) $data->id(),
-            infoDescriptionModelId: (string) $data->infoDescriptionModel()->id(),
+            infoDescriptionModel: InfoDescriptionModelDto::fromEntity($data->infoDescriptionModel()),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
@@ -46,7 +47,7 @@ class EngineRemapDto
     {
         return [
             'id' => $this->id,
-            'infoDescriptionModelId' => $this->infoDescriptionModelId,
+            'infoDescriptionModel' => $this->infoDescriptionModel,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
         ];

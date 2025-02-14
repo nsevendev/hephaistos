@@ -17,7 +17,7 @@ class GetFirstEngineRemapHandler
     /**
      * @return EngineRemapDto|null
      */
-    public function __invoke(): ?EngineRemapDto
+    public function __invoke(GetFirstEngineRemapQuery $query): ?EngineRemapDto
     {
         /** @var EngineRemap|null $firstEngineRemap */
         $firstEngineRemap = $this->engineRemapRepository->findFirst();
