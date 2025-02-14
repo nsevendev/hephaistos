@@ -14,7 +14,7 @@ class EngineRemapNotFoundException extends AbstractApiResponseException
      * @param array<Error>|null $errors
      */
     public function __construct(
-        string $getMessage = 'EngineRemap non trouvé',
+        string $getMessage = '',
         int $statusCode = Response::HTTP_NOT_FOUND,
         ?array $errors = null,
     ) {
