@@ -6,13 +6,14 @@ namespace Heph\Tests\Faker\Dto\TermsConditionsArticle;
 
 use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsDtoFaker;
+use Symfony\Component\Uid\Uuid;
 
 class TermsConditionsArticleDtoFaker
 {
     public static function new(): TermsConditionsArticleDto
     {
         return new TermsConditionsArticleDto(
-            id: '1234',
+            id: Uuid::v7(),
             termsConditions: TermsConditionsDtoFaker::new(),
             title: 'Titre test',
             article: 'Article de test',
@@ -30,7 +31,7 @@ class TermsConditionsArticleDtoFaker
 
         for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new TermsConditionsArticleDto(
-                id: (string) ($i + 1),
+                id: Uuid::v7(),
                 termsConditions: TermsConditionsDtoFaker::new(),
                 title: 'Titre test '.($i + 1),
                 article: 'Article de test '.($i + 1),

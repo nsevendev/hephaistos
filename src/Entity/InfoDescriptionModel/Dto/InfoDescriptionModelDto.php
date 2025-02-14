@@ -27,6 +27,17 @@ class InfoDescriptionModelDto
         );
     }
 
+    public static function fromEntity(InfoDescriptionModel $data): self
+    {
+        return new self(
+            id: (string) $data->id(),
+            libelle: $data->libelle(),
+            description: $data->description(),
+            createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
+            updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
+        );
+    }
+
     /**
      * @param InfoDescriptionModel[] $data
      *
