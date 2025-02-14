@@ -8,7 +8,7 @@ class EngineRemapUpdateDto
 {
     public function __construct(
         private readonly ?string $libelle,
-        private readonly ?string $description
+        private readonly ?string $description,
     ) {}
 
     public function libelle(): ?string
@@ -19,13 +19,5 @@ class EngineRemapUpdateDto
     public function description(): ?string
     {
         return $this->description;
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            libelle: $data['libelle'] ?? null,
-            description: $data['description'] ?? null
-        );
     }
 }
