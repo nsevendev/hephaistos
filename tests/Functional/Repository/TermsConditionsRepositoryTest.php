@@ -74,7 +74,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         /** @var TermsConditions|null $found */
         $found = $this->termsConditionsRepository->find($termsConditions->id());
         self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le créer');
-        self::assertSame('libellé test', $found->infoDescriptionModel()->libelle());
+        self::assertSame('libelle test', $found->infoDescriptionModel()->libelle());
         self::assertSame('description test', $found->infoDescriptionModel()->description());
     }
 
@@ -88,7 +88,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($termsConditions);
 
         $infoDescriptionModel = $termsConditions->infoDescriptionModel();
-        $infoDescriptionModel->setLibelle('Nouveau libellé');
+        $infoDescriptionModel->setLibelle('Nouveau libelle');
         $infoDescriptionModel->setDescription('Nouvelle description');
 
         $this->persistAndFlush($termsConditions);
@@ -98,7 +98,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
 
         // Vérifications
         self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle());
+        self::assertSame('Nouveau libelle', $found->infoDescriptionModel()->libelle());
         self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
     }
 }

@@ -4,31 +4,26 @@ declare(strict_types=1);
 
 namespace Heph\Entity\EngineRemap\Dto;
 
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class EngineRemapUpdateDto
 {
     public function __construct(
-        private readonly ?string $libelle,
-        private readonly ?string $description,
+        #[Assert\Valid]
+        private LibelleValueObject $libelle,
+        #[Assert\Valid]
+        private DescriptionValueObject $description,
     ) {}
 
-    public function libelle(): ?string
+    public function libelle(): LibelleValueObject
     {
         return $this->libelle;
     }
 
-    public function description(): ?string
+    public function description(): DescriptionValueObject
     {
         return $this->description;
-    }
-
-    /**
-     * @param array<string, string|null> $data
-     */
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            libelle: $data['libelle'] ?? null,
-            description: $data['description'] ?? null
-        );
     }
 }

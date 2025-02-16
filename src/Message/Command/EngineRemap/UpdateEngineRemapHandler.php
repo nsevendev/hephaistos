@@ -25,12 +25,8 @@ class UpdateEngineRemapHandler
         }
 
         $info = $engineRemap->infoDescriptionModel();
-        if (null !== $command->engineRemapUpdateDto->libelle()) {
-            $info->setLibelle($command->engineRemapUpdateDto->libelle());
-        }
-        if (null !== $command->engineRemapUpdateDto->description()) {
-            $info->setDescription($command->engineRemapUpdateDto->description());
-        }
+        $info->setLibelle($command->engineRemapUpdateDto->libelle()->value());
+        $info->setDescription($command->engineRemapUpdateDto->description()->value());
 
         $this->entityManager->persist($info);
         $this->entityManager->flush();

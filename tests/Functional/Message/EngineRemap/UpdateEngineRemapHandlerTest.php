@@ -9,10 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\EngineRemap\Dto\EngineRemapUpdateDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapHandler;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Heph\Tests\Faker\Dto\EngineRemap\EngineRemapUpdateDtoFaker;
+use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -23,6 +26,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(UpdateEngineRemapCommand::class),
     CoversClass(UpdateEngineRemapHandler::class),
     CoversClass(EngineRemapUpdateDto::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleValueObject::class),
     CoversClass(InfoDescriptionModel::class)
 ]
 class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
@@ -41,11 +46,8 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         self::bootKernel();
         $this->entityManager = self::getEntityManager();
         $this->entityManager->getConnection()->beginTransaction();
-        $this->repository = $this->entityManager->getRepository(EngineRemap::class);
 
-        $engineRemap = new EngineRemap(new InfoDescriptionModel('libelle avant update', 'description avant update'));
-        $this->entityManager->persist($engineRemap);
-        $this->entityManager->flush();
+        $this->repository = $this->entityManager->getRepository(EngineRemap::class);
     }
 
     /**
@@ -54,6 +56,7 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
     protected function tearDown(): void
     {
         $conn = $this->getEntityManager()->getConnection();
+
         if ($conn->isTransactionActive()) {
             $conn->rollBack();
         }
@@ -71,8 +74,12 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
     /**
      * @throws Exception
      */
-    public function testHandlerProcessesUpdateMessage(): void
+    public function testUpdateEngineRemap(): void
     {
+        $engineRemap = EngineRemapFaker::new();
+        $this->entityManager->persist($engineRemap);
+        $this->entityManager->flush();
+
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = EngineRemapUpdateDtoFaker::new();
         $command = new UpdateEngineRemapCommand($dto);
@@ -80,21 +87,14 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $this->flush();
 
         $this->transport('async')->queue()->assertNotEmpty();
-        $m = $this->transport('async')->queue()->messages();
-        self::assertInstanceOf(UpdateEngineRemapCommand::class, $m[0]);
         $this->transport('async')->queue()->assertCount(1);
         $this->transport('async')->process(1);
+        $this->transport('async')->queue()->assertCount(0);
 
         $engineRemap = $this->repository->findFirst();
         $info = $engineRemap->infoDescriptionModel();
 
-        if (null !== $dto->libelle()) {
-            self::assertEquals($dto->libelle(), $info->libelle());
-        }
-        if (null !== $dto->description()) {
-            self::assertEquals($dto->description(), $info->description());
-        }
-
-        $this->transport('async')->queue()->assertCount(0);
+        self::assertEquals($dto->libelle()->value(), $info->libelle());
+        self::assertEquals($dto->description(), $info->description());
     }
 }

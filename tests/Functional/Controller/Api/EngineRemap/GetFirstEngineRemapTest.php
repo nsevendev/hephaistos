@@ -53,6 +53,14 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
 
     public function testInvokeReturnsExpectedResponse(): void
     {
+        $entityManager = $this->getEntityManager();
+        $entityManager->getConnection()->beginTransaction();
+
+        $engineRemap = EngineRemapFaker::new();
+
+        $entityManager->persist($engineRemap);
+        $entityManager->flush();
+
         $this->client->request('GET', '/api/engine-remap');
 
         $content = $this->client->getResponse()->getContent();
