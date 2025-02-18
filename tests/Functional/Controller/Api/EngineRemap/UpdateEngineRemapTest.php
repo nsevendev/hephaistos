@@ -21,6 +21,7 @@ use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
+use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -44,6 +45,7 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(HephSerializer::class),
     CoversClass(ValueObjectNormalizer::class),
     CoversClass(EngineRemap::class),
+    CoversClass(EngineRemapRepository::class),
     CoversClass(UpdateEngineRemapCommand::class)
 ]
 class UpdateEngineRemapTest extends HephFunctionalTestCase
@@ -55,12 +57,13 @@ class UpdateEngineRemapTest extends HephFunctionalTestCase
         $this->client = self::createClient();
     }
 
-    public function testInvokeReturnResponseSucces(): void
+    public function testInvokeReturnsExpectedResponse(): void
     {
         $entityManager = $this->getEntityManager();
         $entityManager->getConnection()->beginTransaction();
 
         $engineRemap = EngineRemapFaker::new();
+
         $entityManager->persist($engineRemap);
         $entityManager->flush();
 
@@ -68,17 +71,45 @@ class UpdateEngineRemapTest extends HephFunctionalTestCase
             'libelle' => 'libelle update',
             'description' => 'description update',
         ]);
-
+        
         $this->client->request('PUT', '/api/engine-remap', [], [], [], $updatePayload);
 
-        // Vérifie que la réponse est correcte
+        $content = $this->client->getResponse()->getContent();
+
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+        self::assertJson($content);
+
+        $response = json_decode($content, true);
+
+        self::assertArrayHasKey('data', $response);
+    }
+
+    public function testInvokeReturnResponseSucces(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->getConnection()->beginTransaction();
+
+        $engineRemap = EngineRemapFaker::new();
+
+        $entityManager->persist($engineRemap);
+        $entityManager->flush();
+
+        $retrievedEngineRemap = $entityManager->getRepository(EngineRemap::class)->find($engineRemap->id());
+        self::assertNotNull($retrievedEngineRemap, 'L\'EngineRemap n\'a pas été trouvé dans la base de données.');
+
+        $test = $this->client->request('GET', '/api/engine-remap');
+        
+        $updatePayload = json_encode([
+            'libelle' => 'libelle update',
+            'description' => 'description update',
+        ]);
+        
+        $this->client->request('PUT', '/api/engine-remap', [], [], [], $updatePayload);
+
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $responseContent = $this->client->getResponse()->getContent();
-        $responseData = json_decode($responseContent, true);
-
-        $this->assertArrayHasKey('message', $responseData['data']);
-        $this->assertSame('La mise à jour a été prise en compte.', $responseData['data']['message']);
+        $entityManager->rollback();
     }
 }

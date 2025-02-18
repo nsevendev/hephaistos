@@ -17,6 +17,14 @@ class EngineRemapUpdateDto
         private DescriptionValueObject $description,
     ) {}
 
+    public static function new(string $libelle, string $description): self
+    {
+        return new self(
+            libelle: LibelleValueObject::fromValue($libelle),
+            description: DescriptionValueObject::fromValue($description),
+        );
+    }
+
     public function libelle(): LibelleValueObject
     {
         return $this->libelle;

@@ -79,6 +79,8 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $engineRemap = EngineRemapFaker::new();
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
+        $test = $this->repository->findFirst();
+        var_dump("Avant update", $test);
 
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = EngineRemapUpdateDtoFaker::new();
@@ -91,8 +93,9 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $this->transport('async')->process(1);
         $this->transport('async')->queue()->assertCount(0);
 
-        $engineRemap = $this->repository->findFirst();
-        $info = $engineRemap->infoDescriptionModel();
+        $firstEngineRemap = $this->repository->findFirst();
+        var_dump("Aprés update", $firstEngineRemap);
+        $info = $firstEngineRemap->infoDescriptionModel();
 
         self::assertEquals($dto->libelle()->value(), $info->libelle());
         self::assertEquals($dto->description(), $info->description());
