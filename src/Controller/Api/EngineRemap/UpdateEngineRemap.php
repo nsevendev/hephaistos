@@ -39,7 +39,9 @@ class UpdateEngineRemap extends AbstractHephController
                 errors: $errors
             )
         );
+        var_dump("LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : ", $dto);
 
+        var_dump('Message envoyé : ', $dto);
         $commandBus->dispatch(
             new UpdateEngineRemapCommand(
                 engineRemapUpdateDto: $dto,

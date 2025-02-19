@@ -85,7 +85,7 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
         $entityManager->flush();
 
         $retrievedEngineRemap = $entityManager->getRepository(EngineRemap::class)->find($engineRemap->id());
-        self::assertNotNull($retrievedEngineRemap, 'L\'EngineRemap n\'a pas été trouvé dans la base de données.');
+        self::assertNotNull($retrievedEngineRemap, 'Entity non trouvée en bdd.');
 
         $this->client->request('GET', '/api/engine-remap');
 
