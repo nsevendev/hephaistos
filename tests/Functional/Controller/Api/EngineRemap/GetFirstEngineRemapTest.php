@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Functional\Controller\Api\EngineRemap;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\EngineRemap\GetFirstEngineRemap;
 use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
@@ -45,21 +46,62 @@ use Symfony\Component\HttpFoundation\Response;
 class GetFirstEngineRemapTest extends HephFunctionalTestCase
 {
     private KernelBrowser $client;
+    private EntityManagerInterface $entityManager;
 
-    public function setUp(): void
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
     {
-        $this->client = self::createClient();
+        $this->client = $this->createClient();
+        $this->entityManager = $this->getEntityManager();
+        $this->entityManager->getConnection()->beginTransaction();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function tearDown(): void
+    {
+        $conn = $this->entityManager->getConnection();
+        if ($conn->isTransactionActive()) {
+            $conn->rollBack();
+        }
+
+        parent::tearDown();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testDoctrineConfiguration(): void
+    {
+        $connection = $this->entityManager->getConnection();
+        self::assertTrue($connection->isConnected(), 'La connexion à la base de données est inactive');
+    }
+
+    public function testRetrieveFirstEngineRemapWithEmptyBdd(): void
+    {
+        $this->client->request('GET', '/api/engine-remap');
+
+        $content = $this->client->getResponse()->getContent();
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+        self::assertJson($content);
+
+        $response = json_decode($content, true);
+        self::assertArrayHasKey('statusCode', $response);
+        self::assertSame(200, $response['statusCode']);
+        self::assertSame('Success', $response['message']);
+        self::assertNull($response['data']);
     }
 
     public function testInvokeReturnsExpectedResponse(): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->getConnection()->beginTransaction();
-
         $engineRemap = EngineRemapFaker::new();
 
-        $entityManager->persist($engineRemap);
-        $entityManager->flush();
+        $this->entityManager->persist($engineRemap);
+        $this->entityManager->flush();
 
         $this->client->request('GET', '/api/engine-remap');
 
@@ -76,15 +118,12 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
 
     public function testCreateAndRetrieveFirstEngineRemap(): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->getConnection()->beginTransaction();
-
         $engineRemap = EngineRemapFaker::new();
 
-        $entityManager->persist($engineRemap);
-        $entityManager->flush();
+        $this->entityManager->persist($engineRemap);
+        $this->entityManager->flush();
 
-        $retrievedEngineRemap = $entityManager->getRepository(EngineRemap::class)->find($engineRemap->id());
+        $retrievedEngineRemap = $this->entityManager->getRepository(EngineRemap::class)->find($engineRemap->id());
         self::assertNotNull($retrievedEngineRemap, 'Entity non trouvée en bdd.');
 
         $this->client->request('GET', '/api/engine-remap');
@@ -97,7 +136,7 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
 
         $response = json_decode($content, true);
         self::assertArrayHasKey('statusCode', $response);
-        self::assertSame(200, $response['statusCode']);  // Vérification du statusCode
+        self::assertSame(200, $response['statusCode']);
         self::assertSame('Success', $response['message']);
 
         $retrievedEngineRemap = $response['data'];
@@ -105,7 +144,5 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
         self::assertArrayHasKey('infoDescriptionModel', $retrievedEngineRemap);
         self::assertArrayHasKey('createdAt', $retrievedEngineRemap);
         self::assertArrayHasKey('updatedAt', $retrievedEngineRemap);
-
-        $entityManager->rollback();
     }
 }

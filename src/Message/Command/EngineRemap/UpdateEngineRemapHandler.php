@@ -13,25 +13,21 @@ class UpdateEngineRemapHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly EngineRemapRepository $engineRemapRepository
+        private readonly EngineRemapRepository $engineRemapRepository,
     ) {}
 
     public function __invoke(UpdateEngineRemapCommand $command): void
     {
-        $engineRemap = $this->engineRemapRepository->findFirst();
+        $engineRemap = $this->engineRemapRepository->find($command->id);
 
         if ($engineRemap) {
-            var_dump('Avant modification:', $engineRemap);
-
             $info = $engineRemap->infoDescriptionModel();
             $info->setLibelle($command->engineRemapUpdateDto->libelle()->value());
             $info->setDescription($command->engineRemapUpdateDto->description()->value());
-    
+
             $this->entityManager->persist($info);
             $this->entityManager->persist($engineRemap);
             $this->entityManager->flush();
-    
-            var_dump('Après modification:', $engineRemap);
         }
     }
 }

@@ -10,5 +10,6 @@ class UpdateEngineRemapCommand
 {
     public function __construct(
         public readonly EngineRemapUpdateDto $engineRemapUpdateDto,
+        public readonly string $id,
     ) {}
 }

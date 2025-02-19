@@ -79,29 +79,28 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         $engineRemap = EngineRemapFaker::new();
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
-    
+
         $firstEngineRemap = $this->repository->findFirst();
         self::assertNotNull($firstEngineRemap, 'Entity non trouvée en bdd.');
         self::assertEquals('libelle test', $firstEngineRemap->infoDescriptionModel()->libelle());
         self::assertEquals('description test', $firstEngineRemap->infoDescriptionModel()->description());
-    
+
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = EngineRemapUpdateDtoFaker::new();
-        $command = new UpdateEngineRemapCommand($dto);
+        $command = new UpdateEngineRemapCommand($dto, (string) $firstEngineRemap->id());
         $bus->dispatch($command);
         $this->flush();
-    
+
         $this->transport('async')->queue()->assertNotEmpty();
         $this->transport('async')->queue()->assertCount(1);
         $this->transport('async')->process(1);
         $this->transport('async')->queue()->assertCount(0);
-    
+
         $updatedEngineRemap = $this->repository->findFirst();
         self::assertNotNull($updatedEngineRemap, 'Entity non trouvée en bdd.');
-    
+
         $updatedInfo = $updatedEngineRemap->infoDescriptionModel();
         self::assertEquals($dto->libelle()->value(), $updatedInfo->libelle(), 'Le libelle ne correspond pas au dto.');
         self::assertEquals($dto->description(), $updatedInfo->description(), 'La description ne correspond pas au dto.');
     }
-    
 }

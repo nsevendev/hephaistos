@@ -25,8 +25,9 @@ class UpdateEngineRemap extends AbstractHephController
      * @throws EngineRemapInvalidArgumentException
      * @throws Throwable
      */
-    #[Route(path: '/api/engine-remap', name: 'heph_api_update_engine_remap', methods: ['PUT'])]
+    #[Route(path: '/api/engine-remap/{id}', name: 'heph_api_update_engine_remap', methods: ['PUT'])]
     public function __invoke(
+        string $id,
         Request $request,
         MessageBusInterface $commandBus,
     ): Response {
@@ -39,11 +40,10 @@ class UpdateEngineRemap extends AbstractHephController
                 errors: $errors
             )
         );
-        var_dump("LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : ", $dto);
 
-        var_dump('Message envoyé : ', $dto);
         $commandBus->dispatch(
             new UpdateEngineRemapCommand(
+                id: $id,
                 engineRemapUpdateDto: $dto,
             )
         );

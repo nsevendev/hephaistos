@@ -7,10 +7,20 @@ namespace Heph\Tests\Functional\Controller\Api\EngineRemap;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\EngineRemap\UpdateEngineRemap;
+use Heph\Entity\EngineRemap\Dto\EngineRemapUpdateDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\ApiResponse\ApiResponse;
+use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
+use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
+use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
+use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
+use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
+use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
+use Heph\Infrastructure\Serializer\HephSerializer;
+use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
@@ -24,7 +34,21 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(UpdateEngineRemap::class),
     CoversClass(EngineRemap::class),
     CoversClass(UpdateEngineRemapCommand::class),
-    CoversClass(EngineRemapRepository::class)
+    CoversClass(EngineRemapUpdateDto::class),
+    CoversClass(InfoDescriptionModel::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(ApiResponse::class),
+    CoversClass(ApiResponseFactory::class),
+    CoversClass(ApiResponseData::class),
+    CoversClass(ApiResponseLink::class),
+    CoversClass(ApiResponseMessage::class),
+    CoversClass(ApiResponseMeta::class),
+    CoversClass(ListError::class),
+    CoversClass(HephSerializer::class),
+    CoversClass(UpdateEngineRemapCommand::class),
+    CoversClass(EngineRemapRepository::class),
+    CoversClass(ValueObjectNormalizer::class)
 ]
 class UpdateEngineRemapTest extends HephFunctionalTestCase
 {
@@ -73,12 +97,14 @@ class UpdateEngineRemapTest extends HephFunctionalTestCase
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
 
+        $engineRemapToUpdate = $this->repository->findFirst();
+
         $updatePayload = json_encode([
             'libelle' => 'libelle update',
             'description' => 'description update',
         ]);
-        
-        $this->client->request('PUT', '/api/engine-remap', [], [], [], $updatePayload);
+
+        $this->client->request('PUT', '/api/engine-remap/'.(string) $engineRemapToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();
@@ -91,12 +117,17 @@ class UpdateEngineRemapTest extends HephFunctionalTestCase
 
     public function testInvokeReturnResponseSuccess(): void
     {
+        $engineRemap = EngineRemapFaker::new();
+        $this->entityManager->persist($engineRemap);
+        $this->entityManager->flush();
+        $engineRemapToUpdate = $this->repository->findFirst();
+
         $updatePayload = json_encode([
             'libelle' => 'libelle mis à jour',
             'description' => 'description mis à jour',
         ]);
-    
-        $this->client->request('PUT', '/api/engine-remap', [], [], [], $updatePayload);
+
+        $this->client->request('PUT', '/api/engine-remap/'.(string) $engineRemapToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();
@@ -107,12 +138,5 @@ class UpdateEngineRemapTest extends HephFunctionalTestCase
         self::assertArrayHasKey('data', $response);
         self::assertArrayHasKey('message', $response['data']);
         self::assertEquals('La mise à jour a été prise en compte.', $response['data']['message']);
-    
-        $updatedEngineRemap = $this->repository->findFirst();
-        self::assertNotNull($updatedEngineRemap, 'Entity non trouvée en bdd.');
-    
-        $infoDescriptionModel = $updatedEngineRemap->infoDescriptionModel();
-        self::assertEquals('libelle mis à jour', $infoDescriptionModel->libelle(), 'Le libelle ne correspond pas.');
-        self::assertEquals('description mis à jour', $infoDescriptionModel->description(), 'La description ne correspond pas.');
     }
 }
