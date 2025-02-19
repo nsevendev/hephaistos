@@ -39,6 +39,6 @@ class GetFirstEngineRemap extends AbstractHephController
     {
         $firstEngineRemap = $this->handle(new GetFirstEngineRemapQuery());
 
-        return ApiResponseFactory::success(data: $firstEngineRemap);
+        return ApiResponseFactory::success(data: $firstEngineRemap ?? null);
     }
 }

@@ -18,7 +18,7 @@ class InfoDescriptionModelTest extends HephUnitTestCase
         $InfoDecriptionModel = InfoDescriptionModelFaker::new();
 
         self::assertInstanceOf(InfoDescriptionModel::class, $InfoDecriptionModel);
-        self::assertSame('libellé test', $InfoDecriptionModel->libelle());
+        self::assertSame('libelle test', $InfoDecriptionModel->libelle());
         self::assertSame('description test', $InfoDecriptionModel->description());
         self::assertNotNull($InfoDecriptionModel->id());
         self::assertNotNull($InfoDecriptionModel->createdAt());
