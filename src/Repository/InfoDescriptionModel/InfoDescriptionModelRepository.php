@@ -16,12 +16,6 @@ class InfoDescriptionModelRepository extends ServiceEntityRepository
         parent::__construct($registry, InfoDescriptionModel::class);
     }
 
-    public function save(InfoDescriptionModel $infoDescriptionModel): void
-    {
-        $this->getEntityManager()->persist($infoDescriptionModel);
-        $this->getEntityManager()->flush();
-    }
-
     /*
     public function remove(string $id): void
     {

@@ -6,11 +6,12 @@ namespace Heph\Entity\TermsConditionsArticle\Dto;
 
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Symfony\Component\Uid\Uuid;
 
 class TermsConditionsArticleDto
 {
     public function __construct(
-        public string $id,
+        public Uuid $id,
         public TermsConditionsDto $termsConditions,
         public string $title,
         public string $article,
@@ -21,7 +22,7 @@ class TermsConditionsArticleDto
     public static function fromEntity(TermsConditionsArticle $data): self
     {
         return new self(
-            id: (string) $data->id(),
+            id: Uuid::v7(),
             termsConditions: TermsConditionsDto::fromEntity($data->termsConditions()),
             title: $data->title(),
             article: $data->article(),

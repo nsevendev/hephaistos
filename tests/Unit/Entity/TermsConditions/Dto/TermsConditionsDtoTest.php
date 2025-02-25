@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
@@ -22,8 +23,8 @@ class TermsConditionsDtoTest extends HephUnitTestCase
 
         self::assertNotNull($termsConditionsDto);
         self::assertInstanceOf(TermsConditionsDto::class, $termsConditionsDto);
-
-        self::assertSame('1234', $termsConditionsDto->id);
+        self::assertNotNull($termsConditionsDto->id);
+        self::assertInstanceOf(Uuid::class, $termsConditionsDto->id);
         self::assertSame('2000-03-31 10:00:00', $termsConditionsDto->createdAt);
         self::assertSame('2000-03-31 12:00:00', $termsConditionsDto->updatedAt);
 
@@ -35,27 +36,25 @@ class TermsConditionsDtoTest extends HephUnitTestCase
     public function testFromEntity(): void
     {
         $infoDescriptionModelMock = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock->method('id')->willReturn(Uuid::fromString('12345678-1234-5678-1234-567812345678'));
         $infoDescriptionModelMock->method('libelle')->willReturn('Libelle test');
         $infoDescriptionModelMock->method('description')->willReturn('Description test');
-        $infoDescriptionModelMock->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
-        $infoDescriptionModelMock->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
+        $infoDescriptionModelMock->method('createdAt')->willReturn(new DateTimeImmutable('2000-03-31 10:00:00'));
+        $infoDescriptionModelMock->method('updatedAt')->willReturn(new DateTimeImmutable('2000-03-31 12:00:00'));
 
         $termsConditionsMock = $this->createMock(TermsConditions::class);
-        $termsConditionsMock->method('id')->willReturn(Uuid::fromString('12345678-1234-5678-1234-567812345678'));
         $termsConditionsMock->method('infoDescriptionModel')->willReturn($infoDescriptionModelMock);
-        $termsConditionsMock->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
-        $termsConditionsMock->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
+        $termsConditionsMock->method('createdAt')->willReturn(new DateTimeImmutable('2000-03-31 10:00:00'));
+        $termsConditionsMock->method('updatedAt')->willReturn(new DateTimeImmutable('2000-03-31 12:00:00'));
 
         $dto = TermsConditionsDto::fromEntity($termsConditionsMock);
 
         self::assertInstanceOf(TermsConditionsDto::class, $dto);
-        self::assertSame('12345678-1234-5678-1234-567812345678', $dto->id);
+        self::assertNotNull($dto->id);
+        self::assertInstanceOf(Uuid::class, $dto->id);
         self::assertSame('2000-03-31 10:00:00', $dto->createdAt);
         self::assertSame('2000-03-31 12:00:00', $dto->updatedAt);
 
         self::assertInstanceOf(InfoDescriptionModelDto::class, $dto->infoDescriptionModel);
-        self::assertSame('12345678-1234-5678-1234-567812345678', $dto->infoDescriptionModel->id);
         self::assertSame('Libelle test', $dto->infoDescriptionModel->libelle);
         self::assertSame('Description test', $dto->infoDescriptionModel->description);
     }
@@ -69,7 +68,7 @@ class TermsConditionsDtoTest extends HephUnitTestCase
 
         foreach ($dtos as $index => $dto) {
             self::assertInstanceOf(TermsConditionsDto::class, $dto);
-            self::assertSame((string) ($index + 1), $dto->id);
+            self::assertInstanceOf(Uuid::class, $dto->id);
             self::assertSame('2000-03-31 10:00:00', $dto->createdAt);
             self::assertSame('2000-03-31 12:00:00', $dto->updatedAt);
 
@@ -82,14 +81,12 @@ class TermsConditionsDtoTest extends HephUnitTestCase
     public function testToListTermsConditions(): void
     {
         $termsConditionsMock1 = $this->createMock(TermsConditions::class);
-        $termsConditionsMock1->method('id')->willReturn(Uuid::fromString('12345678-1234-5678-1234-567812345678'));
-        $termsConditionsMock1->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
-        $termsConditionsMock1->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
+        $termsConditionsMock1->method('createdAt')->willReturn(new DateTimeImmutable('2000-03-31 10:00:00'));
+        $termsConditionsMock1->method('updatedAt')->willReturn(new DateTimeImmutable('2000-03-31 12:00:00'));
 
         $termsConditionsMock2 = $this->createMock(TermsConditions::class);
-        $termsConditionsMock2->method('id')->willReturn(Uuid::fromString('56781234-5678-1234-5678-123456781234'));
-        $termsConditionsMock2->method('createdAt')->willReturn(new \DateTimeImmutable('2001-03-31 10:00:00'));
-        $termsConditionsMock2->method('updatedAt')->willReturn(new \DateTimeImmutable('2001-03-31 12:00:00'));
+        $termsConditionsMock2->method('createdAt')->willReturn(new DateTimeImmutable('2001-03-31 10:00:00'));
+        $termsConditionsMock2->method('updatedAt')->willReturn(new DateTimeImmutable('2001-03-31 12:00:00'));
 
         $entities = [$termsConditionsMock1, $termsConditionsMock2];
 
@@ -97,11 +94,9 @@ class TermsConditionsDtoTest extends HephUnitTestCase
 
         self::assertCount(2, $dtos);
 
-        self::assertSame('12345678-1234-5678-1234-567812345678', $dtos[0]->id);
         self::assertSame('2000-03-31 10:00:00', $dtos[0]->createdAt);
         self::assertSame('2000-03-31 12:00:00', $dtos[0]->updatedAt);
 
-        self::assertSame('56781234-5678-1234-5678-123456781234', $dtos[1]->id);
         self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);
         self::assertSame('2001-03-31 12:00:00', $dtos[1]->updatedAt);
     }

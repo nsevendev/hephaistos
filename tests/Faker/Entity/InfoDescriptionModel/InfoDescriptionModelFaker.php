@@ -11,7 +11,7 @@ final class InfoDescriptionModelFaker
     public static function new(): InfoDescriptionModel
     {
         return new InfoDescriptionModel(
-            libelle: 'libellé test',
+            libelle: 'libelle test',
             description: 'description test'
         );
     }

@@ -12,10 +12,7 @@ class TermsConditionsCreateDtoFaker
     public static function new(): TermsConditionsCreateDto
     {
         return new TermsConditionsCreateDto(
-            id: '1234',
-            infoDescriptionModel: InfoDescriptionModelCreateDtoFaker::new(),
-            createdAt: new \DateTimeImmutable('2000-03-31 10:00:00'),
-            updatedAt: new \DateTimeImmutable('2000-03-31 12:00:00')
+            infoDescriptionModel: InfoDescriptionModelCreateDtoFaker::new()
         );
     }
 }

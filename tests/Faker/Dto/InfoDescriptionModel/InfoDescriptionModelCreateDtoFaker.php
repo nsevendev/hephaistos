@@ -13,11 +13,8 @@ class InfoDescriptionModelCreateDtoFaker
     public static function new(): InfoDescriptionModelCreateDto
     {
         return new InfoDescriptionModelCreateDto(
-            id: '1234',
             libelle: LibelleValueObject::fromValue('Libelle test'),
             description: DescriptionValueObject::fromValue('Description test'),
-            createdAt: new \DateTimeImmutable('2000-03-31 12:00:00'),
-            updatedAt: new \DateTimeImmutable('2000-03-31 13:00:00')
         );
     }
 }
