@@ -15,4 +15,9 @@ class EngineRemapRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, EngineRemap::class);
     }
+
+    public function findFirst(): ?EngineRemap
+    {
+        return $this->findOneBy([]);
+    }
 }
