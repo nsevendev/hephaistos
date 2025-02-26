@@ -59,10 +59,10 @@ jobs:
           done
           
       - name: Run Create database test
-        run: docker compose exec php composer migration-bdd-test
+        run: docker compose exec heph-php composer migration-bdd-test
         
       - name: Run Composer Check
-        run: docker compose exec php composer check
+        run: docker compose exec heph-php composer check
 
       - name: Shut Down Docker Containers
         if: always()
