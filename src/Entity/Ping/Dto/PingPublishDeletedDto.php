@@ -28,22 +28,6 @@ class PingPublishDeletedDto
     }
 
     /**
-     * @param Ping[] $data
-     *
-     * @return PingDto[]
-     */
-    public static function toListPing(array $data): array
-    {
-        $listPing = [];
-
-        foreach ($data as $ping) {
-            $listPing[] = self::fromArray($ping);
-        }
-
-        return $listPing;
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function toArray(): array
@@ -52,7 +36,7 @@ class PingPublishDeletedDto
             'id' => $this->id,
             'status' => $this->status,
             'message' => $this->message,
-            'delete' => true,
+            'delete' => 'true',
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
         ];
