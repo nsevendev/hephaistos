@@ -21,7 +21,7 @@ jobs:
       HTTPS_PORT: 65012
       HTTP3_PORT: 65013
       POSTGRES_PORT: 53934
-      DATABASE_URL: "postgresql://heph:heph@database:5432/heph_test?serverVersion=16&charset=utf8"
+      DATABASE_URL: "postgresql://heph:heph@heph-db:5432/heph_test?serverVersion=16&charset=utf8"
       POSTGRES_VERSION: 16
       POSTGRES_DB: heph
       POSTGRES_USER: heph
