@@ -1,22 +1,27 @@
 # Development environment override
 services:
-  php:
+  heph-php:
     build:
       context: .
       target: frankenphp_dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-nseven"
+      - "traefik.http.routers.heph-php.rule=Host(`heph.api.local`)"
+      - "traefik.http.routers.heph-php.entrypoints=websecure"
+      - "traefik.http.routers.heph-php.tls=true"
+      - "traefik.http.routers.heph-php.tls.certresolver=default"
+      - "traefik.http.services.heph-php.loadbalancer.server.port=80"
+      - "traefik.http.services.heph-php.loadbalancer.server.scheme=http"
     volumes:
-      - ./:/app
+      - ./:/app:delegated
+      - ./var:/app/var:delegated
       - ./frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
-      # If you develop on Mac or Windows you can remove the vendor/ directory
-      #  from the bind-mount for better performance by enabling the next line:
-      #- /app/vendor
     environment:
       MERCURE_EXTRA_DIRECTIVES: demo
-      # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
-      # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
     tty: true
 
@@ -24,9 +29,22 @@ services:
 ###< symfony/mercure-bundle ###
 
 ###> doctrine/doctrine-bundle ###
-  database:
-    ports:
-      - target: 5432
-        published: ${POSTGRES_PORT:-5432}
-        protocol: tcp
+  heph-db:
+    env_file:
+      - .env.dev.local
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 ###< doctrine/doctrine-bundle ###
+
+  heph-rabbitmq:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-nseven"
+      - "traefik.http.routers.heph-rabbitmq.rule=Host(`heph.r.local`)"
+      - "traefik.http.routers.heph-rabbitmq.entrypoints=websecure"
+      - "traefik.http.routers.heph-rabbitmq.tls=true"
+      - "traefik.http.routers.heph-rabbitmq.tls.certresolver=default"
+      - "traefik.http.services.heph-rabbitmq.loadbalancer.server.port=15672"

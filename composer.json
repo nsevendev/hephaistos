@@ -24,6 +24,7 @@
         "symfony/mercure": "^0.6.5",
         "symfony/mercure-bundle": "^0.3.9",
         "symfony/messenger": "~7.1.0",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/property-access": "~7.1.0",
         "symfony/property-info": "~7.1.0",
         "symfony/runtime": "^7.1.7",
@@ -141,7 +142,7 @@
         ],
         "test:cover": [
             "@putenv XDEBUG_MODE=coverage",
-            "XDEBUG_MODE=coverage vendor/bin/phpunit tests --configuration=tests/phpunit.xml --colors=always --coverage-html public/coverage --coverage-clover phpunit.coverage.xml --log-junit phpunit.report.xml"
+            "XDEBUG_MODE=coverage vendor/bin/phpunit tests --configuration=tests/phpunit.xml --colors=always --coverage-html public/coverage --coverage-clover tests/phpunit.coverage.xml --log-junit tests/phpunit.report.xml"
         ]
     }
 }
