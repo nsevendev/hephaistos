@@ -28,6 +28,8 @@
 ###> phpunit/phpunit ###
 phpunit.coverage.xml
 phpunit.report.xml
+tests/phpunit.coverage.xml
+tests/phpunit.report.xml
 ###< phpunit/phpunit ###
 
 ###> phpstan/phpstan ###
@@ -40,3 +42,6 @@ phpstan.neon
 ###< friendsofphp/php-cs-fixer ###
 
 .session.sql
+.vscode
+heph.session.sql
+hephaistos.session.sql
