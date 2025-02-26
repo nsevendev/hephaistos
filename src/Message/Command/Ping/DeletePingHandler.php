@@ -16,17 +16,19 @@ class DeletePingHandler
     public function __construct(private readonly PingRepository $pingRepository, private readonly MercurePublish $mercurePublish) {}
 
     /**
+     * @return void|null
+     *
      * @throws MercureInvalidArgumentException
      */
-    public function __invoke(DeletePingCommand $command): void
+    public function __invoke(DeletePingCommand $command)
     {
         $ping = $this->pingRepository->find($command->id);
 
-        $pingDto = PingPublishDeletedDto::fromArray($ping);
-
-        if(null === $ping) {
+        if (null === $ping) {
             return;
         }
+
+        $pingDto = PingPublishDeletedDto::fromArray($ping);
 
         $this->pingRepository->remove($ping);
 

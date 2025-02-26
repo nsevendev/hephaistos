@@ -8,6 +8,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\Ping\DeletePing;
 use Heph\Entity\Ping\Ping;
+use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\DeletePingCommand;
 use Heph\Message\Command\Ping\DeletePingHandler;
 use Heph\Repository\Ping\PingRepository;
@@ -33,16 +34,20 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
 
     private DeletePingHandler $handler;
 
+    private MercurePublish $mercurePublish;
+
     /**
      * @throws Exception
      */
     protected function setUp(): void
     {
         self::bootKernel();
+        $container = static::getContainer();
         $this->entityManager = self::getEntityManager();
         $this->entityManager->getConnection()->beginTransaction();
 
         $this->repository = $this->entityManager->getRepository(Ping::class);
+        $this->mercurePublish = $container->get(MercurePublish::class);
     }
 
     /**
@@ -57,9 +62,6 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDoctrineConfiguration(): void
     {
         $connection = self::getEntityManager()->getConnection();
@@ -73,7 +75,7 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         $this->entityManager->persist($ping);
         $this->entityManager->flush();
 
-        $this->handler = new DeletePingHandler($this->repository);
+        $this->handler = new DeletePingHandler($this->repository, $this->mercurePublish);
         $this->transport('othersync')->send(new DeletePingCommand($ping->id()->toString()));
         $this->flush();
 
