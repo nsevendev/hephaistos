@@ -44,6 +44,9 @@ jobs:
 
       - name: Build Docker images
         run: docker compose -f compose.yaml -f compose.override.yaml build --pull --no-cache
+        
+      - name: Create external network
+        run: docker network create traefik-nseven || true
 
       - name: Start Docker services
         run: docker compose -f compose.yaml -f compose.override.yaml up -d
