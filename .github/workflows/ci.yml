@@ -21,7 +21,7 @@ jobs:
       HTTPS_PORT: 65012
       HTTP3_PORT: 65013
       POSTGRES_PORT: 53934
-      DATABASE_URL: "postgresql://heph:heph@database:5432/heph_test?serverVersion=16&charset=utf8"
+      DATABASE_URL: "postgresql://heph:heph@heph-db:5432/heph_test?serverVersion=16&charset=utf8"
       POSTGRES_VERSION: 16
       POSTGRES_DB: heph
       POSTGRES_USER: heph
@@ -44,22 +44,25 @@ jobs:
 
       - name: Build Docker images
         run: docker compose -f compose.yaml -f compose.override.yaml build --pull --no-cache
+        
+      - name: Create external network
+        run: docker network create traefik-nseven || true
 
       - name: Start Docker services
         run: docker compose -f compose.yaml -f compose.override.yaml up -d
 
       - name: Wait for Database to be Ready
         run: |
-          until docker compose exec -T database pg_isready -U $POSTGRES_USER; do
+          until docker compose exec -T heph-db pg_isready -U $POSTGRES_USER; do
             echo "Waiting for database...";
             sleep 5;
           done
           
       - name: Run Create database test
-        run: docker compose exec php composer migration-bdd-test
+        run: docker compose exec heph-php composer migration-bdd-test
         
       - name: Run Composer Check
-        run: docker compose exec php composer check
+        run: docker compose exec heph-php composer check
 
       - name: Shut Down Docker Containers
         if: always()
