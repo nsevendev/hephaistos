@@ -7,6 +7,7 @@ namespace Functional\Message\Ping;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\Ping\DeletePing;
+use Heph\Entity\Ping\Dto\PingPublishDeletedDto;
 use Heph\Entity\Ping\Ping;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\DeletePingCommand;
@@ -23,6 +24,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(DeletePing::class),
     CoversClass(DeletePingCommand::class),
     CoversClass(DeletePingHandler::class),
+    CoversClass(MercurePublish::class),
+    CoversClass(PingPublishDeletedDto::class)
 ]
 class DeletePingHandlerTest extends HephFunctionalTestCase
 {
