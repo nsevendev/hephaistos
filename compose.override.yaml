@@ -35,6 +35,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 60s
+    ports:
+      - "${POSTGRES_PORT}:5432"
 ###< doctrine/doctrine-bundle ###
 
   heph-rabbitmq:
