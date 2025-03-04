@@ -21,7 +21,7 @@ class Ping
         return $this->id;
     }
 
-    #[ORM\Column(type: 'string', name: 'status', nullable: false)]
+    #[ORM\Column(name: 'status', type: 'string', nullable: false)]
     private int $status;
 
     public function status(): int
@@ -29,7 +29,7 @@ class Ping
         return $this->status;
     }
 
-    #[ORM\Column(type: 'string', name: 'message', nullable: false, length: 255)]
+    #[ORM\Column(name: 'message', type: 'string', length: 255, nullable: false)]
     private string $message;
 
     public function message(): string
@@ -37,7 +37,7 @@ class Ping
         return $this->message;
     }
 
-    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
+    #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: false)]
     private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
@@ -45,7 +45,7 @@ class Ping
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
+    #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
     public function updatedAt(): DateTimeImmutable
