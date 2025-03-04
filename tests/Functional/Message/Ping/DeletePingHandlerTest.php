@@ -45,7 +45,7 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
 
     private DeletePingHandler $handler;
 
-    private MercurePublish $mercurePublish;
+    // private MercurePublish $mercurePublish;
 
     /**
      * @throws Exception
@@ -58,7 +58,7 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         $this->entityManager->getConnection()->beginTransaction();
 
         $this->repository = $this->entityManager->getRepository(Ping::class);
-        $this->mercurePublish = $container->get(MercurePublish::class);
+        // $this->mercurePublish = $container->get(MercurePublish::class);
     }
 
     /**
@@ -86,14 +86,15 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         $this->entityManager->persist($ping);
         $this->entityManager->flush();
 
-        $this->handler = new DeletePingHandler($this->repository, $this->mercurePublish);
-        $this->transport('othersync')->send(new DeletePingCommand($ping->id()->toString()));
+        $bus = self::getContainer()->get('messenger.default_bus');
+        $command = new DeletePingCommand($ping->id()->toString());
+        $bus->dispatch($command);
         $this->flush();
 
-        $this->transport('othersync')->queue()->assertNotEmpty();
-        $this->transport('othersync')->queue()->assertCount(1);
-        $this->transport('othersync')->process(1);
-        $this->transport('othersync')->queue()->assertCount(0);
+        $this->transport('async')->queue()->assertNotEmpty();
+        $this->transport('async')->queue()->assertCount(1);
+        $this->transport('async')->process(1);
+        $this->transport('async')->queue()->assertCount(0);
     }
 
     public function testDeletePingNotExist(): void
