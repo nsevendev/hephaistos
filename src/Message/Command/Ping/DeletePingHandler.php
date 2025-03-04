@@ -6,6 +6,8 @@ namespace Heph\Message\Command\Ping;
 
 use Heph\Entity\Ping\Dto\PingPublishDeletedDto;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingBadRequestException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Repository\Ping\PingRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -16,17 +18,20 @@ class DeletePingHandler
     public function __construct(private readonly PingRepository $pingRepository, private readonly MercurePublish $mercurePublish) {}
 
     /**
+     * @return void|null
+     *
      * @throws MercureInvalidArgumentException
+     * @throws PingBadRequestException
      */
-    public function __invoke(DeletePingCommand $command): void
+    public function __invoke(DeletePingCommand $command)
     {
         $ping = $this->pingRepository->find($command->id);
 
-        $pingDto = PingPublishDeletedDto::fromArray($ping);
-
-        if(null === $ping) {
-            return;
+        if (null === $ping) {
+            throw new PingBadRequestException(errors: [Error::create('ping', "Aucun ping n'a été trouvé")]);
         }
+
+        $pingDto = PingPublishDeletedDto::fromArray($ping);
 
         $this->pingRepository->remove($ping);
 

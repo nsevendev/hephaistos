@@ -7,11 +7,9 @@ namespace Heph\Tests\Unit;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
-use Heph\Infrastructure\Doctrine\Type\UidType;
 use JsonException;
 use PHPUnit\Framework\TestCase;
 
@@ -38,11 +36,6 @@ abstract class HephUnitTestCase extends TestCase
         ];
 
         $connection = DriverManager::getConnection($connectionParams, $config);
-
-        // Enregistrement du type personnalisé 'app_uid'
-        if (false === Type::hasType('app_uid')) {
-            Type::addType('app_uid', UidType::class);
-        }
 
         return new EntityManager($connection, $config);
     }

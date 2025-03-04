@@ -79,13 +79,9 @@ class CreatePingHandlerTest extends HephFunctionalTestCase
     {
         $bus = self::getContainer()->get('messenger.default_bus');
         $dto = PingCreateDtoFaker::new();
-        // $handler = new CreatePingEntityHandler($this->repository);
         $command = new CreatePingCommand($dto);
-        // $handler($command);
         $bus->dispatch($command);
         $this->flush();
-
-        // $pings = $this->repository->findAll();
 
         $this->transport('async')->queue()->assertNotEmpty();
         $m = $this->transport('async')->queue()->messages();

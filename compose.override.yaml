@@ -30,13 +30,13 @@ services:
 
 ###> doctrine/doctrine-bundle ###
   heph-db:
-    env_file:
-      - .env.dev.local
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
       timeout: 5s
       retries: 5
       start_period: 60s
+    ports:
+      - "${POSTGRES_PORT}:5432"
 ###< doctrine/doctrine-bundle ###
 
   heph-rabbitmq:
