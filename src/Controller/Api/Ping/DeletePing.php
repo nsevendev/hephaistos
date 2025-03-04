@@ -10,12 +10,16 @@ use Heph\Message\Command\Ping\DeletePingCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 class DeletePing extends AbstractHephController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route(path: '/api/ping/{id}', name: 'heph_api_delete_ping', methods: ['DELETE'])]
     public function __invoke(Request $request, MessageBusInterface $commandBus): Response
     {

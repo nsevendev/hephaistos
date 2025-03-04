@@ -7,7 +7,11 @@ namespace Functional\Message\Ping;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\Ping\DeletePing;
+use Heph\Entity\Ping\Dto\PingPublishDeletedDto;
 use Heph\Entity\Ping\Ping;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingBadRequestException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\DeletePingCommand;
 use Heph\Message\Command\Ping\DeletePingHandler;
@@ -15,6 +19,8 @@ use Heph\Repository\Ping\PingRepository;
 use Heph\Tests\Faker\Entity\Ping\PingFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 #[
@@ -23,6 +29,11 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(DeletePing::class),
     CoversClass(DeletePingCommand::class),
     CoversClass(DeletePingHandler::class),
+    CoversClass(MercurePublish::class),
+    CoversClass(PingPublishDeletedDto::class),
+    CoversClass(AbstractApiResponseException::class),
+    CoversClass(PingBadRequestException::class),
+    CoversClass(Error::class),
 ]
 class DeletePingHandlerTest extends HephFunctionalTestCase
 {
@@ -34,7 +45,7 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
 
     private DeletePingHandler $handler;
 
-    private MercurePublish $mercurePublish;
+    // private MercurePublish $mercurePublish;
 
     /**
      * @throws Exception
@@ -47,7 +58,7 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         $this->entityManager->getConnection()->beginTransaction();
 
         $this->repository = $this->entityManager->getRepository(Ping::class);
-        $this->mercurePublish = $container->get(MercurePublish::class);
+        // $this->mercurePublish = $container->get(MercurePublish::class);
     }
 
     /**
@@ -75,13 +86,23 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
         $this->entityManager->persist($ping);
         $this->entityManager->flush();
 
-        $this->handler = new DeletePingHandler($this->repository, $this->mercurePublish);
-        $this->transport('othersync')->send(new DeletePingCommand($ping->id()->toString()));
+        $bus = self::getContainer()->get('messenger.default_bus');
+        $command = new DeletePingCommand($ping->id()->toString());
+        $bus->dispatch($command);
         $this->flush();
 
-        $this->transport('othersync')->queue()->assertNotEmpty();
-        $this->transport('othersync')->queue()->assertCount(1);
+        $this->transport('async')->queue()->assertNotEmpty();
+        $this->transport('async')->queue()->assertCount(1);
+        $this->transport('async')->process(1);
+        $this->transport('async')->queue()->assertCount(0);
+    }
+
+    public function testDeletePingNotExist(): void
+    {
+        $this->expectException(HandlerFailedException::class);
+        $id = Uuid::v7()->toString();
+        $this->transport('othersync')->send(new DeletePingCommand($id));
         $this->transport('othersync')->process(1);
-        $this->transport('othersync')->queue()->assertCount(0);
+        $this->transport('othersync')->catchExceptions();
     }
 }
