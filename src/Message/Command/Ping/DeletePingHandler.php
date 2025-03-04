@@ -28,7 +28,7 @@ class DeletePingHandler
         $ping = $this->pingRepository->find($command->id);
 
         if (null === $ping) {
-            throw new PingBadRequestException(errors: [Error::create("ping", "Aucun ping n'a été trouvé")]);
+            throw new PingBadRequestException(errors: [Error::create('ping', "Aucun ping n'a été trouvé")]);
         }
 
         $pingDto = PingPublishDeletedDto::fromArray($ping);
