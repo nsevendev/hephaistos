@@ -48,7 +48,7 @@ class DeletePingTest extends HephFunctionalTestCase
 
     public function setUp(): void
     {
-        $this->client = self::createClient();
+        $this->client = static::createClient();
     }
 
     public function testCreateAndDeletePing(): void
