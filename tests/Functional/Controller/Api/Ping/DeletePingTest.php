@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Functional\Controller\Api\Ping;
 
+use Doctrine\DBAL\Exception;
 use Heph\Controller\Api\Ping\DeletePing;
 use Heph\Controller\Api\Ping\ListPing;
 use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
+use Heph\Entity\Ping\ValueObject\PingMessage;
+use Heph\Entity\Ping\ValueObject\PingStatus;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -15,6 +18,8 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Message\Command\Ping\DeletePingCommand;
 use Heph\Message\Query\Ping\GetListPingHandler;
@@ -39,6 +44,10 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(GetListPingHandler::class),
     CoversClass(PingRepository::class),
     CoversClass(Ping::class),
+    CoversClass(PingMessage::class),
+    CoversClass(PingMessageType::class),
+    CoversClass(PingStatus::class),
+    CoversClass(PingStatusType::class),
     CoversClass(DeletePing::class),
     CoversClass(DeletePingCommand::class)
 ]
@@ -51,6 +60,9 @@ class DeletePingTest extends HephFunctionalTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * @throws Exception
+     */
     public function testCreateAndDeletePing(): void
     {
         $entityManager = $this->getEntityManager();

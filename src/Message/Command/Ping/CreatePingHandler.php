@@ -6,7 +6,10 @@ namespace Heph\Message\Command\Ping;
 
 use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
+use Heph\Entity\Ping\ValueObject\PingMessage;
+use Heph\Entity\Ping\ValueObject\PingStatus;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingInvalidArgumentException;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Repository\Ping\PingRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -21,12 +24,13 @@ readonly class CreatePingHandler
 
     /**
      * @throws MercureInvalidArgumentException
+     * @throws PingInvalidArgumentException
      */
     public function __invoke(CreatePingCommand $command): void
     {
         $ping = new Ping(
-            status: $command->pingEntityCreateDto->status()->value(),
-            message: $command->pingEntityCreateDto->message()->value()
+            status: PingStatus::fromValue($command->pingEntityCreateDto->status),
+            message: PingMessage::fromValue($command->pingEntityCreateDto->message)
         );
 
         $this->pingEntityRepository->save(

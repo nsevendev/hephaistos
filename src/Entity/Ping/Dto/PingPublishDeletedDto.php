@@ -20,8 +20,8 @@ class PingPublishDeletedDto
     {
         return new self(
             id: (string) $data->id(),
-            status: $data->status(),
-            message: $data->message(),
+            status: $data->status()->value(),
+            message: $data->message()->value(),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
