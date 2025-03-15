@@ -106,23 +106,23 @@ sf-test: ## List all Symfony commands or pass the parameter "c=" to run a given 
 	@$(eval c ?=)
 	@$(SYMFONY_TEST) $(c)
 
-cc: c=c:c ## Clear the cache
-cc: sf
+cc: ## cache clear dev
+	@$(MAKE) sf c="cache:clear"
 
-cct: c=c:c --env=test ## Clear the cache test
-cct: sf
+cct: ## cache clear test
+	@$(MAKE) sf c="cache:clear --env=test"
 
-ccp: c=c:c --env=prod ## Clear the cache prod
-ccp: sf
+ccp: ## cache clear prod
+	@$(MAKE) sf c="cache:clear --env=prod"
 
-mm: c=doctrine:migrations:migrate ## Migrate the database
-mm: sf
+mm: ## Migrate the database
+	@$(MAKE) sf c="doctrine:migrations:migrate"
 
-mmt: c=doctrine:migrations:migrate --env=test ## Migrate the database test
-mmt: sf
+mmt: ## Migrate the database test
+	@$(MAKE) sf c="doctrine:migrations:migrate --env=test"
 
-md: c=doctrine:migrations:diff ## Generate a migration by comparing your current database to your mapping information
-md: sf
+md: ## Generate a migration by comparing your current database to your mapping information
+	@$(MAKE) sf c="doctrine:migrations:diff"
 
 ## —— Docker other 🐳 ————————————————————————————————————————————————————————————————
 create-test-db: ## Create the test database (NOT USE by default, use sqlite for tests in cache)
