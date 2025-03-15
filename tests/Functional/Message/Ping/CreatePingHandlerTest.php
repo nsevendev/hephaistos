@@ -11,6 +11,8 @@ use Heph\Entity\Ping\Dto\PingDto;
 use Heph\Entity\Ping\Ping;
 use Heph\Entity\Ping\ValueObject\PingMessage;
 use Heph\Entity\Ping\ValueObject\PingStatus;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\CreatePingCommand;
 use Heph\Message\Command\Ping\CreatePingHandler;
@@ -29,7 +31,9 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(PingStatus::class),
     CoversClass(CreatePingHandler::class),
     CoversClass(MercurePublish::class),
-    CoversClass(PingDto::class)
+    CoversClass(PingDto::class),
+    CoversClass(PingMessageType::class),
+    CoversClass(PingStatusType::class),
 ]
 class CreatePingHandlerTest extends HephFunctionalTestCase
 {
@@ -63,9 +67,6 @@ class CreatePingHandlerTest extends HephFunctionalTestCase
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDoctrineConfiguration(): void
     {
         $connection = self::getEntityManager()->getConnection();

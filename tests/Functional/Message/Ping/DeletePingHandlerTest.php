@@ -9,9 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\Ping\DeletePing;
 use Heph\Entity\Ping\Dto\PingPublishDeletedDto;
 use Heph\Entity\Ping\Ping;
+use Heph\Entity\Ping\ValueObject\PingMessage;
+use Heph\Entity\Ping\ValueObject\PingStatus;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Ping\PingBadRequestException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType;
+use Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\Ping\DeletePingCommand;
 use Heph\Message\Command\Ping\DeletePingHandler;
@@ -34,6 +38,10 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(AbstractApiResponseException::class),
     CoversClass(PingBadRequestException::class),
     CoversClass(Error::class),
+    CoversClass(PingMessage::class),
+    CoversClass(PingMessageType::class),
+    CoversClass(PingStatus::class),
+    CoversClass(PingStatusType::class),
 ]
 class DeletePingHandlerTest extends HephFunctionalTestCase
 {
@@ -53,12 +61,10 @@ class DeletePingHandlerTest extends HephFunctionalTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $container = static::getContainer();
         $this->entityManager = self::getEntityManager();
         $this->entityManager->getConnection()->beginTransaction();
 
         $this->repository = $this->entityManager->getRepository(Ping::class);
-        // $this->mercurePublish = $container->get(MercurePublish::class);
     }
 
     /**
