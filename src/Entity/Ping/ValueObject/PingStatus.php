@@ -4,21 +4,16 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Ping\ValueObject;
 
-use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
+use JsonSerializable;
 use Stringable;
-use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class PingStatus implements Stringable, ValueObjectInterface
+final readonly class PingStatus implements Stringable, JsonSerializable
 {
-    public function __construct(
-        #[Assert\NotBlank(message: 'Le status est requis.')]
-        #[Assert\Choice(choices: [200], message: 'Le status doit être de {{ choices }}')]
-        private int $value,
-    ) {}
+    public function __construct(private int $value) {}
 
-    public static function fromValue(string|int|float|bool $value): self
+    public static function fromValue(int $value): self
     {
-        return new self(value: (int) $value);
+        return new self(value: $value);
     }
 
     public function value(): int
@@ -29,5 +24,10 @@ readonly class PingStatus implements Stringable, ValueObjectInterface
     public function __toString(): string
     {
         return (string) $this->value;
+    }
+
+    public function jsonSerialize(): int
+    {
+        return $this->value;
     }
 }

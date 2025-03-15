@@ -10,6 +10,8 @@ doctrine:
         use_savepoints: true
         types:
             uuid: Symfony\Bridge\Doctrine\Types\UuidType
+            app_ping_status: Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType
+            app_ping_message: Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true

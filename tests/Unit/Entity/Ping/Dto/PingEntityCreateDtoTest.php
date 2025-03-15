@@ -21,14 +21,12 @@ class PingEntityCreateDtoTest extends HephUnitTestCase
         self::assertNotNull($pingEntityCreateDto);
 
         self::assertInstanceOf(PingCreateDto::class, $pingEntityCreateDto);
-        self::assertInstanceOf(PingStatus::class, $pingEntityCreateDto->status());
-        self::assertInstanceOf(PingMessage::class, $pingEntityCreateDto->message());
 
-        self::assertSame(200, $pingEntityCreateDto->status()->value());
-        self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message()->value());
+        self::assertSame(200, $pingEntityCreateDto->status);
+        self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message);
 
-        self::assertSame('200', (string) $pingEntityCreateDto->status());
-        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message());
+        self::assertSame('200', (string) $pingEntityCreateDto->status);
+        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message);
     }
 
     public function testPingEntityCreateDtoWithFunctionNew(): void
@@ -41,13 +39,11 @@ class PingEntityCreateDtoTest extends HephUnitTestCase
         self::assertNotNull($pingEntityCreateDto);
 
         self::assertInstanceOf(PingCreateDto::class, $pingEntityCreateDto);
-        self::assertInstanceOf(PingStatus::class, $pingEntityCreateDto->status());
-        self::assertInstanceOf(PingMessage::class, $pingEntityCreateDto->message());
 
-        self::assertSame(200, $pingEntityCreateDto->status()->value());
-        self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message()->value());
+        self::assertSame(200, $pingEntityCreateDto->status);
+        self::assertSame('Le ping à réussi en faker', $pingEntityCreateDto->message);
 
-        self::assertSame('200', (string) $pingEntityCreateDto->status());
-        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message());
+        self::assertSame('200', (string) $pingEntityCreateDto->status);
+        self::assertSame('Le ping à réussi en faker', (string) $pingEntityCreateDto->message);
     }
 }
