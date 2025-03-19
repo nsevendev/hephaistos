@@ -4,21 +4,32 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Shared\ValueObject;
 
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Shared\GenericException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use JsonSerializable;
 use Stringable;
-use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class LibelleValueObject implements Stringable, JsonSerializable
+readonly class LibelleValueObject implements Stringable, JsonSerializable
 {
-    public function __construct(
-        #[Assert\NotBlank(message: 'Le libelle est requis.')]
-        #[Assert\Length(max: 75, maxMessage: 'Le libelle doit contenir au plus {{ limit }} caractères.')]
-        private string $value,
-    ) {}
+    public function __construct(private string $value) {}
 
+    /**
+     * @throws GenericException
+     */
     public static function fromValue(string $value): self
     {
-        return new self(value: $value);
+        $valueFormated = trim($value);
+
+        if ('' === $valueFormated) {
+            throw new GenericException(exception: new BadRequestHttpException(), getMessage: 'Libelle ne peux pas etre vide', errors: [Error::create(key: 'libelle', message: 'Libelle ne peux pas etre vide')]);
+        }
+
+        if (mb_strlen($valueFormated) > 75) {
+            throw new GenericException(exception: new BadRequestHttpException(), getMessage: 'Libelle ne peux pas etre supérieur à 75 caractères', errors: [Error::create(key: 'libelle', message: 'Libelle ne peux pas etre supérieur à 75 caractères')]);
+        }
+
+        return new self(value: $valueFormated);
     }
 
     public function value(): string
@@ -28,7 +39,7 @@ final readonly class LibelleValueObject implements Stringable, JsonSerializable
 
     public function __toString(): string
     {
-        return (string) $this->value;
+        return $this->value;
     }
 
     public function jsonSerialize(): string
