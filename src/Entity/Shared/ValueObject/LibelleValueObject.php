@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Shared\ValueObject;
 
-use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
+use JsonSerializable;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class LibelleValueObject implements Stringable, ValueObjectInterface
+final readonly class LibelleValueObject implements Stringable, JsonSerializable
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Le libelle est requis.')]
@@ -16,9 +16,9 @@ readonly class LibelleValueObject implements Stringable, ValueObjectInterface
         private string $value,
     ) {}
 
-    public static function fromValue(string|int|float|bool $value): self
+    public static function fromValue(string $value): self
     {
-        return new self(value: (string) $value);
+        return new self(value: $value);
     }
 
     public function value(): string
@@ -27,6 +27,11 @@ readonly class LibelleValueObject implements Stringable, ValueObjectInterface
     }
 
     public function __toString(): string
+    {
+        return (string) $this->value;
+    }
+
+    public function jsonSerialize(): string
     {
         return $this->value;
     }
