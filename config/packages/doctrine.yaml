@@ -13,7 +13,7 @@ doctrine:
             app_ping_status: Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType
             app_ping_message: Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
-            app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\descriptionType
+            app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true

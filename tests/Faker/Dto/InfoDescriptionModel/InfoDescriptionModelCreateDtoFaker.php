@@ -11,8 +11,8 @@ class InfoDescriptionModelCreateDtoFaker
     public static function new(): InfoDescriptionModelCreateDto
     {
         return new InfoDescriptionModelCreateDto(
-            libelle: 'Libelle test',
-            description: 'Description test',
+            'Libelle test',
+            'Description test',
         );
     }
 }

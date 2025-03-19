@@ -6,6 +6,8 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Repository\InfoDescriptionModel\InfoDescriptionModelRepository;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -72,8 +74,8 @@ class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
 
         $this->persistAndFlush($infoDescriptionModel);
 
-        $infoDescriptionModel->setLibelle('Nouveau libelle');
-        $infoDescriptionModel->setDescription('Nouvelle description');
+        $infoDescriptionModel->setLibelle(new LibelleValueObject('Nouveau libelle'));
+        $infoDescriptionModel->setDescription(new DescriptionValueObject('Nouvelle description'));
 
         $this->persistAndFlush($infoDescriptionModel);
 
