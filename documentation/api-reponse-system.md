@@ -48,6 +48,24 @@ class PingBadRequestException extends AbstractApiResponseException
 throw new PingBadRequestException(errors: [Error::create('key', 'message'), Error::create('key', 'message'), Error::create('key', 'message')]);
 ```
 
+## Utiliser l'exception `GenericException`  
+
+```php
+// throw un erreur 500 par defaut avec n'importe qu'elle exception symfony
+throw new GenericException(new InvalidArgumentException());
+
+// meme chose mais cette fois on custom le status, le message, et une erreur detaillée
+throw new GenericException(
+    exception: new InvalidArgumentException(),
+    getMessage: "message d'erreur",
+    statusCode: 400,
+    errors: [Error::create(
+        key: "clef de l'erreur",
+        message: "message erreur detail")
+    ]
+);
+```
+
 ## Detail
 
 ### Les Components
