@@ -44,11 +44,11 @@ class InfoDescriptionModelTest extends HephUnitTestCase
         $newLibelleUpdated = 'set test';
         $InfoDescriptionModel->setLibelle(new LibelleValueObject($newLibelleUpdated));
 
-        self::assertSame($newLibelleUpdated, $InfoDescriptionModel->libelle());
+        self::assertSame($newLibelleUpdated, $InfoDescriptionModel->libelle()->value());
 
         $newDescriptionUpdated = 'set test';
         $InfoDescriptionModel->setDescription(new DescriptionValueObject($newDescriptionUpdated));
 
-        self::assertSame($newDescriptionUpdated, $InfoDescriptionModel->description());
+        self::assertSame($newDescriptionUpdated, $InfoDescriptionModel->description()->value());
     }
 }
