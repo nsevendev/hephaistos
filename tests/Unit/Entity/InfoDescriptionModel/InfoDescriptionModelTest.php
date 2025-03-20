@@ -6,6 +6,8 @@ namespace Heph\Tests\Unit\Entity\InfoDescriptionModel;
 
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -15,11 +17,16 @@ class InfoDescriptionModelTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
     {
+        $libelle = 'libelle test';
+        $description = 'description test';
         $InfoDecriptionModel = InfoDescriptionModelFaker::new();
 
-        self::assertInstanceOf(InfoDescriptionModel::class, $InfoDecriptionModel);
-        self::assertSame('libelle test', $InfoDecriptionModel->libelle());
-        self::assertSame('description test', $InfoDecriptionModel->description());
+        self::assertSame($libelle, $InfoDecriptionModel->libelle()->value());
+        self::assertSame($description, $InfoDecriptionModel->description()->value());
+        self::assertSame($libelle, $InfoDecriptionModel->libelle()->jsonSerialize());
+        self::assertSame($description, $InfoDecriptionModel->description()->jsonSerialize());
+        self::assertSame($libelle, (string) $InfoDecriptionModel->libelle());
+        self::assertSame($description, (string) $InfoDecriptionModel->description());
         self::assertNotNull($InfoDecriptionModel->id());
         self::assertNotNull($InfoDecriptionModel->createdAt());
         self::assertNotNull($InfoDecriptionModel->updatedAt());
@@ -35,12 +42,12 @@ class InfoDescriptionModelTest extends HephUnitTestCase
         self::assertSame($newDateUpdated, $InfoDescriptionModel->updatedAt());
 
         $newLibelleUpdated = 'set test';
-        $InfoDescriptionModel->setLibelle($newLibelleUpdated);
+        $InfoDescriptionModel->setLibelle(new LibelleValueObject($newLibelleUpdated));
 
         self::assertSame($newLibelleUpdated, $InfoDescriptionModel->libelle());
 
         $newDescriptionUpdated = 'set test';
-        $InfoDescriptionModel->setDescription($newDescriptionUpdated);
+        $InfoDescriptionModel->setDescription(new DescriptionValueObject($newDescriptionUpdated));
 
         self::assertSame($newDescriptionUpdated, $InfoDescriptionModel->description());
     }
