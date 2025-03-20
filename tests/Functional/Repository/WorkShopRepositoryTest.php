@@ -6,6 +6,8 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\WorkShop\WorkShop;
 use Heph\Repository\WorkShop\WorkShopRepository;
 use Heph\Tests\Faker\Entity\WorkShop\WorkShopFaker;
@@ -75,8 +77,8 @@ class WorkShopRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($workShop);
 
         $infoDescriptionModel = $workShop->infoDescriptionModel();
-        $infoDescriptionModel->setLibelle('Nouveau libellé');
-        $infoDescriptionModel->setDescription('Nouvelle description');
+        $infoDescriptionModel->setLibelle(new LibelleValueObject('Nouveau libellé'));
+        $infoDescriptionModel->setDescription(new DescriptionValueObject('Nouvelle description'));
 
         $this->persistAndFlush($workShop);
 
@@ -85,7 +87,7 @@ class WorkShopRepositoryTest extends HephFunctionalTestCase
 
         // Vérifications
         self::assertNotNull($found, 'WorkShop non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle());
-        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
+        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle()->value());
+        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description()->value());
     }
 }
