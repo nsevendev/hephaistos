@@ -6,6 +6,8 @@ namespace Heph\Tests\Unit\Entity\InfoDescriptionModel\Dto;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -38,8 +40,8 @@ class InfoDescriptionModelDtoTest extends HephUnitTestCase
         foreach ($dtos as $index => $dto) {
             self::assertInstanceOf(InfoDescriptionModelDto::class, $dto);
 
-            self::assertSame('Libelle test '.($index + 1), $dto->libelle);
-            self::assertSame('Description test '.($index + 1), $dto->description);
+            self::assertSame('Libelle test ' . ($index + 1), $dto->libelle);
+            self::assertSame('Description test ' . ($index + 1), $dto->description);
             self::assertSame('2000-03-31 12:00:00', $dto->createdAt);
             self::assertSame('2000-03-31 13:00:00', $dto->updatedAt);
         }
@@ -48,8 +50,8 @@ class InfoDescriptionModelDtoTest extends HephUnitTestCase
     public function testFromArray(): void
     {
         $infoDescriptionModelMock = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock->method('libelle')->willReturn('Libelle test');
-        $infoDescriptionModelMock->method('description')->willReturn('Description test');
+        $infoDescriptionModelMock->method('libelle')->willReturn(new LibelleValueObject('Libelle test'));
+        $infoDescriptionModelMock->method('description')->willReturn(new DescriptionValueObject('Description test'));
         $infoDescriptionModelMock->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
         $infoDescriptionModelMock->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 13:00:00'));
 
@@ -66,14 +68,14 @@ class InfoDescriptionModelDtoTest extends HephUnitTestCase
     public function testToListInfoDescriptionModel(): void
     {
         $infoDescriptionModelMock1 = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock1->method('libelle')->willReturn('Libelle test 1');
-        $infoDescriptionModelMock1->method('description')->willReturn('Description test 1');
+        $infoDescriptionModelMock1->method('libelle')->willReturn(new LibelleValueObject('Libelle test 1'));
+        $infoDescriptionModelMock1->method('description')->willReturn(new DescriptionValueObject('Description test 1'));
         $infoDescriptionModelMock1->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
         $infoDescriptionModelMock1->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 13:00:00'));
 
         $infoDescriptionModelMock2 = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock2->method('libelle')->willReturn('Libelle test 2');
-        $infoDescriptionModelMock2->method('description')->willReturn('Description test 2');
+        $infoDescriptionModelMock2->method('libelle')->willReturn(new LibelleValueObject('Libelle test 2'));
+        $infoDescriptionModelMock2->method('description')->willReturn(new DescriptionValueObject('Description test 2'));
         $infoDescriptionModelMock2->method('createdAt')->willReturn(new \DateTimeImmutable('2001-03-31 12:00:00'));
         $infoDescriptionModelMock2->method('updatedAt')->willReturn(new \DateTimeImmutable('2001-03-31 13:00:00'));
 
