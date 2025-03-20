@@ -61,8 +61,8 @@ class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
 
         self::assertNotNull($found, 'InfoDescriptionModel non trouvé en base alors qu’on vient de le créer');
         self::assertInstanceOf(InfoDescriptionModel::class, $found);
-        self::assertSame('libelle test', $found->libelle());
-        self::assertSame('description test', $found->description());
+        self::assertSame('libelle test', $found->libelle()->value());
+        self::assertSame('description test', $found->description()->value());
     }
 
     /**
@@ -83,7 +83,7 @@ class InfoDescriptionModelRepositoryTest extends HephFunctionalTestCase
         $found = $this->infoDescriptionModelRepository->find($infoDescriptionModel->id());
 
         self::assertNotNull($found, 'InfoDescriptionModel non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libelle', $found->libelle());
-        self::assertSame('Nouvelle description', $found->description());
+        self::assertSame('Nouveau libelle', $found->libelle()->value());
+        self::assertSame('Nouvelle description', $found->description()->value());
     }
 }
