@@ -7,6 +7,8 @@ namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsDtoFaker;
@@ -36,8 +38,8 @@ class TermsConditionsDtoTest extends HephUnitTestCase
     public function testFromEntity(): void
     {
         $infoDescriptionModelMock = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock->method('libelle')->willReturn('Libelle test');
-        $infoDescriptionModelMock->method('description')->willReturn('Description test');
+        $infoDescriptionModelMock->method('libelle')->willReturn(new LibelleValueObject('Libelle test'));
+        $infoDescriptionModelMock->method('description')->willReturn(new DescriptionValueObject('Description test'));
         $infoDescriptionModelMock->method('createdAt')->willReturn(new DateTimeImmutable('2000-03-31 10:00:00'));
         $infoDescriptionModelMock->method('updatedAt')->willReturn(new DateTimeImmutable('2000-03-31 12:00:00'));
 
