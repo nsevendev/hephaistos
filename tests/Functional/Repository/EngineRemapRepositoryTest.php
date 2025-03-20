@@ -7,6 +7,8 @@ namespace Heph\Tests\Functional\Repository;
 use Doctrine\DBAL\Exception;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -74,8 +76,8 @@ class EngineRemapRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($engineRemap);
 
         $infoDescriptionModel = $engineRemap->infoDescriptionModel();
-        $infoDescriptionModel->setLibelle('Nouveau libellé');
-        $infoDescriptionModel->setDescription('Nouvelle description');
+        $infoDescriptionModel->setLibelle(new LibelleValueObject('Nouveau libellé'));
+        $infoDescriptionModel->setDescription(new DescriptionValueObject('Nouvelle description'));
 
         $this->persistAndFlush($engineRemap);
 
@@ -83,7 +85,7 @@ class EngineRemapRepositoryTest extends HephFunctionalTestCase
         $found = $this->engineRemapRepository->find($engineRemap->id());
 
         self::assertNotNull($found, 'EngineRemap non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle());
-        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
+        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle()->value());
+        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description()->value());
     }
 }
