@@ -99,14 +99,12 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
     public function testInvokeReturnsExpectedResponse(): void
     {
         $engineRemap = EngineRemapFaker::new();
-
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
 
         $this->client->request('GET', '/api/engine-remap');
 
         $content = $this->client->getResponse()->getContent();
-
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJson($content);

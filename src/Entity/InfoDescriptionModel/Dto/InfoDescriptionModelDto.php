@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Entity\infoDescriptionModel\Dto;
+namespace Heph\Entity\InfoDescriptionModel\Dto;
 
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 
@@ -17,6 +17,17 @@ class InfoDescriptionModelDto
     ) {}
 
     public static function fromArray(InfoDescriptionModel $data): self
+    {
+        return new self(
+            id: (string) $data->id(),
+            libelle: $data->libelle()->value(),
+            description: $data->description()->value(),
+            createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
+            updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
+        );
+    }
+
+    public static function fromEntity(InfoDescriptionModel $data): self
     {
         return new self(
             id: (string) $data->id(),
