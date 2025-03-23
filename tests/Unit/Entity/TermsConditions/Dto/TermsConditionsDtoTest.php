@@ -11,6 +11,7 @@ use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelDtoFaker;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -106,5 +107,19 @@ class TermsConditionsDtoTest extends HephUnitTestCase
 
         self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);
         self::assertSame('2001-03-31 12:00:00', $dtos[1]->updatedAt);
+    }
+
+    public function testToArray(): void
+    {
+        $infoDescriptionModelDto = InfoDescriptionModelDtoFaker::new();
+
+        $result = $infoDescriptionModelDto->toArray();
+
+        self::assertIsArray($result);
+        self::assertSame($infoDescriptionModelDto->id, $result['id']);
+        self::assertSame($infoDescriptionModelDto->libelle, $result['libelle']);
+        self::assertSame($infoDescriptionModelDto->description, $result['description']);
+        self::assertSame($infoDescriptionModelDto->createdAt, $result['createdAt']);
+        self::assertSame($infoDescriptionModelDto->updatedAt, $result['updatedAt']);
     }
 }

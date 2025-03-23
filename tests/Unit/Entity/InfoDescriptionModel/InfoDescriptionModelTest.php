@@ -8,6 +8,9 @@ use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Shared\GenericException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -16,6 +19,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(InfoDescriptionModel::class),
     CoversClass(LibelleValueObject::class),
     CoversClass(DescriptionValueObject::class),
+    CoversClass(AbstractApiResponseException::class),
+    CoversClass(GenericException::class),
+    CoversClass(Error::class),
 ]
 class InfoDescriptionModelTest extends HephUnitTestCase
 {
@@ -54,5 +60,33 @@ class InfoDescriptionModelTest extends HephUnitTestCase
         $InfoDescriptionModel->setDescription(new DescriptionValueObject($newDescriptionUpdated));
 
         self::assertSame($newDescriptionUpdated, $InfoDescriptionModel->description()->value());
+    }
+
+    public function testEntityWithLibelleMoreLonger(): void
+    {
+        $this->expectException(GenericException::class);
+
+        $infoDescriptionModel = InfoDescriptionModelFaker::withLibelleMoreLonger();
+    }
+
+    public function testEntityWithLibelleEmpty(): void
+    {
+        $this->expectException(GenericException::class);
+
+        $infoDescriptionModel = InfoDescriptionModelFaker::withLibelleEmpty();
+    }
+
+    public function testEntityWithDescriptionMoreLonger(): void
+    {
+        $this->expectException(GenericException::class);
+
+        $infoDescriptionModel = InfoDescriptionModelFaker::withDescriptionMoreLonger();
+    }
+
+    public function testEntityWithDescriptionEmpty(): void
+    {
+        $this->expectException(GenericException::class);
+
+        $infoDescriptionModel = InfoDescriptionModelFaker::withDescriptionEmpty();
     }
 }
