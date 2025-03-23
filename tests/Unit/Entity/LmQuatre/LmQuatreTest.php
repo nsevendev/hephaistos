@@ -7,12 +7,19 @@ namespace Heph\Tests\Unit\Entity\LmQuatre;
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(LmQuatre::class), CoversClass(InfoDescriptionModel::class)]
+#[
+    CoversClass(LmQuatre::class),
+    CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class LmQuatreTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

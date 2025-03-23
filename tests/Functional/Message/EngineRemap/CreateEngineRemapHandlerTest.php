@@ -14,6 +14,8 @@ use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\EngineRemap\CreateEngineRemapCommand;
 use Heph\Message\Command\EngineRemap\CreateEngineRemapHandler;
@@ -37,6 +39,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleValueObject::class),
     CoversClass(InfoDescriptionModelRepository::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
     CoversClass(InfoDescriptionModelDto::class)
 ]
 class CreateEngineRemapHandlerTest extends HephFunctionalTestCase

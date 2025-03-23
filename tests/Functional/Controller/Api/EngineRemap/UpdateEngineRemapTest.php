@@ -19,6 +19,8 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
@@ -48,6 +50,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(HephSerializer::class),
     CoversClass(UpdateEngineRemapCommand::class),
     CoversClass(EngineRemapRepository::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
     CoversClass(ValueObjectNormalizer::class)
 ]
 class UpdateEngineRemapTest extends HephFunctionalTestCase

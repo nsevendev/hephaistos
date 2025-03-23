@@ -16,7 +16,12 @@ use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(TermsConditionsDto::class), CoversClass(InfoDescriptionModelDto::class)]
+#[
+    CoversClass(TermsConditionsDto::class),
+    CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class TermsConditionsDtoTest extends HephUnitTestCase
 {
     public function testTermsConditionsDto(): void

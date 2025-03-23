@@ -12,7 +12,11 @@ use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(InfoDescriptionModelDto::class)]
+#[
+    CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class InfoDescriptionModelDtoTest extends HephUnitTestCase
 {
     public function testInfoDescriptionModelDto(): void

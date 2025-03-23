@@ -6,6 +6,10 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\Schedule\Schedule;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\Schedule\ScheduleRepository;
 use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -15,6 +19,10 @@ use ReflectionException;
 #[
     CoversClass(ScheduleRepository::class),
     CoversClass(Schedule::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class ScheduleRepositoryTest extends HephFunctionalTestCase
 {

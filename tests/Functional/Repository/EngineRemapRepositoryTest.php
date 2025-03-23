@@ -9,6 +9,8 @@ use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Heph\Tests\Faker\Entity\EngineRemap\EngineRemapFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -19,6 +21,10 @@ use ReflectionException;
     CoversClass(EngineRemapRepository::class),
     CoversClass(EngineRemap::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class EngineRemapRepositoryTest extends HephFunctionalTestCase
 {

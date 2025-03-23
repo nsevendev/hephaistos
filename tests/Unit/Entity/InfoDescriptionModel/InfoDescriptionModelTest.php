@@ -12,7 +12,11 @@ use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(InfoDescriptionModel::class)]
+#[
+    CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class InfoDescriptionModelTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

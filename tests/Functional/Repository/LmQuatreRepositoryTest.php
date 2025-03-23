@@ -7,6 +7,10 @@ namespace Heph\Tests\Functional\Repository;
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\LmQuatre\LmQuatreRepository;
 use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,6 +21,10 @@ use ReflectionException;
     CoversClass(LmQuatreRepository::class),
     CoversClass(LmQuatre::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class LmQuatreRepositoryTest extends HephFunctionalTestCase
 {

@@ -6,8 +6,12 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -19,6 +23,10 @@ use ReflectionException;
     CoversClass(TermsConditionsArticle::class),
     CoversClass(TermsConditions::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
 {
@@ -32,7 +40,7 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
         $entityManager = $this->getEntityManager();
         $entityManager->getConnection()->beginTransaction();
 
-        /** @var TermsConditionsRepository $repository */
+        /** @var TermsConditionsArticleRepository $repository */
         $repository = self::getContainer()->get(TermsConditionsArticleRepository::class);
         $this->termsConditionsArticleRepository = $repository;
     }
