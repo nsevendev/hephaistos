@@ -40,8 +40,8 @@ class InfoDescriptionModelDtoTest extends HephUnitTestCase
         foreach ($dtos as $index => $dto) {
             self::assertInstanceOf(InfoDescriptionModelDto::class, $dto);
 
-            self::assertSame('Libelle test ' . ($index + 1), $dto->libelle);
-            self::assertSame('Description test ' . ($index + 1), $dto->description);
+            self::assertSame('Libelle test '.($index + 1), $dto->libelle);
+            self::assertSame('Description test '.($index + 1), $dto->description);
             self::assertSame('2000-03-31 12:00:00', $dto->createdAt);
             self::assertSame('2000-03-31 13:00:00', $dto->updatedAt);
         }

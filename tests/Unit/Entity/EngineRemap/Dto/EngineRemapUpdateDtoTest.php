@@ -16,16 +16,17 @@ class EngineRemapUpdateDtoTest extends HephUnitTestCase
 {
     public function testEngineRemapUpdateDto(): void
     {
-        $updateEngineRemapDto = new EngineRemapUpdateDto(new LibelleValueObject('libelle test'), new DescriptionValueObject('description test'));
+        $updateEngineRemapDto = new EngineRemapUpdateDto('libelle update', 'description update');
 
         self::assertNotNull($updateEngineRemapDto);
 
         self::assertInstanceOf(EngineRemapUpdateDto::class, $updateEngineRemapDto);
-        self::assertInstanceOf(LibelleValueObject::class, $updateEngineRemapDto->libelle());
-        self::assertInstanceOf(DescriptionValueObject::class, $updateEngineRemapDto->description());
 
-        self::assertSame('libelle test', (string) $updateEngineRemapDto->libelle());
-        self::assertSame('description test', (string) $updateEngineRemapDto->description());
+        self::assertSame('libelle update', $updateEngineRemapDto->libelle());
+        self::assertSame('description update', $updateEngineRemapDto->description());
+
+        self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle());
+        self::assertSame('description update', (string) $updateEngineRemapDto->description());
     }
 
     public function testEngineRemapUpdateDtoWithFaker(): void
@@ -34,8 +35,9 @@ class EngineRemapUpdateDtoTest extends HephUnitTestCase
 
         self::assertNotNull($updateEngineRemapDto);
         self::assertInstanceOf(EngineRemapUpdateDto::class, $updateEngineRemapDto);
-        self::assertInstanceOf(LibelleValueObject::class, $updateEngineRemapDto->libelle());
-        self::assertInstanceOf(DescriptionValueObject::class, $updateEngineRemapDto->description());
+
+        self::assertSame('libelle update', $updateEngineRemapDto->libelle());
+        self::assertSame('description update', $updateEngineRemapDto->description());
 
         self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle());
         self::assertSame('description update', (string) $updateEngineRemapDto->description());

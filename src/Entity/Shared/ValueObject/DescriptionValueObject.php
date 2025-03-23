@@ -6,9 +6,9 @@ namespace Heph\Entity\Shared\ValueObject;
 
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Shared\GenericException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use JsonSerializable;
 use Stringable;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 readonly class DescriptionValueObject implements Stringable, JsonSerializable
 {

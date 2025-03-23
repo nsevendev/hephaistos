@@ -23,8 +23,8 @@ class UpdateEngineRemapHandler
         $engineRemap = $this->engineRemapRepository->find($command->id);
         if ($engineRemap) {
             $info = $engineRemap->infoDescriptionModel();
-            $info->setLibelle(new LibelleValueObject($command->engineRemapUpdateDto->libelle()->value()));
-            $info->setDescription(new DescriptionValueObject($command->engineRemapUpdateDto->description()->value()));
+            $info->setLibelle(LibelleValueObject::fromValue($command->engineRemapUpdateDto->libelle()));
+            $info->setDescription(DescriptionValueObject::fromValue($command->engineRemapUpdateDto->description()));
             $this->entityManager->persist($info);
             $this->entityManager->persist($engineRemap);
             $this->entityManager->flush();
