@@ -14,6 +14,7 @@ doctrine:
             app_ping_message: Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType
             app_lm_quatre_owner: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreOwnerType
             app_lm_quatre_email: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreEmailType
+            app_lm_quatre_adresse: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreAdresseType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
