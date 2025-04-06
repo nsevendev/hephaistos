@@ -40,7 +40,7 @@ class LmQuatre
         #[ORM\Column(name: 'phone_number', type: 'app_lm_quatre_phone_number', length: 50, nullable: false)]
         private LmQuatrePhoneNumber $phoneNumber,
         #[ORM\Column(type: 'datetime_immutable', name: 'company_create_date', nullable: false)]
-        private DateTimeImmutable $companyCreateDate
+        private DateTimeImmutable $companyCreateDate,
     ) {
         $this->id = Uuid::v7();
         $this->createdAt = new DateTimeImmutable();

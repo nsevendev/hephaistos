@@ -7,6 +7,10 @@ namespace Heph\Tests\Unit\Entity\LmQuatre;
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
+use Heph\Entity\LmQuatre\ValueObject\LmQuatreAdresse;
+use Heph\Entity\LmQuatre\ValueObject\LmQuatreEmail;
+use Heph\Entity\LmQuatre\ValueObject\LmQuatreOwner;
+use Heph\Entity\LmQuatre\ValueObject\LmQuatrePhoneNumber;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
@@ -31,10 +35,10 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertInstanceOf(DateTimeImmutable::class, $LmQuatre->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $LmQuatre->updatedAt());
         self::assertInstanceOf(DateTimeImmutable::class, $LmQuatre->companyCreateDate());
-        self::assertSame('Math', $LmQuatre->owner());
-        self::assertSame('33 rue du test', $LmQuatre->adresse());
-        self::assertSame('test@exemple.com', $LmQuatre->email());
-        self::assertSame('123456789', $LmQuatre->phoneNumber());
+        self::assertSame('Math', $LmQuatre->owner()->value());
+        self::assertSame('33 rue du test', $LmQuatre->adresse()->value());
+        self::assertSame('test@exemple.com', $LmQuatre->email()->value());
+        self::assertSame('123456789', $LmQuatre->phoneNumber()->value());
         self::assertNotNull($LmQuatre->infoDescriptionModel());
     }
 
@@ -48,24 +52,24 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertSame($newDateUpdated, $LmQuatre->updatedAt());
 
         $newOwnerUpdate = 'Bob Marley';
-        $LmQuatre->setOwner($newOwnerUpdate);
+        $LmQuatre->setOwner(LmQuatreOwner::fromValue($newOwnerUpdate));
 
-        self::assertSame($newOwnerUpdate, $LmQuatre->Owner());
+        self::assertSame($newOwnerUpdate, $LmQuatre->Owner()->value());
 
         $newAdresseUpdate = '34 rue du test';
-        $LmQuatre->setAdresse($newAdresseUpdate);
+        $LmQuatre->setAdresse(LmQuatreAdresse::fromValue($newAdresseUpdate));
 
-        self::assertSame($newAdresseUpdate, $LmQuatre->adresse());
+        self::assertSame($newAdresseUpdate, $LmQuatre->adresse()->value());
 
         $newEmailUpdate = 'test2@exemple.com';
-        $LmQuatre->setEmail($newEmailUpdate);
+        $LmQuatre->setEmail(LmQuatreEmail::fromValue($newEmailUpdate));
 
-        self::assertSame($newEmailUpdate, $LmQuatre->email());
+        self::assertSame($newEmailUpdate, $LmQuatre->email()->value());
 
         $newPhoneNumberUpdate = '84698759';
-        $LmQuatre->setPhoneNumber($newPhoneNumberUpdate);
+        $LmQuatre->setPhoneNumber(LmQuatrePhoneNumber::fromValue($newPhoneNumberUpdate));
 
-        self::assertSame($newPhoneNumberUpdate, $LmQuatre->phoneNumber());
+        self::assertSame($newPhoneNumberUpdate, $LmQuatre->phoneNumber()->value());
 
         $newCompanyCreateDateUpdate = new DateTimeImmutable();
         $LmQuatre->setCompanyCreateDate($newCompanyCreateDateUpdate);

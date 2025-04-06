@@ -28,7 +28,7 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('33 rue du test'),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
-            companyCreateDate: new DateTimeImmutable(('2000-03-31'))
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 
@@ -45,7 +45,7 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('33 rue du test'),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
-            companyCreateDate: new DateTimeImmutable(('2000-03-31'))
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 
@@ -62,7 +62,7 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('withAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLonger'),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
-            companyCreateDate: new DateTimeImmutable(('2000-03-31'))
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 
@@ -79,7 +79,7 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('33 rue du test'),
             email: LmQuatreEmail::fromValue('testexemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
-            companyCreateDate: new DateTimeImmutable(('2000-03-31'))
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 
@@ -96,7 +96,7 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('33 rue du test'),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789'),
-            companyCreateDate: new DateTimeImmutable(('2000-03-31'))
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }
 }
