@@ -28,7 +28,7 @@ readonly class LmQuatreEmail implements Stringable, JsonSerializable
             throw new LmQuatreInvalidArgumentException(getMessage: 'LmQuatre email ne peux pas etre supérieur à 50 caractères', errors: [Error::create(key: 'LmQuatreEmail', message: 'LmQuatre email ne peux pas etre supérieur à 50 caractères')]);
         }
 
-        if (strpos($valueFormated, '@') === false) {
+        if (false === strpos($valueFormated, '@')) {
             throw new LmQuatreInvalidArgumentException(getMessage: 'LmQuatre email doit contenir un @', errors: [Error::create(key: 'LmQuatreEmail', message: 'LmQuatre email doit contenir un @')]);
         }
 
