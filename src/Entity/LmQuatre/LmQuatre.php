@@ -21,10 +21,6 @@ class LmQuatre
     #[ORM\Column(type: 'uuid', unique: true)]
     private Uuid $id;
 
-    #[ORM\OneToOne(targetEntity: InfoDescriptionModel::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'info_description_model', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    private InfoDescriptionModel $infoDescriptionModel;
-
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
     private DateTimeImmutable $createdAt;
 
@@ -32,6 +28,9 @@ class LmQuatre
     private DateTimeImmutable $updatedAt;
 
     public function __construct(
+        #[ORM\OneToOne(targetEntity: InfoDescriptionModel::class, cascade: ['persist', 'remove'])]
+        #[ORM\JoinColumn(name: 'info_description_model', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        private InfoDescriptionModel $infoDescriptionModel,
         #[ORM\Column(name: 'owner', type: 'app_lm_quatre_owner', length: 50, nullable: false)]
         private LmQuatreOwner $owner,
         #[ORM\Column(name: 'adresse', type: 'app_lm_quatre_adresse', length: 255, nullable: false)]
