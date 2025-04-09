@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Heph\Infrastructure\ApiResponse\Exception\Custom\TermsCondtionsArticle;
+namespace Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditionsArticle;
 
 use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Symfony\Component\HttpFoundation\Response;
 
-class TermsCondtionsArticleInvalidArgumentException extends AbstractApiResponseException
+class TermsConditionsArticleInvalidArgumentException extends AbstractApiResponseException
 {
     /**
      * @param array<Error>|null $errors
