@@ -23,6 +23,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(InfoDescriptionModel::class),
     CoversClass(LibelleValueObject::class),
     CoversClass(DescriptionValueObject::class),
+    CoversClass(LmQuatreAdresse::class),
+    CoversClass(LmQuatreEmail::class),
+    CoversClass(LmQuatreOwner::class),
+    CoversClass(LmQuatrePhoneNumber::class),
 ]
 class LmQuatreTest extends HephUnitTestCase
 {

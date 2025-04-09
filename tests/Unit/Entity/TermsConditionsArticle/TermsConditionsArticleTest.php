@@ -23,6 +23,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(InfoDescriptionModel::class),
     CoversClass(LibelleValueObject::class),
     CoversClass(DescriptionValueObject::class),
+    CoversClass(TermsConditionsArticleArticle::class),
+    CoversClass(TermsConditionsArticleTitle::class),
 ]
 class TermsConditionsArticleTest extends HephUnitTestCase
 {

@@ -15,7 +15,14 @@ use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(Schedule::class)]
+#[
+    CoversClass(Schedule::class),
+    CoversClass(ScheduleDay::class),
+    CoversClass(ScheduleHoursCloseAm::class),
+    CoversClass(ScheduleHoursClosePm::class),
+    CoversClass(ScheduleHoursOpenAm::class),
+    CoversClass(ScheduleHoursOpenPm::class),
+]
 class ScheduleTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

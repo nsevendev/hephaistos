@@ -11,6 +11,8 @@ use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
@@ -23,6 +25,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(TermsConditionsArticle::class),
     CoversClass(LibelleValueObject::class),
     CoversClass(DescriptionValueObject::class),
+    CoversClass(TermsConditionsArticleArticle::class),
+    CoversClass(TermsConditionsArticleTitle::class),
 ]
 class TermsConditionsTest extends HephUnitTestCase
 {

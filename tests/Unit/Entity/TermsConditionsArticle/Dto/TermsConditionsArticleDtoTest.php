@@ -14,7 +14,7 @@ use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TermsConditionsArticleDto::class), CoversClass(InfoDescriptionModelDto::class), CoversClass(TermsConditionsDto::class)]
+#[CoversClass(TermsConditionsArticleDto::class), CoversClass(InfoDescriptionModelDto::class), CoversClass(TermsConditionsDto::class), CoversClass(TermsConditionsArticleArticle::class), CoversClass(TermsConditionsArticleTitle::class)]
 class TermsConditionsArticleDtoTest extends HephUnitTestCase
 {
     public function testTermsConditionsArticleDto(): void

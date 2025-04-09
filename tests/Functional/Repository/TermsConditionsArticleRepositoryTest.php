@@ -14,6 +14,8 @@ use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle
 use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
+use Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType;
+use Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleTitleType;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -29,6 +31,10 @@ use ReflectionException;
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleType::class),
     CoversClass(DescriptionType::class),
+    CoversClass(TermsConditionsArticleArticle::class),
+    CoversClass(TermsConditionsArticleTitle::class),
+    CoversClass(TermsConditionsArticleArticleType::class),
+    CoversClass(TermsConditionsArticleTitleType::class),
 ]
 class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
 {

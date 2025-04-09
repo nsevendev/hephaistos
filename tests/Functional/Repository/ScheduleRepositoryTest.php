@@ -13,6 +13,11 @@ use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleDayType;
+use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursCloseAmType;
+use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursClosePmType;
+use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenAmType;
+use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenPmType;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\Schedule\ScheduleRepository;
@@ -28,6 +33,16 @@ use ReflectionException;
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleType::class),
     CoversClass(DescriptionType::class),
+    CoversClass(ScheduleDay::class),
+    CoversClass(ScheduleHoursCloseAm::class),
+    CoversClass(ScheduleHoursClosePm::class),
+    CoversClass(ScheduleHoursOpenAm::class),
+    CoversClass(ScheduleHoursOpenPm::class),
+    CoversClass(ScheduleDayType::class),
+    CoversClass(ScheduleHoursCloseAmType::class),
+    CoversClass(ScheduleHoursClosePmType::class),
+    CoversClass(ScheduleHoursOpenAmType::class),
+    CoversClass(ScheduleHoursOpenPmType::class),
 ]
 class ScheduleRepositoryTest extends HephFunctionalTestCase
 {

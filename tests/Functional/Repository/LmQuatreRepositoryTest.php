@@ -9,9 +9,14 @@ use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\LmQuatre;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatreAdresse;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatreEmail;
+use Heph\Entity\LmQuatre\ValueObject\LmQuatreOwner;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatrePhoneNumber;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreAdresseType;
+use Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreEmailType;
+use Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreOwnerType;
+use Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatrePhoneNumberType;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\LmQuatre\LmQuatreRepository;
@@ -28,6 +33,14 @@ use ReflectionException;
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleType::class),
     CoversClass(DescriptionType::class),
+    CoversClass(LmQuatreAdresse::class),
+    CoversClass(LmQuatreEmail::class),
+    CoversClass(LmQuatrePhoneNumber::class),
+    CoversClass(LmQuatreOwner::class),
+    CoversClass(LmQuatreAdresseType::class),
+    CoversClass(LmQuatreEmailType::class),
+    CoversClass(LmQuatreOwnerType::class),
+    CoversClass(LmQuatrePhoneNumberType::class),
 ]
 class LmQuatreRepositoryTest extends HephFunctionalTestCase
 {
