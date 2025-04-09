@@ -10,6 +10,8 @@ use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
@@ -33,8 +35,8 @@ class TermsConditionsArticleTest extends HephUnitTestCase
         self::assertInstanceOf(DateTimeImmutable::class, $termsConditionsArticle->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $termsConditionsArticle->updatedAt());
         self::assertNotNull($termsConditionsArticle->termsConditions());
-        self::assertSame('titre test', $termsConditionsArticle->title());
-        self::assertSame('article test', $termsConditionsArticle->article());
+        self::assertSame('titre test', $termsConditionsArticle->title()->value());
+        self::assertSame('article test', $termsConditionsArticle->article()->value());
     }
 
     public function testEntitySetters(): void
@@ -47,12 +49,12 @@ class TermsConditionsArticleTest extends HephUnitTestCase
         self::assertSame($newTermsConditionsUpdated, $termsConditionsArticle->termsConditions());
 
         $newTitle = 'new title';
-        $termsConditionsArticle->setTitle($newTitle);
+        $termsConditionsArticle->setTitle(new TermsConditionsArticleTitle($newTitle));
 
         self::assertSame($newTitle, $termsConditionsArticle->title());
 
         $newArticle = 'new article';
-        $termsConditionsArticle->setArticle($newArticle);
+        $termsConditionsArticle->setArticle(new TermsConditionsArticleArticle($newArticle));
 
         self::assertSame($newArticle, $termsConditionsArticle->article());
 

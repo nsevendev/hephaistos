@@ -13,7 +13,6 @@ use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Tests\Faker\Dto\TermsConditionsArticle\TermsConditionsArticleDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Component\Uid\Uuid;
 
 #[CoversClass(TermsConditionsArticleDto::class), CoversClass(InfoDescriptionModelDto::class), CoversClass(TermsConditionsDto::class)]
 class TermsConditionsArticleDtoTest extends HephUnitTestCase
