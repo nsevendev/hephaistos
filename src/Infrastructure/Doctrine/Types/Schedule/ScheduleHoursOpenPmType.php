@@ -6,15 +6,15 @@ namespace Heph\Infrastructure\Doctrine\Types\Schedule;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
+use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule\ScheduleInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 
-final class ScheduleHoursOpenAmType extends Type
+final class ScheduleHoursOpenPmType extends Type
 {
     public function getName(): string
     {
-        return 'app_schedule_hours_open_am';
+        return 'app_schedule_hours_open_pm';
     }
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
@@ -25,17 +25,17 @@ final class ScheduleHoursOpenAmType extends Type
     /**
      * @throws ScheduleInvalidArgumentException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?ScheduleHoursOpenAm
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?ScheduleHoursOpenPm
     {
         if (null === $value) {
             return null;
         }
 
         if (false === is_string($value)) {
-            throw new ScheduleInvalidArgumentException(getMessage: 'Schedule hours_open_am_type doit être une chaine de caractères', errors: [Error::create(key: 'ScheduleHoursOpenAmType', message: 'Schedule hours_open_am_type doit être une chaine de caractères')]);
+            throw new ScheduleInvalidArgumentException(getMessage: 'Schedule hours_open_pm_type doit être une chaine de caractères', errors: [Error::create(key: 'ScheduleHoursOpenPmType', message: 'Schedule hours_open_pm_type doit être une chaine de caractères')]);
         }
 
-        return ScheduleHoursOpenAm::fromValue($value);
+        return ScheduleHoursOpenPm::fromValue($value);
     }
 
     /**
@@ -47,8 +47,8 @@ final class ScheduleHoursOpenAmType extends Type
             return null;
         }
 
-        if (false === $value instanceof ScheduleHoursOpenAm) {
-            throw new ScheduleInvalidArgumentException(getMessage: 'La valeur doit etre une instance de ScheduleHoursOpenAm', errors: [Error::create(key: 'ScheduleHoursOpenAmType', message: 'La valeur doit etre une instance de ScheduleHoursOpenAm')]);
+        if (false === $value instanceof ScheduleHoursOpenPm) {
+            throw new ScheduleInvalidArgumentException(getMessage: 'La valeur doit etre une instance de ScheduleHoursOpenPm', errors: [Error::create(key: 'ScheduleHoursOpenPmType', message: 'La valeur doit etre une instance de ScheduleHoursOpenPm')]);
         }
 
         return $value->value();

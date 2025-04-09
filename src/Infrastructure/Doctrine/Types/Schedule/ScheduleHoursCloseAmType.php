@@ -14,7 +14,7 @@ final class ScheduleHoursCloseAmType extends Type
 {
     public function getName(): string
     {
-        return 'app_schedule_hours_close_am_type';
+        return 'app_schedule_hours_close_am';
     }
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
