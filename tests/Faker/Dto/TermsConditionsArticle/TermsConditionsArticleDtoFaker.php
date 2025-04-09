@@ -13,7 +13,7 @@ class TermsConditionsArticleDtoFaker
     public static function new(): TermsConditionsArticleDto
     {
         return new TermsConditionsArticleDto(
-            id: Uuid::v7(),
+            id: (string) Uuid::v7(),
             termsConditions: TermsConditionsDtoFaker::new(),
             title: 'Titre test',
             article: 'Article de test',
@@ -31,10 +31,10 @@ class TermsConditionsArticleDtoFaker
 
         for ($i = 0; $i < $count; ++$i) {
             $dtos[] = new TermsConditionsArticleDto(
-                id: Uuid::v7(),
+                id: (string) Uuid::v7(),
                 termsConditions: TermsConditionsDtoFaker::new(),
-                title: 'Titre test '.($i + 1),
-                article: 'Article de test '.($i + 1),
+                title: 'Titre test ' . ($i + 1),
+                article: 'Article de test ' . ($i + 1),
                 createdAt: '2000-03-31 10:00:00',
                 updatedAt: '2000-03-31 12:00:00'
             );
