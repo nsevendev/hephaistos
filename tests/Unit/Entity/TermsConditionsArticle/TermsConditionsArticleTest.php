@@ -12,6 +12,9 @@ use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
 use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditionsArticle\TermsConditionsArticleInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
@@ -25,22 +28,37 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(DescriptionValueObject::class),
     CoversClass(TermsConditionsArticleArticle::class),
     CoversClass(TermsConditionsArticleTitle::class),
+    CoversClass(TermsConditionsArticleInvalidArgumentException::class),
+    CoversClass(Error::class),
+    CoversClass(AbstractApiResponseException::class),
 ]
 class TermsConditionsArticleTest extends HephUnitTestCase
 {
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
     public function testEntityInitialization(): void
     {
         $termsConditionsArticle = TermsConditionsArticleFaker::new();
+        $title = 'titre test';
+        $article = 'article test';
 
         self::assertInstanceOf(TermsConditionsArticle::class, $termsConditionsArticle);
         self::assertNotNull($termsConditionsArticle->id());
         self::assertInstanceOf(DateTimeImmutable::class, $termsConditionsArticle->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $termsConditionsArticle->updatedAt());
         self::assertNotNull($termsConditionsArticle->termsConditions());
-        self::assertSame('titre test', $termsConditionsArticle->title()->value());
-        self::assertSame('article test', $termsConditionsArticle->article()->value());
+        self::assertSame($title, $termsConditionsArticle->title()->value());
+        self::assertSame($article, $termsConditionsArticle->article()->value());
+        self::assertSame($title, $termsConditionsArticle->title()->jsonSerialize());
+        self::assertSame($article, $termsConditionsArticle->article()->jsonSerialize());
+        self::assertSame((string) $title, (string) $termsConditionsArticle->title());
+        self::assertSame($article, (string) $termsConditionsArticle->article());
     }
 
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
     public function testEntitySetters(): void
     {
         $termsConditionsArticle = TermsConditionsArticleFaker::new();
@@ -64,5 +82,33 @@ class TermsConditionsArticleTest extends HephUnitTestCase
         $termsConditionsArticle->setUpdatedAt($newDateUpdated);
 
         self::assertSame($newDateUpdated, $termsConditionsArticle->updatedAt());
+    }
+
+    public function testEntityWithMTitleMoreLonger(): void
+    {
+        $this->expectException(TermsConditionsArticleInvalidArgumentException::class);
+
+        $ping = TermsConditionsArticleFaker::withTitleMoreLonger();
+    }
+
+    public function testEntityWithTitleEmpty(): void
+    {
+        $this->expectException(TermsConditionsArticleInvalidArgumentException::class);
+
+        $ping = TermsConditionsArticleFaker::withTitleEmpty();
+    }
+
+    public function testEntityWithArticleMoreLonger(): void
+    {
+        $this->expectException(TermsConditionsArticleInvalidArgumentException::class);
+
+        $ping = TermsConditionsArticleFaker::withArticleMoreLonger();
+    }
+
+    public function testEntityWithArticleEmpty(): void
+    {
+        $this->expectException(TermsConditionsArticleInvalidArgumentException::class);
+
+        $ping = TermsConditionsArticleFaker::withArticleEmpty();
     }
 }

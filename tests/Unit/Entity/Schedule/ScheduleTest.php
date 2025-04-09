@@ -11,12 +11,12 @@ use Heph\Entity\Schedule\ValueObject\ScheduleHoursCloseAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursClosePm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule\ScheduleInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
-use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 
 #[
     CoversClass(Schedule::class),

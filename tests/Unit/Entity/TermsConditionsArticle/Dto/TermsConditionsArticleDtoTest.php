@@ -63,4 +63,40 @@ class TermsConditionsArticleDtoTest extends HephUnitTestCase
         self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);
         self::assertSame('2001-03-31 12:00:00', $dtos[1]->updatedAt);
     }
+
+    public function testToArray(): void
+    {
+        $termsConditionsMock = $this->createMock(\Heph\Entity\TermsConditions\TermsConditions::class);
+        $termsConditionsDtoMock = $this->createMock(\Heph\Entity\TermsConditions\Dto\TermsConditionsDto::class);
+
+        $termsConditionsArticleMock = $this->createMock(TermsConditionsArticle::class);
+        $termsConditionsArticleMock->method('termsConditions')->willReturn($termsConditionsMock);
+        $termsConditionsArticleMock->method('title')->willReturn(
+            new TermsConditionsArticleTitle('Titre test')
+        );
+        $termsConditionsArticleMock->method('article')->willReturn(
+            new TermsConditionsArticleArticle('Article test')
+        );
+        $termsConditionsArticleMock->method('createdAt')->willReturn(new \DateTimeImmutable('2000-03-31 10:00:00'));
+        $termsConditionsArticleMock->method('updatedAt')->willReturn(new \DateTimeImmutable('2000-03-31 12:00:00'));
+
+        $dto = new TermsConditionsArticleDto(
+            id: '1234',
+            termsConditions: $termsConditionsDtoMock,
+            title: 'Titre test',
+            article: 'Article test',
+            createdAt: '2000-03-31 10:00:00',
+            updatedAt: '2000-03-31 12:00:00',
+        );
+
+        $array = $dto->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertSame('1234', $array['id']);
+        $this->assertSame($termsConditionsDtoMock, $array['termsConditions']);
+        $this->assertSame('Titre test', $array['title']);
+        $this->assertSame('Article test', $array['article']);
+        $this->assertSame('2000-03-31 10:00:00', $array['createdAt']);
+        $this->assertSame('2000-03-31 12:00:00', $array['updatedAt']);
+    }
 }

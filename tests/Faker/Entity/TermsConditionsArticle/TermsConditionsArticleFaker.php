@@ -25,4 +25,60 @@ final class TermsConditionsArticleFaker
             article: TermsConditionsArticleArticle::fromValue('article test')
         );
     }
+
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
+    public static function withTitleMoreLonger(): TermsConditionsArticle
+    {
+        $termsConditions = TermsConditionsFaker::new();
+
+        return new TermsConditionsArticle(
+            termsConditions: $termsConditions,
+            title: TermsConditionsArticleTitle::fromValue('titre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre testtitre test'),
+            article: TermsConditionsArticleArticle::fromValue('article test')
+        );
+    }
+
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
+    public static function withTitleEmpty(): TermsConditionsArticle
+    {
+        $termsConditions = TermsConditionsFaker::new();
+
+        return new TermsConditionsArticle(
+            termsConditions: $termsConditions,
+            title: TermsConditionsArticleTitle::fromValue(''),
+            article: TermsConditionsArticleArticle::fromValue('article test')
+        );
+    }
+
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
+    public static function withArticleMoreLonger(): TermsConditionsArticle
+    {
+        $termsConditions = TermsConditionsFaker::new();
+
+        return new TermsConditionsArticle(
+            termsConditions: $termsConditions,
+            title: TermsConditionsArticleTitle::fromValue('titre test'),
+            article: TermsConditionsArticleArticle::fromValue('article testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle testarticle test')
+        );
+    }
+
+    /**
+     * @throws TermsConditionsArticleInvalidArgumentException
+     */
+    public static function withArticleEmpty(): TermsConditionsArticle
+    {
+        $termsConditions = TermsConditionsFaker::new();
+
+        return new TermsConditionsArticle(
+            termsConditions: $termsConditions,
+            title: TermsConditionsArticleTitle::fromValue('titre test'),
+            article: TermsConditionsArticleArticle::fromValue('')
+        );
+    }
 }
