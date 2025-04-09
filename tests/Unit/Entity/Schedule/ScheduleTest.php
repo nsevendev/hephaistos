@@ -11,9 +11,12 @@ use Heph\Entity\Schedule\ValueObject\ScheduleHoursCloseAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursClosePm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule\ScheduleInvalidArgumentException;
 use Heph\Tests\Faker\Entity\Schedule\ScheduleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 
 #[
     CoversClass(Schedule::class),
@@ -22,24 +25,48 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(ScheduleHoursClosePm::class),
     CoversClass(ScheduleHoursOpenAm::class),
     CoversClass(ScheduleHoursOpenPm::class),
+    CoversClass(AbstractApiResponseException::class),
+    CoversClass(Error::class),
+    CoversClass(ScheduleInvalidArgumentException::class),
 ]
 class ScheduleTest extends HephUnitTestCase
 {
+    /**
+     * @throws ScheduleInvalidArgumentException
+     */
     public function testEntityInitialization(): void
     {
         $schedule = ScheduleFaker::new();
+        $day = 'Monday';
+        $hoursOpenAm = '09:00';
+        $hoursCloseAm = '12:00';
+        $hoursOpenPm = '13:00';
+        $hoursClosePm = '17:00';
 
         self::assertInstanceOf(Schedule::class, $schedule);
         self::assertNotNull($schedule->id());
-        self::assertSame('Monday', $schedule->day()->value());
-        self::assertSame('09:00', $schedule->hoursOpenAm()->value());
-        self::assertSame('12:00', $schedule->hoursCloseAm()->value());
-        self::assertSame('13:00', $schedule->hoursOpenPm()->value());
-        self::assertSame('17:00', $schedule->hoursClosePm()->value());
+        self::assertSame($day, $schedule->day()->value());
+        self::assertSame($hoursOpenAm, $schedule->hoursOpenAm()->value());
+        self::assertSame($hoursCloseAm, $schedule->hoursCloseAm()->value());
+        self::assertSame($hoursOpenPm, $schedule->hoursOpenPm()->value());
+        self::assertSame($hoursClosePm, $schedule->hoursClosePm()->value());
+        self::assertSame($day, $schedule->day()->jsonSerialize());
+        self::assertSame($hoursOpenAm, $schedule->hoursOpenAm()->jsonSerialize());
+        self::assertSame($hoursCloseAm, $schedule->hoursCloseAm()->jsonSerialize());
+        self::assertSame($hoursOpenPm, $schedule->hoursOpenPm()->jsonSerialize());
+        self::assertSame($hoursClosePm, $schedule->hoursClosePm()->jsonSerialize());
+        self::assertSame($day, (string) $schedule->day());
+        self::assertSame($hoursOpenAm, (string) $schedule->hoursOpenAm());
+        self::assertSame($hoursCloseAm, (string) $schedule->hoursCloseAm());
+        self::assertSame($hoursOpenPm, (string) $schedule->hoursOpenPm());
+        self::assertSame($hoursClosePm, (string) $schedule->hoursClosePm());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $schedule->updatedAt());
     }
 
+    /**
+     * @throws ScheduleInvalidArgumentException
+     */
     public function testEntitySetters(): void
     {
         $schedule = ScheduleFaker::new();
@@ -69,6 +96,9 @@ class ScheduleTest extends HephUnitTestCase
         self::assertSame($newHoursClosePm, $schedule->hoursClosePm()->value());
     }
 
+    /**
+     * @throws ScheduleInvalidArgumentException
+     */
     public function testAutomaticUpdatedAtChange(): void
     {
         $schedule = ScheduleFaker::new();
@@ -82,5 +112,40 @@ class ScheduleTest extends HephUnitTestCase
 
         $schedule->setHoursOpenPm(new ScheduleHoursOpenPm('14:30'));
         self::assertNotSame($initialUpdatedAt, $schedule->updatedAt());
+    }
+
+    public function testEntityWithDayEmpty(): void
+    {
+        $this->expectException(ScheduleInvalidArgumentException::class);
+
+        $schedule = ScheduleFaker::withDayEmpty();
+    }
+
+    public function testEntityWithHoursOpenAmEmpty(): void
+    {
+        $this->expectException(ScheduleInvalidArgumentException::class);
+
+        $schedule = ScheduleFaker::withHoursOpenAmEmpty();
+    }
+
+    public function testEntityWithHoursCloseAmEmpty(): void
+    {
+        $this->expectException(ScheduleInvalidArgumentException::class);
+
+        $schedule = ScheduleFaker::withHoursCloseAmEmpty();
+    }
+
+    public function testEntityWithHoursOpenPmEmpty(): void
+    {
+        $this->expectException(ScheduleInvalidArgumentException::class);
+
+        $schedule = ScheduleFaker::withHoursOpenPmEmpty();
+    }
+
+    public function testEntityWithHoursClosePmEmpty(): void
+    {
+        $this->expectException(ScheduleInvalidArgumentException::class);
+
+        $schedule = ScheduleFaker::withHoursClosePmEmpty();
     }
 }
