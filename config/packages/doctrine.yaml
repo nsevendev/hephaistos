@@ -21,6 +21,8 @@ doctrine:
             app_schedule_hours_close_am: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursCloseAmType
             app_schedule_hours_close_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursClosePmType
             app_schedule_hours_open_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenPmType
+            app_terms_conditions_article_title: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleTitleType
+            app_terms_conditions_article_article: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
