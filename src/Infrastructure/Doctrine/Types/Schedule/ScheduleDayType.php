@@ -32,7 +32,7 @@ final class ScheduleDayType extends Type
         }
 
         if (false === is_string($value)) {
-            throw new ScheduleInvalidArgumentException(getMessage: 'Schedule message doit être une chaine de caractères', errors: [Error::create(key: 'ScheduleDayType', message: 'Schedule message doit être une chaine de caractères')]);
+            throw new ScheduleInvalidArgumentException(getMessage: 'Schedule day doit être une chaine de caractères', errors: [Error::create(key: 'ScheduleDayType', message: 'Schedule day doit être une chaine de caractères')]);
         }
 
         return ScheduleDay::fromValue($value);
