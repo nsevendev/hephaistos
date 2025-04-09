@@ -43,23 +43,23 @@ class ScheduleTest extends HephUnitTestCase
 
         $newDay = 'Tuesday';
         $schedule->setDay(new ScheduleDay($newDay));
-        self::assertSame($newDay, $schedule->day());
+        self::assertSame($newDay, $schedule->day()->value());
 
         $newHoursOpenAm = '08:30';
         $schedule->setHoursOpenAm(new ScheduleHoursOpenAm($newHoursOpenAm));
-        self::assertSame($newHoursOpenAm, $schedule->hoursOpenAm());
+        self::assertSame($newHoursOpenAm, $schedule->hoursOpenAm()->value());
 
         $newHoursCloseAm = '11:30';
         $schedule->setHoursCloseAm(new ScheduleHoursCloseAm($newHoursCloseAm));
-        self::assertSame($newHoursCloseAm, $schedule->hoursCloseAm());
+        self::assertSame($newHoursCloseAm, $schedule->hoursCloseAm()->value());
 
         $newHoursOpenPm = '14:00';
         $schedule->setHoursOpenPm(new ScheduleHoursOpenPm($newHoursOpenPm));
-        self::assertSame($newHoursOpenPm, $schedule->hoursOpenPm());
+        self::assertSame($newHoursOpenPm, $schedule->hoursOpenPm()->value());
 
         $newHoursClosePm = '18:00';
         $schedule->setHoursClosePm(new ScheduleHoursClosePm($newHoursClosePm));
-        self::assertSame($newHoursClosePm, $schedule->hoursClosePm());
+        self::assertSame($newHoursClosePm, $schedule->hoursClosePm()->value());
     }
 
     public function testAutomaticUpdatedAtChange(): void

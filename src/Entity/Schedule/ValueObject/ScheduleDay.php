@@ -34,7 +34,7 @@ final readonly class ScheduleDay implements Stringable, JsonSerializable
 
     public function __toString(): string
     {
-        return (string) $this->value;
+        return $this->value;
     }
 
     public function jsonSerialize(): string

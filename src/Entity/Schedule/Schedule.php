@@ -27,7 +27,6 @@ class Schedule
     #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
     private DateTimeImmutable $updatedAt;
 
-
     public function __construct(
         #[ORM\Column(type: 'app_schedule_day', name: 'day', nullable: false)]
         private ScheduleDay $day,
@@ -44,7 +43,6 @@ class Schedule
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = $this->createdAt;
     }
-
 
     public function id(): Uuid
     {

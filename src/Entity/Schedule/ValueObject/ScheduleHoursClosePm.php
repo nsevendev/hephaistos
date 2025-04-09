@@ -34,7 +34,7 @@ final readonly class ScheduleHoursClosePm implements Stringable, JsonSerializabl
 
     public function __toString(): string
     {
-        return (string) $this->value;
+        return $this->value;
     }
 
     public function jsonSerialize(): string
