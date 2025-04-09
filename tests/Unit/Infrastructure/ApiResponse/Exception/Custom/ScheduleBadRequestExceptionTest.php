@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Unit\Infrastructure\ApiResponse\Exception\Custom\LmQuatre;
+namespace Heph\Tests\Unit\Infrastructure\ApiResponse\Exception\Custom\Schedule;
 
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
@@ -10,7 +10,7 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
-use Heph\Infrastructure\ApiResponse\Exception\Custom\LmQuatre\LmQuatreBadRequestException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule\ScheduleBadRequestException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\ApiResponse\Exception\Event\ApiResponseExceptionListener;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 #[
     CoversClass(ApiResponseExceptionListener::class),
-    CoversClass(LmQuatreBadRequestException::class),
+    CoversClass(ScheduleBadRequestException::class),
     CoversClass(ApiResponseFactory::class),
     CoversClass(ApiResponse::class),
     CoversClass(ApiResponseLink::class),
@@ -34,7 +34,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
     CoversClass(ListError::class),
     CoversClass(Error::class),
 ]
-class LmQuatreBadRequestExceptionTest extends HephUnitTestCase
+class ScheduleBadRequestExceptionTest extends HephUnitTestCase
 {
     private ApiResponseExceptionListener $listener;
     private HttpKernelInterface $kernel;
@@ -48,12 +48,12 @@ class LmQuatreBadRequestExceptionTest extends HephUnitTestCase
         parent::setUp();
         $this->listener = new ApiResponseExceptionListener();
         $this->kernel = $this->createMock(HttpKernelInterface::class);
-        $this->request = Request::create('/api/lm-quatre');
+        $this->request = Request::create('/api/schedule');
     }
 
-    public function testOnKernelExceptionLmQuatreBadRequestException(): void
+    public function testOnKernelExceptionScheduleBadRequestException(): void
     {
-        $exceptionCustom = new LmQuatreBadRequestException();
+        $exceptionCustom = new ScheduleBadRequestException();
         $event = new ExceptionEvent(
             $this->kernel,
             $this->request,
