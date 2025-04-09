@@ -19,6 +19,7 @@ doctrine:
             app_schedule_day: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleDayType
             app_schedule_hours_open_am: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenAmType
             app_schedule_hours_close_am: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursCloseAmType
+            app_schedule_hours_close_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursClosePmType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
