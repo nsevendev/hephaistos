@@ -10,7 +10,7 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
-use Heph\Infrastructure\ApiResponse\Exception\Custom\LmQuatre\LmQuatreInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule\ScheduleInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\ApiResponse\Exception\Event\ApiResponseExceptionListener;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 #[
     CoversClass(ApiResponseExceptionListener::class),
-    CoversClass(LmQuatreInvalidArgumentException::class),
+    CoversClass(ScheduleInvalidArgumentException::class),
     CoversClass(ApiResponseFactory::class),
     CoversClass(ApiResponse::class),
     CoversClass(ApiResponseLink::class),
@@ -34,7 +34,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
     CoversClass(ListError::class),
     CoversClass(Error::class),
 ]
-class LmQuatreInvalidArgumentExceptionTest extends HephUnitTestCase
+class ScheduleInvalidArgumentExceptionTest extends HephUnitTestCase
 {
     private ApiResponseExceptionListener $listener;
 
@@ -51,12 +51,12 @@ class LmQuatreInvalidArgumentExceptionTest extends HephUnitTestCase
 
         $this->listener = new ApiResponseExceptionListener();
         $this->kernel = $this->createMock(HttpKernelInterface::class);
-        $this->request = Request::create('/api/lm-quatre');
+        $this->request = Request::create('/api/schedule');
     }
 
-    public function testOnKernelExceptionLmQuatreInvalidArgumentException(): void
+    public function testOnKernelExceptionScheduleInvalidArgumentException(): void
     {
-        $exceptionCustom = new LmQuatreInvalidArgumentException();
+        $exceptionCustom = new ScheduleInvalidArgumentException();
         $event = new ExceptionEvent(
             $this->kernel,
             $this->request,
