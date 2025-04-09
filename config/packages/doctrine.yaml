@@ -16,6 +16,7 @@ doctrine:
             app_lm_quatre_email: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreEmailType
             app_lm_quatre_adresse: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreAdresseType
             app_lm_quatre_phone_number: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatrePhoneNumberType
+            app_schedule_day: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleDayType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
