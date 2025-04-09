@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Heph\Infrastructure\ApiResponse\Exception\Custom\BadRequest;
+namespace Heph\Infrastructure\ApiResponse\Exception\Custom\Schedule;
 
 use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Symfony\Component\HttpFoundation\Response;
 
-class BadRequestBadRequestException extends AbstractApiResponseException
+class ScheduleBadRequestException extends AbstractApiResponseException
 {
     /**
      * @param array<Error>|null $errors
