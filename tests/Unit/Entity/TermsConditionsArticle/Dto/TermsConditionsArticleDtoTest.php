@@ -6,6 +6,7 @@ namespace Heph\Tests\Unit\Entity\TermsConditionsArticle\Dto;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
+use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
@@ -66,8 +67,8 @@ class TermsConditionsArticleDtoTest extends HephUnitTestCase
 
     public function testToArray(): void
     {
-        $termsConditionsMock = $this->createMock(\Heph\Entity\TermsConditions\TermsConditions::class);
-        $termsConditionsDtoMock = $this->createMock(\Heph\Entity\TermsConditions\Dto\TermsConditionsDto::class);
+        $termsConditionsMock = $this->createMock(TermsConditions::class);
+        $termsConditionsDtoMock = $this->createMock(TermsConditionsDto::class);
 
         $termsConditionsArticleMock = $this->createMock(TermsConditionsArticle::class);
         $termsConditionsArticleMock->method('termsConditions')->willReturn($termsConditionsMock);
