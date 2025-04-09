@@ -24,8 +24,8 @@ readonly class TermsConditionsArticleArticle implements Stringable, JsonSerializ
             throw new TermsConditionsArticleInvalidArgumentException(getMessage: 'TermsConditionsArticle article ne peux pas etre vide', errors: [Error::create(key: 'TermsConditionsArticleArticle', message: 'TermsConditionsArticle article ne peux pas etre vide')]);
         }
 
-        if (mb_strlen($valueFormated) > 50) {
-            throw new TermsConditionsArticleInvalidArgumentException(getMessage: 'TermsConditionsArticle article ne peux pas etre supérieur à 50 caractères', errors: [Error::create(key: 'TermsConditionsArticleArticle', message: 'TermsConditionsArticle article ne peux pas etre supérieur à 50 caractères')]);
+        if (mb_strlen($valueFormated) > 500) {
+            throw new TermsConditionsArticleInvalidArgumentException(getMessage: 'TermsConditionsArticle article ne peux pas etre supérieur à 500 caractères', errors: [Error::create(key: 'TermsConditionsArticleArticle', message: 'TermsConditionsArticle article ne peux pas etre supérieur à 500 caractères')]);
         }
 
         return new self(value: $valueFormated);
