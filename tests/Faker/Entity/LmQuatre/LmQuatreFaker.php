@@ -52,6 +52,23 @@ final class LmQuatreFaker
     /**
      * @throws LmQuatreInvalidArgumentException
      */
+    public static function withOwnerEmpty(): LmQuatre
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        return new LmQuatre(
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: LmQuatreOwner::fromValue(''),
+            adresse: LmQuatreAdresse::fromValue('33 rue du test'),
+            email: LmQuatreEmail::fromValue('test@exemple.com'),
+            phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
+        );
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
     public static function withAdresseMoreLonger(): LmQuatre
     {
         $infoDescriptionModel = InfoDescriptionModelFaker::new();
@@ -60,6 +77,23 @@ final class LmQuatreFaker
             infoDescriptionModel: $infoDescriptionModel,
             owner: LmQuatreOwner::fromValue('Math'),
             adresse: LmQuatreAdresse::fromValue('withAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLongerwithAdresseMoreLonger'),
+            email: LmQuatreEmail::fromValue('test@exemple.com'),
+            phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
+        );
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public static function withAdresseEmpty(): LmQuatre
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        return new LmQuatre(
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: LmQuatreOwner::fromValue('Math'),
+            adresse: LmQuatreAdresse::fromValue(''),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
             companyCreateDate: new DateTimeImmutable('2000-03-31')
@@ -86,6 +120,40 @@ final class LmQuatreFaker
     /**
      * @throws LmQuatreInvalidArgumentException
      */
+    public static function withEmailMoreLonger(): LmQuatre
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        return new LmQuatre(
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: LmQuatreOwner::fromValue('Math'),
+            adresse: LmQuatreAdresse::fromValue('33 rue du test'),
+            email: LmQuatreEmail::fromValue('test@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.comtest@exemple.com'),
+            phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
+        );
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public static function withEmailEmpty(): LmQuatre
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        return new LmQuatre(
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: LmQuatreOwner::fromValue('Math'),
+            adresse: LmQuatreAdresse::fromValue('33 rue du test'),
+            email: LmQuatreEmail::fromValue(''),
+            phoneNumber: LmQuatrePhoneNumber::fromValue('123456789'),
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
+        );
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
     public static function withPhoneNumberMoreLonger(): LmQuatre
     {
         $infoDescriptionModel = InfoDescriptionModelFaker::new();
@@ -96,6 +164,23 @@ final class LmQuatreFaker
             adresse: LmQuatreAdresse::fromValue('33 rue du test'),
             email: LmQuatreEmail::fromValue('test@exemple.com'),
             phoneNumber: LmQuatrePhoneNumber::fromValue('123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789'),
+            companyCreateDate: new DateTimeImmutable('2000-03-31')
+        );
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public static function withPhoneNumberEmpty(): LmQuatre
+    {
+        $infoDescriptionModel = InfoDescriptionModelFaker::new();
+
+        return new LmQuatre(
+            infoDescriptionModel: $infoDescriptionModel,
+            owner: LmQuatreOwner::fromValue('Math'),
+            adresse: LmQuatreAdresse::fromValue('33 rue du test'),
+            email: LmQuatreEmail::fromValue('test@exemple.com'),
+            phoneNumber: LmQuatrePhoneNumber::fromValue(''),
             companyCreateDate: new DateTimeImmutable('2000-03-31')
         );
     }

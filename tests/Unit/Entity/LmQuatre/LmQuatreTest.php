@@ -11,8 +11,10 @@ use Heph\Entity\LmQuatre\ValueObject\LmQuatreAdresse;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatreEmail;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatreOwner;
 use Heph\Entity\LmQuatre\ValueObject\LmQuatrePhoneNumber;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\LmQuatre\LmQuatreInvalidArgumentException;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Faker\Entity\LmQuatre\LmQuatreFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
@@ -27,11 +29,18 @@ use PHPUnit\Framework\Attributes\CoversClass;
     CoversClass(LmQuatreEmail::class),
     CoversClass(LmQuatreOwner::class),
     CoversClass(LmQuatrePhoneNumber::class),
+    CoversClass(LmQuatreInvalidArgumentException::class),
+    CoversClass(Error::class),
 ]
 class LmQuatreTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void
     {
+        $owner = 'Math';
+        $adresse = '33 rue du test';
+        $email = 'test@exemple.com';
+        $phoneNumber = '123456789';
+
         $LmQuatre = LmQuatreFaker::new();
 
         self::assertInstanceOf(LmQuatre::class, $LmQuatre);
@@ -43,9 +52,20 @@ class LmQuatreTest extends HephUnitTestCase
         self::assertSame('33 rue du test', $LmQuatre->adresse()->value());
         self::assertSame('test@exemple.com', $LmQuatre->email()->value());
         self::assertSame('123456789', $LmQuatre->phoneNumber()->value());
+        self::assertSame($owner, $LmQuatre->owner()->jsonSerialize());
+        self::assertSame($adresse, $LmQuatre->adresse()->jsonSerialize());
+        self::assertSame($email, $LmQuatre->email()->jsonSerialize());
+        self::assertSame($phoneNumber, $LmQuatre->phoneNumber()->jsonSerialize());
+        self::assertSame($owner, (string) $LmQuatre->owner());
+        self::assertSame($adresse, (string) $LmQuatre->adresse());
+        self::assertSame($email, (string) $LmQuatre->email());
+        self::assertSame($phoneNumber, (string) $LmQuatre->phoneNumber());
         self::assertNotNull($LmQuatre->infoDescriptionModel());
     }
 
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
     public function testEntitySetters(): void
     {
         $LmQuatre = LmQuatreFaker::new();
@@ -84,5 +104,95 @@ class LmQuatreTest extends HephUnitTestCase
         $LmQuatre->setInfoDescriptionModel($newInfoDescriptionModelUpdated);
 
         self::assertSame($newInfoDescriptionModelUpdated, $LmQuatre->infoDescriptionModel());
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithOwnerMoreLonger(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withOwnerMoreLonger();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithOwnerEmpty(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withOwnerEmpty();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithAdresseMoreLonger(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withAdresseMoreLonger();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithAdresseEmpty(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withAdresseEmpty();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithPhoneNumberMoreLonger(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withPhoneNumberMoreLonger();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithPhoneNumberEmpty(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withPhoneNumberEmpty();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithEmailInvalid(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withEmailInvalid();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithEmailEmpty(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withEmailEmpty();
+    }
+
+    /**
+     * @throws LmQuatreInvalidArgumentException
+     */
+    public function testEntityWithEmailMoreLonger(): void
+    {
+        $this->expectException(LmQuatreInvalidArgumentException::class);
+
+        $lmQuatre = LmQuatreFaker::withEmailMoreLonger();
     }
 }
