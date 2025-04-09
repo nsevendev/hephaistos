@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Entity\TermsConditionsArticle\Dto;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class TermsConditionsArticleCreateDto
 {

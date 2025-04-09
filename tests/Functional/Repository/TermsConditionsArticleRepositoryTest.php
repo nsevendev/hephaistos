@@ -10,6 +10,8 @@ use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
@@ -73,8 +75,8 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
         self::assertNotNull($found, 'TermsConditionsArticle non trouvé en base alors qu’on vient de le créer');
         self::assertInstanceOf(TermsConditionsArticle::class, $found);
         self::assertNotNull($found->termsConditions());
-        self::assertSame('titre test', $found->title());
-        self::assertSame('article test', $found->article());
+        self::assertSame('titre test', $found->title()->value());
+        self::assertSame('article test', $found->article()->value());
     }
 
     public function testPersitAndFlushWithRepository(): void
@@ -87,8 +89,8 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
         $found = $this->termsConditionsArticleRepository->find($termsConditionsArticle->id());
         self::assertNotNull($found, 'TermsConditionArticle non trouvé en base alors qu’on vient de le créer');
         self::assertNotNull($found->termsConditions());
-        self::assertSame('titre test', $found->title());
-        self::assertSame('article test', $found->article());
+        self::assertSame('titre test', $found->title()->value());
+        self::assertSame('article test', $found->article()->value());
     }
 
     /**
@@ -100,8 +102,8 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
 
         $this->persistAndFlush($termsConditionsArticle);
 
-        $termsConditionsArticle->setTitle('new title');
-        $termsConditionsArticle->setArticle('new article content');
+        $termsConditionsArticle->setTitle(new TermsConditionsArticleTitle('new title'));
+        $termsConditionsArticle->setArticle(new TermsConditionsArticleArticle('new article content'));
 
         $this->persistAndFlush($termsConditionsArticle);
 
@@ -110,7 +112,7 @@ class TermsConditionsArticleRepositoryTest extends HephFunctionalTestCase
 
         // Vérifications
         self::assertNotNull($found, 'TermsConditionsArticle non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('new title', $found->title());
-        self::assertSame('new article content', $found->article());
+        self::assertSame('new title', $found->title()->value());
+        self::assertSame('new article content', $found->article()->value());
     }
 }

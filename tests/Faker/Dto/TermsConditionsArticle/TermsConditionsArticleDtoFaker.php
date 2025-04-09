@@ -33,8 +33,8 @@ class TermsConditionsArticleDtoFaker
             $dtos[] = new TermsConditionsArticleDto(
                 id: (string) Uuid::v7(),
                 termsConditions: TermsConditionsDtoFaker::new(),
-                title: 'Titre test ' . ($i + 1),
-                article: 'Article de test ' . ($i + 1),
+                title: 'Titre test '.($i + 1),
+                article: 'Article de test '.($i + 1),
                 createdAt: '2000-03-31 10:00:00',
                 updatedAt: '2000-03-31 12:00:00'
             );

@@ -51,12 +51,12 @@ class TermsConditionsArticleTest extends HephUnitTestCase
         $newTitle = 'new title';
         $termsConditionsArticle->setTitle(new TermsConditionsArticleTitle($newTitle));
 
-        self::assertSame($newTitle, $termsConditionsArticle->title());
+        self::assertSame($newTitle, $termsConditionsArticle->title()->value());
 
         $newArticle = 'new article';
         $termsConditionsArticle->setArticle(new TermsConditionsArticleArticle($newArticle));
 
-        self::assertSame($newArticle, $termsConditionsArticle->article());
+        self::assertSame($newArticle, $termsConditionsArticle->article()->value());
 
         $newDateUpdated = new DateTimeImmutable();
         $termsConditionsArticle->setUpdatedAt($newDateUpdated);
