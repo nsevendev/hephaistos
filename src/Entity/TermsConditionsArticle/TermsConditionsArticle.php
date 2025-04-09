@@ -7,6 +7,8 @@ namespace Heph\Entity\TermsConditionsArticle;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Symfony\Component\Uid\Uuid;
 
