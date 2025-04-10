@@ -6,13 +6,20 @@ namespace Heph\Tests\Unit\Entity\WorkShop;
 
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\WorkShop\WorkShop;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Faker\Entity\WorkShop\WorkShopFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(WorkShop::class), CoversClass(InfoDescriptionModel::class)]
+#[
+    CoversClass(WorkShop::class),
+    CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class WorkShopTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

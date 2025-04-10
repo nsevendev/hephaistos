@@ -1,17 +1,30 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        url: "%env(resolve:DATABASE_URL)%"
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '16'
-        
-        profiling_collect_backtrace: '%kernel.debug%'
+
+        profiling_collect_backtrace: "%kernel.debug%"
         use_savepoints: true
         types:
             uuid: Symfony\Bridge\Doctrine\Types\UuidType
             app_ping_status: Heph\Infrastructure\Doctrine\Types\Ping\PingStatusType
             app_ping_message: Heph\Infrastructure\Doctrine\Types\Ping\PingMessageType
+            app_lm_quatre_owner: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreOwnerType
+            app_lm_quatre_email: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreEmailType
+            app_lm_quatre_adresse: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatreAdresseType
+            app_lm_quatre_phone_number: Heph\Infrastructure\Doctrine\Types\LmQuatre\LmQuatrePhoneNumberType
+            app_schedule_day: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleDayType
+            app_schedule_hours_open_am: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenAmType
+            app_schedule_hours_close_am: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursCloseAmType
+            app_schedule_hours_close_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursClosePmType
+            app_schedule_hours_open_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenPmType
+            app_terms_conditions_article_title: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleTitleType
+            app_terms_conditions_article_article: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType
+            app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
+            app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -25,7 +38,7 @@ doctrine:
             Heph:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
+                dir: "%kernel.project_dir%/src/Entity"
                 prefix: 'Heph\Entity'
                 alias: Heph
         controller_resolver:
@@ -35,7 +48,7 @@ when@prod:
     doctrine:
         orm:
             auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            proxy_dir: "%kernel.build_dir%/doctrine/orm/Proxies"
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool

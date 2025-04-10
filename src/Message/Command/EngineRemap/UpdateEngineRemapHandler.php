@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heph\Message\Command\EngineRemap;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -19,12 +21,10 @@ class UpdateEngineRemapHandler
     public function __invoke(UpdateEngineRemapCommand $command): void
     {
         $engineRemap = $this->engineRemapRepository->find($command->id);
-
         if ($engineRemap) {
             $info = $engineRemap->infoDescriptionModel();
-            $info->setLibelle($command->engineRemapUpdateDto->libelle()->value());
-            $info->setDescription($command->engineRemapUpdateDto->description()->value());
-
+            $info->setLibelle(LibelleValueObject::fromValue($command->engineRemapUpdateDto->libelle()));
+            $info->setDescription(DescriptionValueObject::fromValue($command->engineRemapUpdateDto->description()));
             $this->entityManager->persist($info);
             $this->entityManager->persist($engineRemap);
             $this->entityManager->flush();

@@ -6,12 +6,11 @@ namespace Heph\Entity\TermsConditionsArticle\Dto;
 
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
-use Symfony\Component\Uid\Uuid;
 
 class TermsConditionsArticleDto
 {
     public function __construct(
-        public Uuid $id,
+        public string $id,
         public TermsConditionsDto $termsConditions,
         public string $title,
         public string $article,
@@ -19,13 +18,13 @@ class TermsConditionsArticleDto
         public string $updatedAt,
     ) {}
 
-    public static function fromEntity(TermsConditionsArticle $data): self
+    public static function fromArray(TermsConditionsArticle $data): self
     {
         return new self(
-            id: Uuid::v7(),
+            id: (string) $data->id(),
             termsConditions: TermsConditionsDto::fromEntity($data->termsConditions()),
-            title: $data->title(),
-            article: $data->article(),
+            title: $data->title()->value(),
+            article: $data->article()->value(),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
@@ -41,9 +40,24 @@ class TermsConditionsArticleDto
         $listTermsConditionsArticle = [];
 
         foreach ($data as $termsConditionsArticle) {
-            $listTermsConditionsArticle[] = self::fromEntity($termsConditionsArticle);
+            $listTermsConditionsArticle[] = self::fromArray($termsConditionsArticle);
         }
 
         return $listTermsConditionsArticle;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'termsConditions' => $this->termsConditions,
+            'title' => $this->title,
+            'article' => $this->article,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+        ];
     }
 }

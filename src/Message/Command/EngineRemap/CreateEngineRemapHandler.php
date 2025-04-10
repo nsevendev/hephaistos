@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -26,8 +28,8 @@ readonly class CreateEngineRemapHandler
     public function __invoke(CreateEngineRemapCommand $command): void
     {
         $infoDescriptionModel = new InfoDescriptionModel(
-            libelle: $command->engineRemapCreateDto->infoDescriptionModel()->libelle()->value(),
-            description: $command->engineRemapCreateDto->infoDescriptionModel()->description()->value()
+            libelle: LibelleValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel()->libelle()),
+            description: DescriptionValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel()->description()),
         );
         $this->entityManager->persist($infoDescriptionModel);
 

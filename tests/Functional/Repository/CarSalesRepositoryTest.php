@@ -7,6 +7,10 @@ namespace Heph\Tests\Functional\Repository;
 use Doctrine\DBAL\Exception;
 use Heph\Entity\CarSales\CarSales;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\CarSales\CarSalesRepository;
 use Heph\Tests\Faker\Entity\CarSales\CarSalesFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,6 +21,10 @@ use ReflectionException;
     CoversClass(CarSalesRepository::class),
     CoversClass(CarSales::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class CarSalesRepositoryTest extends HephFunctionalTestCase
 {
@@ -74,8 +82,8 @@ class CarSalesRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($carSales);
 
         $infoDescriptionModel = $carSales->infoDescriptionModel();
-        $infoDescriptionModel->setLibelle('Nouveau libellé');
-        $infoDescriptionModel->setDescription('Nouvelle description');
+        $infoDescriptionModel->setLibelle(new LibelleValueObject('Nouveau libellé'));
+        $infoDescriptionModel->setDescription(new DescriptionValueObject('Nouvelle description'));
 
         $this->persistAndFlush($carSales);
 
@@ -83,7 +91,7 @@ class CarSalesRepositoryTest extends HephFunctionalTestCase
         $found = $this->carSalesRepository->find($carSales->id());
 
         self::assertNotNull($found, 'CarSales non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle());
-        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
+        self::assertSame('Nouveau libellé', $found->infoDescriptionModel()->libelle()->value());
+        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description()->value());
     }
 }

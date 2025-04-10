@@ -7,14 +7,22 @@ namespace Heph\Tests\Unit\Entity\TermsConditions\Dto;
 use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Tests\Faker\Dto\InfoDescriptionModel\InfoDescriptionModelDtoFaker;
 use Heph\Tests\Faker\Dto\TermsConditions\TermsConditionsDtoFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(TermsConditionsDto::class), CoversClass(InfoDescriptionModelDto::class)]
+#[
+    CoversClass(TermsConditionsDto::class),
+    CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+]
 class TermsConditionsDtoTest extends HephUnitTestCase
 {
     public function testTermsConditionsDto(): void
@@ -36,8 +44,8 @@ class TermsConditionsDtoTest extends HephUnitTestCase
     public function testFromEntity(): void
     {
         $infoDescriptionModelMock = $this->createMock(InfoDescriptionModel::class);
-        $infoDescriptionModelMock->method('libelle')->willReturn('Libelle test');
-        $infoDescriptionModelMock->method('description')->willReturn('Description test');
+        $infoDescriptionModelMock->method('libelle')->willReturn(new LibelleValueObject('Libelle test'));
+        $infoDescriptionModelMock->method('description')->willReturn(new DescriptionValueObject('Description test'));
         $infoDescriptionModelMock->method('createdAt')->willReturn(new DateTimeImmutable('2000-03-31 10:00:00'));
         $infoDescriptionModelMock->method('updatedAt')->willReturn(new DateTimeImmutable('2000-03-31 12:00:00'));
 
@@ -99,5 +107,19 @@ class TermsConditionsDtoTest extends HephUnitTestCase
 
         self::assertSame('2001-03-31 10:00:00', $dtos[1]->createdAt);
         self::assertSame('2001-03-31 12:00:00', $dtos[1]->updatedAt);
+    }
+
+    public function testToArray(): void
+    {
+        $infoDescriptionModelDto = InfoDescriptionModelDtoFaker::new();
+
+        $result = $infoDescriptionModelDto->toArray();
+
+        self::assertIsArray($result);
+        self::assertSame($infoDescriptionModelDto->id, $result['id']);
+        self::assertSame($infoDescriptionModelDto->libelle, $result['libelle']);
+        self::assertSame($infoDescriptionModelDto->description, $result['description']);
+        self::assertSame($infoDescriptionModelDto->createdAt, $result['createdAt']);
+        self::assertSame($infoDescriptionModelDto->updatedAt, $result['updatedAt']);
     }
 }

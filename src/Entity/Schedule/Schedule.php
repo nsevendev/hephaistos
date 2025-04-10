@@ -6,6 +6,11 @@ namespace Heph\Entity\Schedule;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Heph\Entity\Schedule\ValueObject\ScheduleDay;
+use Heph\Entity\Schedule\ValueObject\ScheduleHoursCloseAm;
+use Heph\Entity\Schedule\ValueObject\ScheduleHoursClosePm;
+use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
+use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
 use Heph\Repository\Schedule\ScheduleRepository;
 use Symfony\Component\Uid\Uuid;
 
@@ -16,116 +21,101 @@ class Schedule
     #[ORM\Column(type: 'uuid', unique: true)]
     private Uuid $id;
 
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
+    private DateTimeImmutable $updatedAt;
+
+    public function __construct(
+        #[ORM\Column(type: 'app_schedule_day', name: 'day', nullable: false)]
+        private ScheduleDay $day,
+        #[ORM\Column(type: 'app_schedule_hours_open_am', name: 'hours_open_am', nullable: false)]
+        private ScheduleHoursOpenAm $hoursOpenAm,
+        #[ORM\Column(type: 'app_schedule_hours_close_am', name: 'hours_close_am', nullable: false)]
+        private ScheduleHoursCloseAm $hoursCloseAm,
+        #[ORM\Column(type: 'app_schedule_hours_open_pm', name: 'hours_open_pm', nullable: false)]
+        private ScheduleHoursOpenPm $hoursOpenPm,
+        #[ORM\Column(type: 'app_schedule_hours_close_pm', name: 'hours_close_pm', nullable: false)]
+        private ScheduleHoursClosePm $hoursClosePm,
+    ) {
+        $this->id = Uuid::v7();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function id(): Uuid
     {
         return $this->id;
     }
 
-    #[ORM\Column(type: 'string', name: 'day', nullable: false)]
-    private string $day;
-
-    public function day(): string
+    public function day(): ScheduleDay
     {
         return $this->day;
     }
 
-    public function setDay(string $day): void
-    {
-        $this->day = $day;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'string', name: 'hours_open_am', nullable: false)]
-    private string $hoursOpenAm;
-
-    public function hoursOpenAm(): string
+    public function hoursOpenAm(): ScheduleHoursOpenAm
     {
         return $this->hoursOpenAm;
     }
 
-    public function setHoursOpenAm(string $hoursOpenAm): void
-    {
-        $this->hoursOpenAm = $hoursOpenAm;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'string', name: 'hours_close_am', nullable: false)]
-    private string $hoursCloseAm;
-
-    public function hoursCloseAm(): string
+    public function hoursCloseAm(): ScheduleHoursCloseAm
     {
         return $this->hoursCloseAm;
     }
 
-    public function setHoursCloseAm(string $hoursCloseAm): void
-    {
-        $this->hoursCloseAm = $hoursCloseAm;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'string', name: 'hours_open_pm', nullable: false)]
-    private string $hoursOpenPm;
-
-    public function hoursOpenPm(): string
+    public function hoursOpenPm(): ScheduleHoursOpenPm
     {
         return $this->hoursOpenPm;
     }
 
-    public function setHoursOpenPm(string $hoursOpenPm): void
-    {
-        $this->hoursOpenPm = $hoursOpenPm;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'string', name: 'hours_close_pm', nullable: false)]
-    private string $hoursClosePm;
-
-    public function hoursClosePm(): string
+    public function hoursClosePm(): ScheduleHoursClosePm
     {
         return $this->hoursClosePm;
     }
-
-    public function setHoursClosePm(string $hoursClosePm): void
-    {
-        $this->hoursClosePm = $hoursClosePm;
-        $this->updatedAt = new DateTimeImmutable();
-    }
-
-    #[ORM\Column(type: 'datetime_immutable', name: 'created_at', nullable: false)]
-    private DateTimeImmutable $createdAt;
 
     public function createdAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    #[ORM\Column(type: 'datetime_immutable', name: 'updated_at', nullable: false)]
-    private DateTimeImmutable $updatedAt;
-
     public function updatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
+    public function setDay(ScheduleDay $day): void
+    {
+        $this->day = $day;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function setHoursOpenAm(ScheduleHoursOpenAm $hoursOpenAm): void
+    {
+        $this->hoursOpenAm = $hoursOpenAm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function setHoursCloseAm(ScheduleHoursCloseAm $hoursCloseAm): void
+    {
+        $this->hoursCloseAm = $hoursCloseAm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function setHoursOpenPm(ScheduleHoursOpenPm $hoursOpenPm): void
+    {
+        $this->hoursOpenPm = $hoursOpenPm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function setHoursClosePm(ScheduleHoursClosePm $hoursClosePm): void
+    {
+        $this->hoursClosePm = $hoursClosePm;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
     public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    public function __construct(
-        string $day,
-        string $hoursOpenAm,
-        string $hoursCloseAm,
-        string $hoursOpenPm,
-        string $hoursClosePm,
-    ) {
-        $this->id = Uuid::v7();
-        $this->day = $day;
-        $this->hoursOpenAm = $hoursOpenAm;
-        $this->hoursCloseAm = $hoursCloseAm;
-        $this->hoursOpenPm = $hoursOpenPm;
-        $this->hoursClosePm = $hoursClosePm;
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = $this->createdAt;
     }
 }

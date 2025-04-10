@@ -11,6 +11,8 @@ use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapCommand;
 use Heph\Message\Command\EngineRemap\UpdateEngineRemapHandler;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
@@ -28,6 +30,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(EngineRemapUpdateDto::class),
     CoversClass(DescriptionValueObject::class),
     CoversClass(LibelleValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
     CoversClass(InfoDescriptionModel::class)
 ]
 class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
@@ -100,7 +104,7 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         self::assertNotNull($updatedEngineRemap, 'Entity non trouvée en bdd.');
 
         $updatedInfo = $updatedEngineRemap->infoDescriptionModel();
-        self::assertEquals($dto->libelle()->value(), $updatedInfo->libelle(), 'Le libelle ne correspond pas au dto.');
+        self::assertEquals($dto->libelle(), $updatedInfo->libelle(), 'Le libelle ne correspond pas au dto.');
         self::assertEquals($dto->description(), $updatedInfo->description(), 'La description ne correspond pas au dto.');
     }
 }

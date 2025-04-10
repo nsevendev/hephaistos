@@ -4,21 +4,32 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Shared\ValueObject;
 
-use Heph\Infrastructure\Shared\Type\ValueObjectInterface;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Shared\GenericException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
+use JsonSerializable;
 use Stringable;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-readonly class DescriptionValueObject implements Stringable, ValueObjectInterface
+readonly class DescriptionValueObject implements Stringable, JsonSerializable
 {
-    public function __construct(
-        #[Assert\NotBlank(message: 'La description est requis.')]
-        #[Assert\Length(max: 255, maxMessage: 'La description doit contenir au plus {{ limit }} caractères.')]
-        private string $value,
-    ) {}
+    public function __construct(private string $value) {}
 
-    public static function fromValue(string|int|float|bool $value): self
+    /**
+     * @throws GenericException
+     */
+    public static function fromValue(string $value): self
     {
-        return new self(value: (string) $value);
+        $valueFormated = trim($value);
+
+        if ('' === $valueFormated) {
+            throw new GenericException(exception: new BadRequestHttpException(), getMessage: 'Description ne peux pas etre vide', errors: [Error::create(key: 'description', message: 'Description ne peux pas etre vide')]);
+        }
+
+        if (mb_strlen($valueFormated) > 255) {
+            throw new GenericException(exception: new BadRequestHttpException(), getMessage: 'Description ne peux pas etre supérieur à 255 caractères', errors: [Error::create(key: 'description', message: 'Description ne peux pas etre supérieur à 255 caractères')]);
+        }
+
+        return new self(value: $valueFormated);
     }
 
     public function value(): string
@@ -27,6 +38,11 @@ readonly class DescriptionValueObject implements Stringable, ValueObjectInterfac
     }
 
     public function __toString(): string
+    {
+        return $this->value;
+    }
+
+    public function jsonSerialize(): string
     {
         return $this->value;
     }

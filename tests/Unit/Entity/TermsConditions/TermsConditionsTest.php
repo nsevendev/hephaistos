@@ -7,15 +7,27 @@ namespace Heph\Tests\Unit\Entity\TermsConditions;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Tests\Faker\Entity\InfoDescriptionModel\InfoDescriptionModelFaker;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Unit\HephUnitTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TermsConditions::class), CoversClass(InfoDescriptionModel::class), CoversClass(TermsConditionsArticle::class)]
+#[
+    CoversClass(TermsConditions::class),
+    CoversClass(InfoDescriptionModel::class),
+    CoversClass(TermsConditionsArticle::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(TermsConditionsArticleArticle::class),
+    CoversClass(TermsConditionsArticleTitle::class),
+]
 class TermsConditionsTest extends HephUnitTestCase
 {
     public function testEntityInitialization(): void

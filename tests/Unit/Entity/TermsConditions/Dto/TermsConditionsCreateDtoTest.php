@@ -26,8 +26,8 @@ class TermsConditionsCreateDtoTest extends HephUnitTestCase
         self::assertInstanceOf(TermsConditionsCreateDto::class, $termsConditionsCreateDto);
         self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $termsConditionsCreateDto->infoDescriptionModel());
 
-        self::assertSame('Libelle test', $termsConditionsCreateDto->infoDescriptionModel()->libelle()->value());
-        self::assertSame('Description test', $termsConditionsCreateDto->infoDescriptionModel()->description()->value());
+        self::assertSame('Libelle test', $termsConditionsCreateDto->infoDescriptionModel()->libelle());
+        self::assertSame('Description test', $termsConditionsCreateDto->infoDescriptionModel()->description());
     }
 
     public function testTermsConditionsCreateDtoWithFunctionNew(): void
@@ -44,7 +44,7 @@ class TermsConditionsCreateDtoTest extends HephUnitTestCase
         self::assertInstanceOf(TermsConditionsCreateDto::class, $termsConditionsCreateDto);
         self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $termsConditionsCreateDto->infoDescriptionModel());
 
-        self::assertSame('Libelle test', $termsConditionsCreateDto->infoDescriptionModel()->libelle()->value());
-        self::assertSame('Description test', $termsConditionsCreateDto->infoDescriptionModel()->description()->value());
+        self::assertSame('Libelle test', $termsConditionsCreateDto->infoDescriptionModel()->libelle());
+        self::assertSame('Description test', $termsConditionsCreateDto->infoDescriptionModel()->description());
     }
 }

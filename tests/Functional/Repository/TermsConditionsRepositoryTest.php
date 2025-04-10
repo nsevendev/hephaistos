@@ -6,7 +6,11 @@ namespace Heph\Tests\Functional\Repository;
 
 use Doctrine\DBAL\Exception;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Repository\TermsConditions\TermsConditionsRepository;
 use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -17,6 +21,10 @@ use ReflectionException;
     CoversClass(TermsConditionsRepository::class),
     CoversClass(TermsConditions::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
 ]
 class TermsConditionsRepositoryTest extends HephFunctionalTestCase
 {
@@ -74,8 +82,8 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         /** @var TermsConditions|null $found */
         $found = $this->termsConditionsRepository->find($termsConditions->id());
         self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le créer');
-        self::assertSame('libelle test', $found->infoDescriptionModel()->libelle());
-        self::assertSame('description test', $found->infoDescriptionModel()->description());
+        self::assertSame('libelle test', $found->infoDescriptionModel()->libelle()->value());
+        self::assertSame('description test', $found->infoDescriptionModel()->description()->value());
     }
 
     /**
@@ -88,8 +96,8 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
         $this->persistAndFlush($termsConditions);
 
         $infoDescriptionModel = $termsConditions->infoDescriptionModel();
-        $infoDescriptionModel->setLibelle('Nouveau libelle');
-        $infoDescriptionModel->setDescription('Nouvelle description');
+        $infoDescriptionModel->setLibelle(new LibelleValueObject('Nouveau libelle'));
+        $infoDescriptionModel->setDescription(new DescriptionValueObject('Nouvelle description'));
 
         $this->persistAndFlush($termsConditions);
 
@@ -98,7 +106,7 @@ class TermsConditionsRepositoryTest extends HephFunctionalTestCase
 
         // Vérifications
         self::assertNotNull($found, 'TermsConditions non trouvé en base alors qu’on vient de le modifier');
-        self::assertSame('Nouveau libelle', $found->infoDescriptionModel()->libelle());
-        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description());
+        self::assertSame('Nouveau libelle', $found->infoDescriptionModel()->libelle()->value());
+        self::assertSame('Nouvelle description', $found->infoDescriptionModel()->description()->value());
     }
 }

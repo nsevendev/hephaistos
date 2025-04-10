@@ -10,6 +10,8 @@ use Heph\Entity\EngineRemap\Dto\EngineRemapDto;
 use Heph\Entity\EngineRemap\EngineRemap;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
+use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
+use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -17,6 +19,8 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
+use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
+use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Message\Query\EngineRemap\GetFirstEngineRemapHandler;
 use Heph\Repository\EngineRemap\EngineRemapRepository;
@@ -41,6 +45,10 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(EngineRemapRepository::class),
     CoversClass(EngineRemap::class),
     CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionType::class),
     CoversClass(InfoDescriptionModel::class)
 ]
 class GetFirstEngineRemapTest extends HephFunctionalTestCase
@@ -99,14 +107,12 @@ class GetFirstEngineRemapTest extends HephFunctionalTestCase
     public function testInvokeReturnsExpectedResponse(): void
     {
         $engineRemap = EngineRemapFaker::new();
-
         $this->entityManager->persist($engineRemap);
         $this->entityManager->flush();
 
         $this->client->request('GET', '/api/engine-remap');
 
         $content = $this->client->getResponse()->getContent();
-
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJson($content);
