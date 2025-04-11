@@ -94,7 +94,7 @@ class UpdateScheduleHandlerTest extends HephFunctionalTestCase
         $this->entityManager->persist($shedule);
         $this->entityManager->flush();
 
-        $firstSchedule = $this->repository->findFirst();
+        $firstSchedule = $this->repository->findOneBy([]);
         self::assertNotNull($firstSchedule, 'Entity non trouvée en bdd.');
         self::assertEquals('Monday', $firstSchedule->day());
         self::assertEquals('09:00', $firstSchedule->hoursOpenAm());
@@ -113,13 +113,13 @@ class UpdateScheduleHandlerTest extends HephFunctionalTestCase
         $this->transport('async')->process(1);
         $this->transport('async')->queue()->assertCount(0);
 
-        $updatedSchedule = $this->repository->findFirst();
+        $updatedSchedule = $this->repository->findOneBy([]);
         self::assertNotNull($updatedSchedule, 'Entity non trouvée en bdd.');
 
-        self::assertEquals($dto->day(), $updatedSchedule->day(), 'Le day ne correspond pas au dto.');
-        self::assertEquals($dto->hoursOpenAm(), $updatedSchedule->hoursOpenAm(), 'Le hoursOpenAm ne correspond pas au dto.');
-        self::assertEquals($dto->hoursCloseAm(), $updatedSchedule->hoursCloseAm(), 'Le hoursCloseAm ne correspond pas au dto.');
-        self::assertEquals($dto->hoursOpenPm(), $updatedSchedule->hoursOpenPm(), 'Le hoursOpenPm ne correspond pas au dto.');
-        self::assertEquals($dto->hoursClosePm(), $updatedSchedule->hoursClosePm(), 'Le hoursClosePm ne correspond pas au dto.');
+        self::assertEquals($dto->day, $updatedSchedule->day(), 'Le day ne correspond pas au dto.');
+        self::assertEquals($dto->hoursOpenAm, $updatedSchedule->hoursOpenAm(), 'Le hoursOpenAm ne correspond pas au dto.');
+        self::assertEquals($dto->hoursCloseAm, $updatedSchedule->hoursCloseAm(), 'Le hoursCloseAm ne correspond pas au dto.');
+        self::assertEquals($dto->hoursOpenPm, $updatedSchedule->hoursOpenPm(), 'Le hoursOpenPm ne correspond pas au dto.');
+        self::assertEquals($dto->hoursClosePm, $updatedSchedule->hoursClosePm(), 'Le hoursClosePm ne correspond pas au dto.');
     }
 }

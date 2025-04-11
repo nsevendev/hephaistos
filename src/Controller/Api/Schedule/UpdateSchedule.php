@@ -35,7 +35,7 @@ class UpdateSchedule extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: ScheduleUpdateDto::class,
-            fnException: fn(array $errors) => new ScheduleInvalidArgumentException(
+            fnException: fn (array $errors) => new ScheduleInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )

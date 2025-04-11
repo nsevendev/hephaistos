@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Message\Command\Schedule;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\Schedule\ValueObject\ScheduleDay;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursCloseAm;
@@ -30,7 +31,7 @@ class UpdateScheduleHandler
             $schedule->setHoursCloseAm(ScheduleHoursCloseAm::fromValue($command->scheduleUpdateDto->hoursCloseAm));
             $schedule->setHoursOpenPm(ScheduleHoursOpenPm::fromValue($command->scheduleUpdateDto->hoursOpenPm));
             $schedule->setHoursClosePm(ScheduleHoursClosePm::fromValue($command->scheduleUpdateDto->hoursClosePm));
-            $schedule->setUpdatedAt();
+            $schedule->setUpdatedAt(new DateTimeImmutable());
             $this->entityManager->persist($schedule);
             $this->entityManager->flush();
         }
