@@ -6,7 +6,7 @@ namespace Heph\Entity\Schedule\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class ScheduleCreateDto
+readonly class ScheduleUpdateDto
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Le day est requis.')]
