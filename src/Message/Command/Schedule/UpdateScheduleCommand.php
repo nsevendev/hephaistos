@@ -9,7 +9,7 @@ use Heph\Entity\Schedule\Dto\ScheduleUpdateDto;
 class UpdateScheduleCommand
 {
     public function __construct(
-        public readonly ScheduleUpdateDto $engineRemapUpdateDto,
+        public readonly ScheduleUpdateDto $scheduleUpdateDto,
         public readonly string $id,
     ) {}
 }
