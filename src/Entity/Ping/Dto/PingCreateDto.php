@@ -12,8 +12,8 @@ readonly class PingCreateDto
         #[Assert\NotBlank(message: 'Le status est requis.')]
         #[Assert\Choice(choices: [200], message: 'Le status doit être de {{ choices }}')]
         public int $status,
-        #[Assert\NotBlank(message: 'Le message est requis.')]
-        #[Assert\Length(max: 255, maxMessage: 'Le message doit contenir au plus {{ limit }} caractères.')]
+        #[Assert\NotBlank(message: 'Le status est requis.')]
+        #[Assert\Length(max: 255, maxMessage: 'Le status doit contenir au plus {{ limit }} caractères.')]
         public string $message,
     ) {}
 

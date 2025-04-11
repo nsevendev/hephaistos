@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Heph\Entity\Schedule\Dto;
 
-use Heph\Entity\Shared\ValueObject\DayValueObject;
-use Heph\Entity\Shared\ValueObject\HoursCloseAmValueObject;
-use Heph\Entity\Shared\ValueObject\HoursClosePmValueObject;
-use Heph\Entity\Shared\ValueObject\HoursOpenAmValueObject;
-use Heph\Entity\Shared\ValueObject\HoursOpenPmValueObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ScheduleCreateDto
 {
     public function __construct(
-        #[Assert\Valid]
-        private DayValueObject $day,
-        #[Assert\Valid]
-        private HoursOpenAmValueObject $hoursOpenAm,
-        #[Assert\Valid]
-        private HoursCloseAmValueObject $hoursCloseAm,
-        #[Assert\Valid]
-        private HoursOpenPmValueObject $hoursOpenPm,
-        #[Assert\Valid]
-        private HoursClosePmValueObject $hoursClosePm,
+        #[Assert\NotBlank(message: 'Le day est requis.')]
+        #[Assert\Choice(choices: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], message: 'Le day doit être {{ choices }}')]
+        public string $day,
+        #[Assert\NotBlank(message: 'Le hours_open_am est requis.')]
+        #[Assert\Choice(choices: ['06:00', '06:15', '06:30', '06:45', '07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'], message: 'Le hours_open_am doit être parmi {{ choices }}')]
+        public string $hoursOpenAm,
+        #[Assert\NotBlank(message: 'Le hours_close_am est requis.')]
+        #[Assert\Choice(choices: ['06:00', '06:15', '06:30', '06:45', '07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'], message: 'Le hours_close_am doit être parmi {{ choices }}')]
+        public string $hoursCloseAm,
+        #[Assert\NotBlank(message: 'Le hours_open_pm est requis.')]
+        #[Assert\Choice(choices: ['13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30', '15:45', '16:00', '16:15', '16:30', '16:45', '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00', '19:15', '19:30', '19:45', '20:00'], message: 'Le hours_open_pm doit être parmi {{ choices }}')]
+        public string $hoursOpenPm,
+        #[Assert\NotBlank(message: 'Le hours_close_pm est requis.')]
+        #[Assert\Choice(choices: ['13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30', '15:45', '16:00', '16:15', '16:30', '16:45', '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00', '19:15', '19:30', '19:45', '20:00'], message: 'Le hours_close_pm doit être parmi {{ choices }}')]
+        public string $hoursClosePm,
     ) {}
 
     public static function new(
@@ -34,36 +34,11 @@ readonly class ScheduleCreateDto
         string $hoursClosePm,
     ): self {
         return new self(
-            day: DayValueObject::fromValue($day),
-            hoursOpenAm: HoursOpenAmValueObject::fromValue($hoursOpenAm),
-            hoursCloseAm: HoursCloseAmValueObject::fromValue($hoursCloseAm),
-            hoursOpenPm: HoursOpenPmValueObject::fromValue($hoursOpenPm),
-            hoursClosePm: HoursClosePmValueObject::fromValue($hoursClosePm),
+            day: $day,
+            hoursOpenAm: $hoursOpenAm,
+            hoursCloseAm: $hoursCloseAm,
+            hoursOpenPm: $hoursOpenPm,
+            hoursClosePm: $hoursClosePm,
         );
-    }
-
-    public function day(): DayValueObject
-    {
-        return $this->day;
-    }
-
-    public function hoursOpenAm(): HoursOpenAmValueObject
-    {
-        return $this->hoursOpenAm;
-    }
-
-    public function hoursCloseAm(): HoursCloseAmValueObject
-    {
-        return $this->hoursCloseAm;
-    }
-
-    public function hoursOpenPm(): HoursOpenPmValueObject
-    {
-        return $this->hoursOpenPm;
-    }
-
-    public function hoursClosePm(): HoursClosePmValueObject
-    {
-        return $this->hoursClosePm;
     }
 }
