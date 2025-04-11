@@ -7,7 +7,6 @@ namespace Heph\Tests\Functional\Controller\Api\Schedule;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Controller\Api\Schedule\UpdateSchedule;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Schedule\Dto\ScheduleUpdateDto;
 use Heph\Entity\Schedule\Schedule;
 use Heph\Entity\Schedule\ValueObject\ScheduleDay;
@@ -15,8 +14,6 @@ use Heph\Entity\Schedule\ValueObject\ScheduleHoursCloseAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursClosePm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenAm;
 use Heph\Entity\Schedule\ValueObject\ScheduleHoursOpenPm;
-use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
-use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -29,8 +26,6 @@ use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursCloseAmType;
 use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursClosePmType;
 use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenAmType;
 use Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenPmType;
-use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
-use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Serializer\HephSerializer;
 use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
 use Heph\Message\Command\Schedule\UpdateScheduleCommand;
@@ -126,7 +121,7 @@ class UpdateScheduleTest extends HephFunctionalTestCase
             'hours_close_pm' => '16:00',
         ]);
 
-        $this->client->request('PUT', '/api/schedule/' . (string) $scheduleToUpdate->id(), [], [], [], $updatePayload);
+        $this->client->request('PUT', '/api/schedule/'.(string) $scheduleToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();
@@ -152,7 +147,7 @@ class UpdateScheduleTest extends HephFunctionalTestCase
             'hours_close_pm' => '16:00',
         ]);
 
-        $this->client->request('PUT', '/api/schedule/' . (string) $scheduleToUpdate->id(), [], [], [], $updatePayload);
+        $this->client->request('PUT', '/api/schedule/'.(string) $scheduleToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();
