@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heph\Message\Command\LmQuatre;
 
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\LmQuatre\Dto\LmQuatreDto;
