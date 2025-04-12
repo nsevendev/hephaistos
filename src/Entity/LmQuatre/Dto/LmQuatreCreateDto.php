@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Entity\LmQuatre\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,9 +25,11 @@ readonly class LmQuatreCreateDto
         #[Assert\NotBlank(message: 'Le phoneNumber est requis.')]
         #[Assert\Length(max: 50, maxMessage: 'Le phoneNumber doit contenir au plus {{ limit }} caractères.')]
         public string $phoneNumber,
+        #[Assert\NotBlank(message: "L'companyCreateDate est requis.")]
+        public DateTimeImmutable $companyCreateDate,
     ) {}
 
-    public static function new(string $libelle, string $description, string $owner, string $adresse, string $email, string $phoneNumber): self
+    public static function new(string $libelle, string $description, string $owner, string $adresse, string $email, string $phoneNumber, DateTimeImmutable $companyCreateDate): self
     {
         return new self(
             infoDescriptionModel: InfoDescriptionModelCreateDto::new(
@@ -36,7 +39,8 @@ readonly class LmQuatreCreateDto
             owner: $owner,
             adresse: $adresse,
             email: $email,
-            phoneNumber: $phoneNumber
+            phoneNumber: $phoneNumber,
+            companyCreateDate: $companyCreateDate
         );
     }
 }

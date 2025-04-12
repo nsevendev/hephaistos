@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Unit\Entity\LmQuatre\Dto;
 
+use DateTimeImmutable;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Heph\Entity\LmQuatre\Dto\LmQuatreCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
@@ -17,7 +18,7 @@ class LmQuatreCreateDtoTest extends HephUnitTestCase
     public function testLmQuatreCreateDto(): void
     {
         $infoDescriptionModel = InfoDescriptionModelCreateDto::new('libelle test', 'description test');
-        $lmQuatreDto = new LmQuatreCreateDto($infoDescriptionModel, 'Math', 'adresse faker', 'test@test.com', '123456789');
+        $lmQuatreDto = new LmQuatreCreateDto($infoDescriptionModel, 'Math', 'adresse faker', 'test@test.com', '123456789', new DateTimeImmutable('2000-03-31'));
 
         self::assertNotNull($lmQuatreDto);
         self::assertInstanceOf(LmQuatreCreateDto::class, $lmQuatreDto);
@@ -26,7 +27,7 @@ class LmQuatreCreateDtoTest extends HephUnitTestCase
 
     public function testLmQuatreCreateDtoWithFunctionNew(): void
     {
-        $lmQuatreDto = LmQuatreCreateDto::new('libelle test', 'description test', 'Math', 'adresse faker', 'test@test.com', '123456789');
+        $lmQuatreDto = LmQuatreCreateDto::new('libelle test', 'description test', 'Math', 'adresse faker', 'test@test.com', '123456789', new DateTimeImmutable('2000-03-31'));
 
         self::assertNotNull($lmQuatreDto);
         self::assertInstanceOf(LmQuatreCreateDto::class, $lmQuatreDto);

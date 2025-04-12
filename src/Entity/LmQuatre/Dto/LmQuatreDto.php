@@ -16,6 +16,7 @@ class LmQuatreDto
         public string $adresse,
         public string $email,
         public string $phoneNumber,
+        public string $companyCreateDate,
         public string $createdAt,
         public string $updatedAt,
     ) {}
@@ -29,6 +30,7 @@ class LmQuatreDto
             adresse: $data->adresse()->value(),
             email: $data->email()->value(),
             phoneNumber: $data->phoneNumber()->value(),
+            companyCreateDate: $data->companyCreateDate()->format('Y-m-d H:i:s'),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
@@ -62,6 +64,7 @@ class LmQuatreDto
             'adresse' => $this->adresse,
             'email' => $this->email,
             'phoneNumber' => $this->phoneNumber,
+            'companyCreateDate' => $this->companyCreateDate,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
         ];
