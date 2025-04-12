@@ -11,7 +11,7 @@ readonly class EngineRemapCreateDto
 {
     public function __construct(
         #[Assert\Valid]
-        private InfoDescriptionModelCreateDto $infoDescriptionModel,
+        public InfoDescriptionModelCreateDto $infoDescriptionModel,
 
     ) {}
 
@@ -23,10 +23,5 @@ readonly class EngineRemapCreateDto
                 $description
             )
         );
-    }
-
-    public function infoDescriptionModel(): InfoDescriptionModelCreateDto
-    {
-        return $this->infoDescriptionModel;
     }
 }
