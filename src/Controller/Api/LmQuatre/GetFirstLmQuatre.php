@@ -7,7 +7,7 @@ namespace Heph\Controller\Api\LmQuatre;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\Controller\AbstractHephController;
 use Heph\Infrastructure\Serializer\HephSerializer;
-use Heph\Message\Query\LmQuatre\GetListLmQuatreQuery;
+use Heph\Message\Query\LmQuatre\GetFirstLmQuatreQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsController]
-class ListLmQuatre extends AbstractHephController
+class GetFirstLmQuatre extends AbstractHephController
 {
     use HandleTrait;
 
@@ -34,11 +34,11 @@ class ListLmQuatre extends AbstractHephController
     /**
      * @throws ExceptionInterface
      */
-    #[Route(path: '/api/list-lm-quatre', name: 'heph_api_list_lm_quatre', methods: ['GET'])]
+    #[Route(path: '/api/lm-quatre', name: 'heph_api_first_lm_quatre', methods: ['GET'])]
     public function __invoke(
         Request $request,
     ): Response {
-        $listLmQuatre = $this->handle(new GetListLmQuatreQuery());
+        $listLmQuatre = $this->handle(new GetFirstLmQuatreQuery());
 
         return ApiResponseFactory::success(data: $listLmQuatre);
     }
