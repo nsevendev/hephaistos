@@ -104,7 +104,7 @@ class UpdateEngineRemapHandlerTest extends HephFunctionalTestCase
         self::assertNotNull($updatedEngineRemap, 'Entity non trouvée en bdd.');
 
         $updatedInfo = $updatedEngineRemap->infoDescriptionModel();
-        self::assertEquals($dto->libelle(), $updatedInfo->libelle(), 'Le libelle ne correspond pas au dto.');
-        self::assertEquals($dto->description(), $updatedInfo->description(), 'La description ne correspond pas au dto.');
+        self::assertEquals($dto->libelle, $updatedInfo->libelle(), 'Le libelle ne correspond pas au dto.');
+        self::assertEquals($dto->description, $updatedInfo->description(), 'La description ne correspond pas au dto.');
     }
 }

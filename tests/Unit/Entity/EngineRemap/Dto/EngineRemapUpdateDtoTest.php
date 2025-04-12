@@ -22,11 +22,11 @@ class EngineRemapUpdateDtoTest extends HephUnitTestCase
 
         self::assertInstanceOf(EngineRemapUpdateDto::class, $updateEngineRemapDto);
 
-        self::assertSame('libelle update', $updateEngineRemapDto->libelle());
-        self::assertSame('description update', $updateEngineRemapDto->description());
+        self::assertSame('libelle update', $updateEngineRemapDto->libelle);
+        self::assertSame('description update', $updateEngineRemapDto->description);
 
-        self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle());
-        self::assertSame('description update', (string) $updateEngineRemapDto->description());
+        self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle);
+        self::assertSame('description update', (string) $updateEngineRemapDto->description);
     }
 
     public function testEngineRemapUpdateDtoWithFaker(): void
@@ -36,10 +36,10 @@ class EngineRemapUpdateDtoTest extends HephUnitTestCase
         self::assertNotNull($updateEngineRemapDto);
         self::assertInstanceOf(EngineRemapUpdateDto::class, $updateEngineRemapDto);
 
-        self::assertSame('libelle update', $updateEngineRemapDto->libelle());
-        self::assertSame('description update', $updateEngineRemapDto->description());
+        self::assertSame('libelle update', $updateEngineRemapDto->libelle);
+        self::assertSame('description update', $updateEngineRemapDto->description);
 
-        self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle());
-        self::assertSame('description update', (string) $updateEngineRemapDto->description());
+        self::assertSame('libelle update', (string) $updateEngineRemapDto->libelle);
+        self::assertSame('description update', (string) $updateEngineRemapDto->description);
     }
 }

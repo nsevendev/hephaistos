@@ -24,14 +24,4 @@ class EngineRemapUpdateDto
             $description,
         );
     }
-
-    public function libelle(): string
-    {
-        return $this->libelle;
-    }
-
-    public function description(): string
-    {
-        return $this->description;
-    }
 }

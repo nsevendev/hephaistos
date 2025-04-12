@@ -21,7 +21,7 @@ class EngineRemapCreateDtoTest extends HephUnitTestCase
 
         self::assertNotNull($engineRemapDto);
         self::assertInstanceOf(EngineRemapCreateDto::class, $engineRemapDto);
-        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel());
+        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel);
     }
 
     public function testEngineRemapCreateDtoWithFunctionNew(): void
@@ -30,6 +30,6 @@ class EngineRemapCreateDtoTest extends HephUnitTestCase
 
         self::assertNotNull($engineRemapDto);
         self::assertInstanceOf(EngineRemapCreateDto::class, $engineRemapDto);
-        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel());
+        self::assertInstanceOf(InfoDescriptionModelCreateDto::class, $engineRemapDto->infoDescriptionModel);
     }
 }
