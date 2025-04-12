@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Faker\Dto\LmQuatre;
 
-use Heph\Entity\LmQuatre\Dto\LmQuatreCreateDto;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
+use Heph\Entity\LmQuatre\Dto\LmQuatreCreateDto;
 
 class LmQuatreCreateDtoFaker
 {
