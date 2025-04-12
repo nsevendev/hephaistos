@@ -28,8 +28,8 @@ readonly class CreateEngineRemapHandler
     public function __invoke(CreateEngineRemapCommand $command): void
     {
         $infoDescriptionModel = new InfoDescriptionModel(
-            libelle: LibelleValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel()->libelle()),
-            description: DescriptionValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel()->description()),
+            libelle: LibelleValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel->libelle()),
+            description: DescriptionValueObject::fromValue($command->engineRemapCreateDto->infoDescriptionModel->description()),
         );
         $this->entityManager->persist($infoDescriptionModel);
 

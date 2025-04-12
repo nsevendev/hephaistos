@@ -37,22 +37,6 @@ class LmQuatreDto
     }
 
     /**
-     * @param LmQuatre[] $data
-     *
-     * @return LmQuatreDto[]
-     */
-    public static function toListLmQuatre(array $data): array
-    {
-        $listLmQuatre = [];
-
-        foreach ($data as $lmQuatre) {
-            $listLmQuatre[] = self::fromArray($lmQuatre);
-        }
-
-        return $listLmQuatre;
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public function toArray(): array
