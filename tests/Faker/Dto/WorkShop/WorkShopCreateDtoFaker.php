@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Tests\Faker\Dto\WorkShop;
 
-use Heph\Entity\WorkShop\Dto\WorkShopCreateDto;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
+use Heph\Entity\WorkShop\Dto\WorkShopCreateDto;
 
 class WorkShopCreateDtoFaker
 {
