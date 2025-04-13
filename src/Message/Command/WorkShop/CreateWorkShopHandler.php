@@ -6,10 +6,10 @@ namespace Heph\Message\Command\WorkShop;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
-use Heph\Entity\WorkShop\Dto\WorkShopDto;
-use Heph\Entity\WorkShop\WorkShop;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Entity\WorkShop\Dto\WorkShopDto;
+use Heph\Entity\WorkShop\WorkShop;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
