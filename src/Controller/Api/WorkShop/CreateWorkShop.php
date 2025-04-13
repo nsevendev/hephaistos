@@ -34,7 +34,7 @@ class CreateWorkShop extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: WorkShopCreateDto::class,
-            fnException: fn(array $errors) => new WorkShopInvalidArgumentException(
+            fnException: fn (array $errors) => new WorkShopInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )
