@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heph\Tests\Faker\Entity\Users;
 
 use Heph\Entity\Users\Users;
-use Heph\Entity\Users\ValueObject\UsersUsername;
-use Heph\Entity\Users\ValueObject\UsersRole;
 use Heph\Entity\Users\ValueObject\UsersPassword;
+use Heph\Entity\Users\ValueObject\UsersRole;
+use Heph\Entity\Users\ValueObject\UsersUsername;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersInvalidArgumentException;
 
 final class UsersFaker

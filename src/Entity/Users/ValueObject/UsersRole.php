@@ -31,10 +31,7 @@ readonly class UsersRole implements Stringable, JsonSerializable
         }
 
         if (!in_array($valueFormated, self::roles, true)) {
-            throw new UsersInvalidArgumentException(
-                getMessage: 'Role invalide',
-                errors: [Error::create('UsersRole', "Le role '{$valueFormated}' n'est pas autorisé.")]
-            );
+            throw new UsersInvalidArgumentException(getMessage: 'Role invalide', errors: [Error::create('UsersRole', "Le role '{$valueFormated}' n'est pas autorisé.")]);
         }
 
         return new self(value: $valueFormated);
