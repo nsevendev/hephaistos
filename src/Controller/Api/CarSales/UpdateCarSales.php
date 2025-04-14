@@ -35,7 +35,7 @@ class UpdateCarSales extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: CarSalesUpdateDto::class,
-            fnException: fn(array $errors) => new CarSalesInvalidArgumentException(
+            fnException: fn (array $errors) => new CarSalesInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )
