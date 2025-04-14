@@ -12,12 +12,12 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class GetFirstWorkShopHandler
 {
-    public function __construct(private WorkShopRepository $engineRemapRepository) {}
+    public function __construct(private WorkShopRepository $workShopRepository) {}
 
     public function __invoke(GetFirstWorkShopQuery $query): ?WorkShopDto
     {
         /** @var WorkShop|null $firstWorkShop */
-        $firstWorkShop = $this->engineRemapRepository->findOneBy([]);
+        $firstWorkShop = $this->workShopRepository->findOneBy([]);
 
         return $firstWorkShop ? WorkShopDto::fromArray($firstWorkShop) : null;
     }
