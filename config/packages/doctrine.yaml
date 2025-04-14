@@ -23,6 +23,7 @@ doctrine:
             app_schedule_hours_open_pm: Heph\Infrastructure\Doctrine\Types\Schedule\ScheduleHoursOpenPmType
             app_terms_conditions_article_title: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleTitleType
             app_terms_conditions_article_article: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType
+            app_users_username: Heph\Infrastructure\Doctrine\Types\Users\UsersUsernameType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:

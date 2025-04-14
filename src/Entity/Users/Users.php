@@ -6,6 +6,9 @@ namespace Heph\Entity\Users;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Heph\Entity\Users\ValueObject\UsersPassword;
+use Heph\Entity\Users\ValueObject\UsersRole;
+use Heph\Entity\Users\ValueObject\UsersUsername;
 use Heph\Repository\Users\UsersRepository;
 use Symfony\Component\Uid\Uuid;
 
