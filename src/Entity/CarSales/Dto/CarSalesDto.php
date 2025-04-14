@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Entity\CarSales\Dto;
 
-use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\CarSales\CarSales;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 
 class CarSalesDto
 {
