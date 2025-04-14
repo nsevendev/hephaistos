@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Heph\Message\Query\CarSales;
 
-use Heph\Entity\CarSales\Dto\CarSalesDto;
 use Heph\Entity\CarSales\CarSales;
+use Heph\Entity\CarSales\Dto\CarSalesDto;
 use Heph\Repository\CarSales\CarSalesRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
