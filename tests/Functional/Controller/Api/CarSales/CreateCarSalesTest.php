@@ -76,7 +76,7 @@ class CreateCarSalesTest extends HephFunctionalTestCase
             ],
         ]);
 
-        $this->client->request('POST', '/api/workshop', [], [], [], $payload);
+        $this->client->request('POST', '/api/car-sales', [], [], [], $payload);
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
