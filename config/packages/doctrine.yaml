@@ -25,6 +25,7 @@ doctrine:
             app_terms_conditions_article_article: Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType
             app_users_username: Heph\Infrastructure\Doctrine\Types\Users\UsersUsernameType
             app_users_password: Heph\Infrastructure\Doctrine\Types\Users\UsersPasswordType
+            app_users_role: Heph\Infrastructure\Doctrine\Types\Users\UsersRoleType
             app_shared_libelle: Heph\Infrastructure\Doctrine\Types\Shared\LibelleType
             app_shared_description: Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType
     orm:
