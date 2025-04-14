@@ -10,7 +10,7 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
-use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersBadRequestException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\ApiResponse\Exception\Event\ApiResponseExceptionListener;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 #[
     CoversClass(ApiResponseExceptionListener::class),
-    CoversClass(UsersBadRequestException::class),
+    CoversClass(UsersInvalidArgumentException::class),
     CoversClass(ApiResponseFactory::class),
     CoversClass(ApiResponse::class),
     CoversClass(ApiResponseLink::class),
@@ -34,10 +34,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
     CoversClass(ListError::class),
     CoversClass(Error::class),
 ]
-class UsersBadRequestExceptionTest extends HephUnitTestCase
+class UsersInvalidArgumentExceptionTest extends HephUnitTestCase
 {
     private ApiResponseExceptionListener $listener;
+
     private HttpKernelInterface $kernel;
+
     private Request $request;
 
     /**
@@ -46,14 +48,15 @@ class UsersBadRequestExceptionTest extends HephUnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->listener = new ApiResponseExceptionListener();
         $this->kernel = $this->createMock(HttpKernelInterface::class);
-        $this->request = Request::create('/api/workshop');
+        $this->request = Request::create('/api/schedule');
     }
 
-    public function testOnKernelExceptionUsersBadRequestException(): void
+    public function testOnKernelExceptionUsersInvalidArgumentException(): void
     {
-        $exceptionCustom = new UsersBadRequestException();
+        $exceptionCustom = new UsersInvalidArgumentException();
         $event = new ExceptionEvent(
             $this->kernel,
             $this->request,
@@ -63,7 +66,7 @@ class UsersBadRequestExceptionTest extends HephUnitTestCase
 
         $this->listener->onKernelException($event);
 
-        self::assertSame(400, $exceptionCustom->getStatusCode());
+        self::assertSame(422, $exceptionCustom->getStatusCode());
 
         $response = $event->getResponse();
         self::assertNotNull($response, 'Response should not be null');
@@ -74,13 +77,13 @@ class UsersBadRequestExceptionTest extends HephUnitTestCase
 
         $responseData = json_decode($content, true);
         self::assertIsArray($responseData);
-        self::assertSame(400, $responseData['statusCode']);
-        self::assertSame('Bad Request', $responseData['message']);
+        self::assertSame(422, $responseData['statusCode']);
+        self::assertSame('Unprocessable Content', $responseData['message']);
         self::assertSame(null, $responseData['data']);
         self::assertSame(null, $responseData['meta']);
         self::assertSame(null, $responseData['links']);
 
-        $expectedError = ['key' => 'error', 'message' => 'Bad Request'];
+        $expectedError = ['key' => 'error', 'message' => 'Unprocessable Content'];
         self::assertContains($expectedError, $responseData['errors']);
     }
 }
