@@ -22,4 +22,5 @@ security:
             jwt: ~
 
     access_control:
+        - { path: ^/api/login$, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_ADMIN }
