@@ -47,6 +47,10 @@ final class UsersUsernameType extends Type
             return null;
         }
 
+        if (is_string($value)) {
+            return $value;
+        }
+
         if (false === $value instanceof UsersUsername) {
             throw new UsersInvalidArgumentException(getMessage: 'La valeur doit etre une instance de UsersUsername', errors: [Error::create(key: 'UsersUsernameType', message: 'La valeur doit etre une instance de UsersUsername')]);
         }

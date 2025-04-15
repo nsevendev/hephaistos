@@ -35,7 +35,7 @@ class UpdateLmQuatre extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: LmQuatreUpdateDto::class,
-            fnException: fn(array $errors) => new LmQuatreInvalidArgumentException(
+            fnException: fn (array $errors) => new LmQuatreInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )

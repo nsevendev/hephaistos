@@ -10,6 +10,7 @@ use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Users\Dto\UsersDto;
 use Heph\Entity\Users\Dto\UsersGetOneByIdDto;
+use Heph\Entity\Users\Dto\UsersLoginDto;
 use Heph\Entity\Users\Users;
 use Heph\Entity\Users\ValueObject\UsersPassword;
 use Heph\Entity\Users\ValueObject\UsersRole;
@@ -20,15 +21,19 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\AbstractApiResponseException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
+use Heph\Infrastructure\ApiResponse\Exception\Event\ApiResponseExceptionListener;
 use Heph\Infrastructure\Doctrine\Types\Users\UsersPasswordType;
 use Heph\Infrastructure\Doctrine\Types\Users\UsersRoleType;
 use Heph\Infrastructure\Doctrine\Types\Users\UsersUsernameType;
 use Heph\Infrastructure\Serializer\HephSerializer;
+use Heph\Infrastructure\Serializer\Normalizer\ValueObjectNormalizer;
 use Heph\Message\Query\Users\LoginUsersHandler;
 use Heph\Message\Query\Users\LoginUsersQuery;
 use Heph\Repository\Users\UsersRepository;
-use Heph\Tests\Faker\Entity\Users\UsersFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -59,12 +64,17 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
     CoversClass(UsersPasswordType::class),
     CoversClass(UsersGetOneByIdDto::class),
     CoversClass(LoginUsersQuery::class),
+    CoversClass(UsersLoginDto::class),
+    CoversClass(ValueObjectNormalizer::class),
+    CoversClass(AbstractApiResponseException::class),
+    CoversClass(UsersInvalidArgumentException::class),
+    CoversClass(Error::class),
+    CoversClass(ApiResponseExceptionListener::class),
 ]
 class LoginUsersTest extends HephFunctionalTestCase
 {
     private KernelBrowser $client;
     private EntityManagerInterface $entityManager;
-    private UsersRepository $repository;
     private UserPasswordHasherInterface $hasher;
 
     /**
@@ -75,7 +85,6 @@ class LoginUsersTest extends HephFunctionalTestCase
         $this->client = $this->createClient();
         $this->entityManager = $this->getEntityManager();
         $this->entityManager->getConnection()->beginTransaction();
-        $this->repository = $this->entityManager->getRepository(Users::class);
         $this->hasher = self::getContainer()->get(UserPasswordHasherInterface::class);
     }
 
@@ -113,15 +122,11 @@ class LoginUsersTest extends HephFunctionalTestCase
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        $users = $this->repository->findOneBy([]);
-        var_dump("utilisateur ajouté : ", $users);
 
         $payload = json_encode([
-            'username' => 'username',
-            'password' => 'password',
+            'username' => 'username test',
+            'password' => 'password test',
         ]);
-
-        var_dump("mon payload : ", $payload);
 
         $this->client->request('POST', '/api/login', [], [], [], $payload);
 
@@ -135,32 +140,23 @@ class LoginUsersTest extends HephFunctionalTestCase
         self::assertArrayHasKey('data', $response);
     }
 
-    public function testLoginWithUsersFound(): void
+    public function testInvokeReturnsExpectedUsersInvalidArgument(): void
     {
-        $users = UsersFaker::new();
-        $this->entityManager->persist($users);
-        $this->entityManager->flush();
-
         $payload = json_encode([
-            'username' => 'username',
-            'password' => 'password',
+            'username' => 'username test',
+            'password' => 'password test',
         ]);
 
-        $this->client->request('POST', '/api/login', [], [], [], $payload);
+        $this->client->request('POST', '/api/login', [], [], ['CONTENT_TYPE' => 'application/json'], $payload);
 
         $content = $this->client->getResponse()->getContent();
 
-        self::assertResponseIsSuccessful();
-        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+        self::assertResponseStatusCodeSame(422);
         self::assertJson($content);
 
         $response = json_decode($content, true);
-        self::assertArrayHasKey('statusCode', $response);
-        self::assertSame(200, $response['statusCode']);
-        self::assertSame('Success', $response['message']);
 
-        $token = $response['data'];
-        var_dump($token);
-        self::assertArrayHasKey('id', $token);
+        self::assertArrayHasKey('message', $response);
+        self::assertSame("Nom d'utilisateur ou mot de passe incorrect.", $response['message']);
     }
 }

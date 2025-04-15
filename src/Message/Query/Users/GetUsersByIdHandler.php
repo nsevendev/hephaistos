@@ -17,7 +17,7 @@ class GetUsersByIdHandler
     public function __invoke(GetUsersByIdQuery $query): ?UsersGetOneByIdDto
     {
         /** @var Users|null $users */
-        $users = $this->usersRepository->find($query->id);
+        $users = $this->usersRepository->findOneBy(['id' => $query->id]);
 
         return $users ? UsersGetOneByIdDto::fromArray($users) : null;
     }

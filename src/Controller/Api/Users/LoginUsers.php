@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Heph\Controller\Api\Users;
 
-use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Entity\Users\Dto\UsersLoginDto;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
 use Heph\Infrastructure\Controller\AbstractHephController;
 use Heph\Message\Query\Users\LoginUsersQuery;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ class LoginUsers extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: UsersLoginDto::class,
-            fnException: fn(array $errors) => new UsersInvalidArgumentException(
+            fnException: fn (array $errors) => new UsersInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )
@@ -47,15 +47,10 @@ class LoginUsers extends AbstractHephController
             new LoginUsersQuery(
                 usersLoginDto: $dto,
             )
-        )->last(HandledStamp::class)?->getResult();;
+        )->last(HandledStamp::class)?->getResult();
 
         if (!$token) {
-            throw new UsersInvalidArgumentException(
-                getMessage: 'Nom d\'utilisateur ou mot de passe incorrect.',
-                errors: [
-                    Error::create('login', 'Identifiants invalides.')
-                ]
-            );
+            throw new UsersInvalidArgumentException(getMessage: 'Nom d\'utilisateur ou mot de passe incorrect.', errors: [Error::create('login', 'Identifiants invalides.')]);
         }
 
         return ApiResponseFactory::success(data: ['token' => $token]);

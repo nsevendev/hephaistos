@@ -94,6 +94,17 @@ final class UsersUsernameTypeTest extends HephUnitTestCase
      * @throws UsersInvalidArgumentException
      * @throws ConversionException
      */
+    public function testConvertToDatabaseValueWithStringValue(): void
+    {
+        $usersUsername = 'Hello, Database!';
+        $dbValue = $this->type->convertToDatabaseValue($usersUsername, $this->platform);
+        self::assertSame('Hello, Database!', $dbValue);
+    }
+
+    /**
+     * @throws UsersInvalidArgumentException
+     * @throws ConversionException
+     */
     public function testConvertToDatabaseValueWithNull(): void
     {
         $dbValue = $this->type->convertToDatabaseValue(null, $this->platform);
@@ -106,7 +117,7 @@ final class UsersUsernameTypeTest extends HephUnitTestCase
     public function testConvertToDatabaseValueWithInvalidType(): void
     {
         $this->expectException(UsersInvalidArgumentException::class);
-        $this->type->convertToDatabaseValue('Invalid Type', $this->platform);
+        $this->type->convertToDatabaseValue(123, $this->platform);
     }
 
     public function testRequiresSQLCommentHint(): void
