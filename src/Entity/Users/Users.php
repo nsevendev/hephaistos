@@ -10,10 +10,12 @@ use Heph\Entity\Users\ValueObject\UsersPassword;
 use Heph\Entity\Users\ValueObject\UsersRole;
 use Heph\Entity\Users\ValueObject\UsersUsername;
 use Heph\Repository\Users\UsersRepository;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -28,8 +30,10 @@ class Users
     public function __construct(
         #[ORM\Column(name: 'username', type: 'app_users_username', length: 50, nullable: false)]
         private UsersUsername $username,
+
         #[ORM\Column(name: 'password', type: 'app_users_password', length: 255, nullable: false)]
         private UsersPassword $password,
+
         #[ORM\Column(name: 'role', type: 'app_users_role', length: 50, nullable: false)]
         private UsersRole $role,
     ) {
@@ -89,5 +93,28 @@ class Users
     public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    // méthods pour le bundle security sinon pas possible de faire les implements
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    public function getRoles(): array
+    {
+        return [$this->role->value()];
+    }
+
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function eraseCredentials(): void {}
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles(), true);
     }
 }

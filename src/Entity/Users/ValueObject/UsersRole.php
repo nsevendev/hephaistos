@@ -14,9 +14,8 @@ readonly class UsersRole implements Stringable, JsonSerializable
     public function __construct(private string $value) {}
 
     private const roles = [
-        'super_admin',
-        'admin',
-        'employee',
+        'ROLE_ADMIN',
+        'ROLE_EMPLOYEE',
     ];
 
     /**
