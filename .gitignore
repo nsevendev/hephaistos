@@ -45,3 +45,6 @@ phpstan.neon
 .vscode
 heph.session.sql
 hephaistos.session.sql
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
