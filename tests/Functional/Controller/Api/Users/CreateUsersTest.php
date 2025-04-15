@@ -6,9 +6,9 @@ namespace Heph\Tests\Functional\Controller\Api\Users;
 
 use Heph\Controller\Api\Users\CreateUsers;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
-use Heph\Entity\Users\Dto\UsersCreateDto;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Entity\Users\Dto\UsersCreateDto;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
