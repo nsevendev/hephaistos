@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Heph\Message\Command\Users;
+namespace Heph\Message\Query\Users;
 
-class UpdateUsersCommand
+class GetUsersByIdQuery
 {
     public function __construct(
         public readonly string $id,
