@@ -102,7 +102,7 @@ class GetUsersByIdTest extends HephFunctionalTestCase
         $this->entityManager->persist($users);
         $this->entityManager->flush();
 
-        $this->client->request('GET', '/api/users/' . (string) $users->id());
+        $this->client->request('GET', '/api/users/'.(string) $users->id());
 
         $content = $this->client->getResponse()->getContent();
         self::assertResponseIsSuccessful();
@@ -124,7 +124,7 @@ class GetUsersByIdTest extends HephFunctionalTestCase
         $retrievedUsers = $this->entityManager->getRepository(Users::class)->find($users->id());
         self::assertNotNull($retrievedUsers, 'Entity non trouvée en bdd.');
 
-        $this->client->request('GET', '/api/users/' . (string) $users->id());
+        $this->client->request('GET', '/api/users/'.(string) $users->id());
 
         $content = $this->client->getResponse()->getContent();
 
