@@ -30,6 +30,22 @@ class UsersDto
     }
 
     /**
+     * @param Users[] $data
+     *
+     * @return UsersDto[]
+     */
+    public static function toListUsers(array $data): array
+    {
+        $listUsers = [];
+
+        foreach ($data as $users) {
+            $listUsers[] = self::fromArray($users);
+        }
+
+        return $listUsers;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function toArray(): array
