@@ -20,7 +20,7 @@ final class UsersFaker
         return new Users(
             password: UsersPassword::fromValue('password'),
             username: UsersUsername::fromValue('username'),
-            role: UsersRole::fromValue('admin'),
+            role: UsersRole::fromValue('ROLE_ADMIN'),
         );
     }
 
@@ -32,7 +32,7 @@ final class UsersFaker
         return new Users(
             password: UsersPassword::fromValue('withPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLongerwithPasswordMoreLonger'),
             username: UsersUsername::fromValue('username'),
-            role: UsersRole::fromValue('admin'),
+            role: UsersRole::fromValue('ROLE_ADMIN'),
         );
     }
 
@@ -44,7 +44,7 @@ final class UsersFaker
         return new Users(
             password: UsersPassword::fromValue(''),
             username: UsersUsername::fromValue('username'),
-            role: UsersRole::fromValue('admin'),
+            role: UsersRole::fromValue('ROLE_ADMIN'),
         );
     }
 
@@ -56,7 +56,7 @@ final class UsersFaker
         return new Users(
             password: UsersPassword::fromValue('password'),
             username: UsersUsername::fromValue('withUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLongerwithUsernameMoreLonger'),
-            role: UsersRole::fromValue('admin'),
+            role: UsersRole::fromValue('ROLE_ADMIN'),
         );
     }
 
@@ -68,7 +68,7 @@ final class UsersFaker
         return new Users(
             password: UsersPassword::fromValue('password'),
             username: UsersUsername::fromValue(''),
-            role: UsersRole::fromValue('admin'),
+            role: UsersRole::fromValue('ROLE_ADMIN'),
         );
     }
 
