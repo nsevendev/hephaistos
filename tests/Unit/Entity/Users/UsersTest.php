@@ -35,7 +35,7 @@ class UsersTest extends HephUnitTestCase
     {
         $username = 'username';
         $password = 'password';
-        $role = 'admin';
+        $role = 'ROLE_ADMIN';
 
         $Users = UsersFaker::new();
 
@@ -66,7 +66,7 @@ class UsersTest extends HephUnitTestCase
 
         self::assertSame($newDateUpdated, $Users->updatedAt());
 
-        $newRoleUpdate = 'employee';
+        $newRoleUpdate = 'ROLE_EMPLOYEE';
         $Users->setRole(UsersRole::fromValue($newRoleUpdate));
 
         self::assertSame($newRoleUpdate, $Users->role()->value());
