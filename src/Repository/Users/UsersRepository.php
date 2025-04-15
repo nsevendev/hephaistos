@@ -15,4 +15,10 @@ class UsersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Users::class);
     }
+
+    public function remove(Users $users): void
+    {
+        $this->getEntityManager()->remove($users);
+        $this->getEntityManager()->flush();
+    }
 }

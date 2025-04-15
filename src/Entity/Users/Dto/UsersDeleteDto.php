@@ -6,7 +6,7 @@ namespace Heph\Entity\Users\Dto;
 
 use Heph\Entity\Users\Users;
 
-class UsersPublishDeletedDto
+class UsersDeleteDto
 {
     public function __construct(
         public string $id,

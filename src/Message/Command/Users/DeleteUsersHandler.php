@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Message\Command\Users;
 
-use Heph\Entity\Users\Dto\UsersPublishDeletedDto;
+use Heph\Entity\Users\Dto\UsersDeleteDto;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Users\UsersBadRequestException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
@@ -31,7 +31,7 @@ class DeleteUsersHandler
             throw new UsersBadRequestException(errors: [Error::create('users', "Aucun users n'a été trouvé")]);
         }
 
-        $usersDto = UsersPublishDeletedDto::fromArray($users);
+        $usersDto = UsersDeleteDto::fromArray($users);
 
         $this->usersRepository->remove($users);
 
