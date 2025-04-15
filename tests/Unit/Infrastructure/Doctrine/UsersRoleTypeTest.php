@@ -55,9 +55,9 @@ final class UsersRoleTypeTest extends HephUnitTestCase
      */
     public function testConvertToPHPValueWithValidString(): void
     {
-        $usersRole = $this->type->convertToPHPValue('admin', $this->platform);
+        $usersRole = $this->type->convertToPHPValue('ROLE_ADMIN', $this->platform);
         self::assertInstanceOf(UsersRole::class, $usersRole);
-        self::assertSame('admin', $usersRole->value());
+        self::assertSame('ROLE_ADMIN', $usersRole->value());
     }
 
     /**
@@ -85,9 +85,9 @@ final class UsersRoleTypeTest extends HephUnitTestCase
      */
     public function testConvertToDatabaseValueWithValidUsersRole(): void
     {
-        $usersRole = UsersRole::fromValue('admin');
+        $usersRole = UsersRole::fromValue('ROLE_ADMIN');
         $dbValue = $this->type->convertToDatabaseValue($usersRole, $this->platform);
-        self::assertSame('admin', $dbValue);
+        self::assertSame('ROLE_ADMIN', $dbValue);
     }
 
     /**
