@@ -27,6 +27,7 @@ class GetListUsersHandler
         return array_map(static function (UsersDto $dto): array {
             $data = $dto->toArray();
             unset($data['password']); // je shoot la propriété password
+
             return $data;
         }, $dtoList);
     }
