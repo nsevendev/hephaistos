@@ -11,13 +11,15 @@ security:
                 property: username
 
     firewalls:
-        api:
-            pattern: ^/api
-            stateless: true
-            jwt: ~
-            security: true
-            authorization_checker: true #vérifie le role de l'utilisateur qui fait les requetes
-
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: users_in_db
+            jwt: ~
+
+    access_control:
+        - { path: ^/api, roles: ROLE_ADMIN }
