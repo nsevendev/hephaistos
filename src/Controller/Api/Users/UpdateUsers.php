@@ -35,7 +35,7 @@ class UpdateUsers extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: UsersUpdateDto::class,
-            fnException: fn(array $errors) => new UsersInvalidArgumentException(
+            fnException: fn (array $errors) => new UsersInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )
