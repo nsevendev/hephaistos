@@ -26,18 +26,4 @@ class UsersGetOneByIdDto
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
         );
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'username' => $this->username,
-            'role' => $this->role,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
-        ];
-    }
 }
