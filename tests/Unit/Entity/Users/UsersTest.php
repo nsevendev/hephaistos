@@ -44,14 +44,24 @@ class UsersTest extends HephUnitTestCase
         self::assertInstanceOf(DateTimeImmutable::class, $Users->createdAt());
         self::assertInstanceOf(DateTimeImmutable::class, $Users->updatedAt());
         self::assertSame($username, $Users->username()->value());
-        self::assertSame($password, $Users->password()->value());
-        self::assertSame($role, $Users->role()->value());
         self::assertSame($username, $Users->username()->jsonSerialize());
-        self::assertSame($password, $Users->password()->jsonSerialize());
-        self::assertSame($role, $Users->role()->jsonSerialize());
         self::assertSame($username, (string) $Users->username());
+        self::assertSame($username, $Users->getUserIdentifier());
+
+        self::assertSame($password, $Users->password()->value());
+        self::assertSame($password, $Users->password()->jsonSerialize());
         self::assertSame($password, (string) $Users->password());
+        self::assertSame($password, $Users->getPassword());
+
+        self::assertSame($role, $Users->role()->value());
+        self::assertSame($role, $Users->role()->jsonSerialize());
         self::assertSame($role, (string) $Users->role());
+        self::assertSame([$role], $Users->getRoles());
+        self::assertTrue($Users->hasRole('ROLE_ADMIN'));
+        self::assertFalse($Users->hasRole('ROLE_EMPLOYEE'));
+
+        $Users->eraseCredentials();
+        $this->addToAssertionCount(1);
     }
 
     /**
