@@ -10,7 +10,7 @@ use Heph\Repository\Users\UsersRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class GetFirstUsersHandler
+class GetUsersByIdHandler
 {
     public function __construct(private UsersRepository $usersRepository) {}
 

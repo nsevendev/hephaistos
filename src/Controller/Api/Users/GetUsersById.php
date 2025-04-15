@@ -7,7 +7,6 @@ namespace Heph\Controller\Api\Users;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\Controller\AbstractHephController;
 use Heph\Infrastructure\Serializer\HephSerializer;
-use Heph\Message\Query\Users\GetFirstUsersQuery;
 use Heph\Message\Query\Users\GetUsersByIdQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsController]
-class GetFirstUsers extends AbstractHephController
+class GetUsersById extends AbstractHephController
 {
     use HandleTrait;
 
