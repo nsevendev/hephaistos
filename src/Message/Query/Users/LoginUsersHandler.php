@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Heph\Message\Query\Users;
 
+use Heph\Entity\Users\Users;
+use Heph\Entity\Users\ValueObject\UsersUsername;
 use Heph\Repository\Users\UsersRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Heph\Entity\Users\Users;
 
 #[AsMessageHandler]
 class LoginUsersHandler
@@ -24,7 +25,7 @@ class LoginUsersHandler
         $loginDto = $query->usersLoginDto;
 
         /** @var Users|null $user */
-        $user = $this->usersRepository->findOneBy(['username' => $loginDto->username]);
+        $user = $this->usersRepository->findOneBy(['username' => new UsersUsername($loginDto->username)]);
 
         if ($user) {
             if ($this->passwordHasher->isPasswordValid($user, $loginDto->password)) {
