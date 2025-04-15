@@ -18,11 +18,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsMessageHandler(bus: 'command.bus')]
 readonly class CreateUsersHandler
 {
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MercurePublish $mercurePublish,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
     ) {}
 
     /**
