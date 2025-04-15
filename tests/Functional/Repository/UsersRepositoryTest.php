@@ -75,7 +75,7 @@ class UsersRepositoryTest extends HephFunctionalTestCase
         self::assertInstanceOf(Users::class, $found);
         self::assertSame('username', $found->username()->value());
         self::assertSame('password', $found->password()->value());
-        self::assertSame('admin', $found->role()->value());
+        self::assertSame('ROLE_ADMIN', $found->role()->value());
     }
 
     /**
@@ -89,7 +89,7 @@ class UsersRepositoryTest extends HephFunctionalTestCase
 
         $users->setUsername(new UsersUsername('new username'));
         $users->setPassword(new UsersPassword('new passwod'));
-        $users->setRole(new UsersRole('employee'));
+        $users->setRole(new UsersRole('ROLE_EMPLOYEE'));
 
         $this->persistAndFlush($users);
 
@@ -99,6 +99,6 @@ class UsersRepositoryTest extends HephFunctionalTestCase
         self::assertNotNull($found, 'Users non trouvé en base alors qu’on vient de le modifier');
         self::assertSame('new username', $found->username()->value());
         self::assertSame('new passwod', $found->password()->value());
-        self::assertSame('employee', $found->role()->value());
+        self::assertSame('ROLE_EMPLOYEE', $found->role()->value());
     }
 }
