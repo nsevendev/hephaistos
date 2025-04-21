@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Heph\Message\Command\TermsConditions;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Heph\Entity\TermsConditions\TermsConditions;
-use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
+use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
+use Heph\Entity\TermsConditions\TermsConditions;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
