@@ -11,7 +11,7 @@ readonly class TermsConditionsCreateDto
 {
     public function __construct(
         #[Assert\Valid]
-        private InfoDescriptionModelCreateDto $infoDescriptionModel,
+        public InfoDescriptionModelCreateDto $infoDescriptionModel,
     ) {}
 
     public static function new(string $libelle, string $description): self
@@ -22,10 +22,5 @@ readonly class TermsConditionsCreateDto
                 $description
             ),
         );
-    }
-
-    public function infoDescriptionModel(): InfoDescriptionModelCreateDto
-    {
-        return $this->infoDescriptionModel;
     }
 }
