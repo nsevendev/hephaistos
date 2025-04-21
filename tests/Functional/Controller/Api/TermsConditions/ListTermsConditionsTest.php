@@ -6,6 +6,8 @@ namespace Heph\Tests\Functional\Controller\Api\TermsConditions;
 
 use Doctrine\DBAL\Exception;
 use Heph\Controller\Api\TermsConditions\ListTermsConditions;
+use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
+use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
@@ -18,8 +20,6 @@ use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditions\TermsConditionsInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
-use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
-use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Serializer\HephSerializer;
