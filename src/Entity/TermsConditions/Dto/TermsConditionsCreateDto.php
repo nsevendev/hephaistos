@@ -14,11 +14,13 @@ readonly class TermsConditionsCreateDto
         private InfoDescriptionModelCreateDto $infoDescriptionModel,
     ) {}
 
-    public static function new(
-        InfoDescriptionModelCreateDto $infoDescriptionModel,
-    ): self {
+    public static function new(string $libelle, string $description): self
+    {
         return new self(
-            infoDescriptionModel: $infoDescriptionModel,
+            infoDescriptionModel: InfoDescriptionModelCreateDto::new(
+                $libelle,
+                $description
+            ),
         );
     }
 

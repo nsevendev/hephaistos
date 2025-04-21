@@ -6,12 +6,11 @@ namespace Heph\Entity\TermsConditions\Dto;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\TermsConditions\TermsConditions;
-use Symfony\Component\Uid\Uuid;
 
 class TermsConditionsDto
 {
     public function __construct(
-        public Uuid $id,
+        public string $id,
         public InfoDescriptionModelDto $infoDescriptionModel,
         public string $createdAt,
         public string $updatedAt,
@@ -20,7 +19,7 @@ class TermsConditionsDto
     public static function fromEntity(TermsConditions $data): self
     {
         return new self(
-            id: Uuid::v7(),
+            id: (string) $data->id(),
             infoDescriptionModel: InfoDescriptionModelDto::fromArray($data->infoDescriptionModel()),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
