@@ -35,7 +35,7 @@ class UpdateTermsConditions extends AbstractHephController
         $dto = $this->deserializeAndValidate(
             data: $request->getContent(),
             dtoClass: TermsConditionsUpdateDto::class,
-            fnException: fn(array $errors) => new TermsConditionsInvalidArgumentException(
+            fnException: fn (array $errors) => new TermsConditionsInvalidArgumentException(
                 getMessage: 'Erreur de validation',
                 errors: $errors
             )
