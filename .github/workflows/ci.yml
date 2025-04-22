@@ -44,6 +44,13 @@ jobs:
 
       - name: Build Docker images
         run: docker compose -f compose.yaml -f compose.override.yaml build --pull --no-cache
+
+      - name: Inject JWT keys
+        run: |
+          mkdir -p config/jwt
+          echo "${{ secrets.JWT_PRIVATE_KEY }}" > config/jwt/private.pem
+          echo "${{ secrets.JWT_PUBLIC_KEY }}" > config/jwt/public.pem
+          chmod 600 config/jwt/private.pem config/jwt/public.pem
         
       - name: Create external network
         run: docker network create traefik-nseven || true
