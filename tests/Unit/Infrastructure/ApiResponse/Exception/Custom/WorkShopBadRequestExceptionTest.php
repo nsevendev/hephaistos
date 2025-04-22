@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Unit\Infrastructure\ApiResponse\Exception\Custom\WorkShop;
+namespace Heph\Tests\Unit\Infrastructure\ApiResponse\Exception\Custom;
 
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
