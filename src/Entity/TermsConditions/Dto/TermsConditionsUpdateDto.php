@@ -7,10 +7,10 @@ namespace Heph\Entity\TermsConditions\Dto;
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelCreateDto;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class TermsConditionsCreateDto
+readonly class TermsConditionsUpdateDto
 {
     public function __construct(
-        #[Assert\Valid]
+        #[Assert\NotBlank(message: "L'infoDescriptionModel est requis.")]
         public InfoDescriptionModelCreateDto $infoDescriptionModel,
     ) {}
 

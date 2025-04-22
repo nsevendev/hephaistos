@@ -53,18 +53,4 @@ class InfoDescriptionModelDto
 
         return $listInfoDescriptionModel;
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'libelle' => $this->libelle,
-            'description' => $this->description,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
-        ];
-    }
 }
