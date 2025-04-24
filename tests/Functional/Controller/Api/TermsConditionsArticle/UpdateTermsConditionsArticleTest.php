@@ -118,7 +118,7 @@ class UpdateTermsConditionsArticleTest extends HephFunctionalTestCase
             'article' => 'article mis a jour',
         ]);
 
-        $this->client->request('PUT', '/api/terms-conditions-article/' . (string) $termsConditionsArticleToUpdate->id(), [], [], [], $updatePayload);
+        $this->client->request('PUT', '/api/terms-conditions-article/'.(string) $termsConditionsArticleToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();
@@ -141,7 +141,7 @@ class UpdateTermsConditionsArticleTest extends HephFunctionalTestCase
             'article' => 'article mis a jour',
         ]);
 
-        $this->client->request('PUT', '/api/terms-conditions-article/' . (string) $termsConditionsArticleToUpdate->id(), [], [], [], $updatePayload);
+        $this->client->request('PUT', '/api/terms-conditions-article/'.(string) $termsConditionsArticleToUpdate->id(), [], [], [], $updatePayload);
         $responseContent = $this->client->getResponse()->getContent();
 
         self::assertResponseIsSuccessful();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heph\Message\Command\TermsConditionsArticle;
 
-use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticlePublishDeletedDto;
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDeleteDto;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\Mercure\MercureInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditionsArticle\TermsConditionsArticleBadRequestException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\Error;
@@ -31,7 +31,7 @@ class DeleteTermsConditionsArticleHandler
             throw new TermsConditionsArticleBadRequestException(errors: [Error::create('termsConditionsArticle', "Aucun termsConditionsArticle n'a été trouvé")]);
         }
 
-        $termsConditionsArticleDto = TermsConditionsArticlePublishDeletedDto::fromArray($termsConditionsArticle);
+        $termsConditionsArticleDto = TermsConditionsArticleDeleteDto::fromArray($termsConditionsArticle);
 
         $this->termsConditionsArticleRepository->remove($termsConditionsArticle);
 

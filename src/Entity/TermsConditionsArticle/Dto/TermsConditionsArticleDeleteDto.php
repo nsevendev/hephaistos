@@ -6,7 +6,7 @@ namespace Heph\Entity\TermsConditionsArticle\Dto;
 
 use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
 
-class TermsConditionsArticlePublishDeletedDto
+class TermsConditionsArticleDeleteDto
 {
     public function __construct(
         public string $id,
