@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 readonly class TermsConditionsArticleUpdateDto
 {
     public function __construct(
-        #[Assert\NotBlank(message: "Le title est requis.")]
+        #[Assert\NotBlank(message: 'Le title est requis.')]
         public string $title,
         #[Assert\NotBlank(message: "L'article est requis.")]
         public string $article,
