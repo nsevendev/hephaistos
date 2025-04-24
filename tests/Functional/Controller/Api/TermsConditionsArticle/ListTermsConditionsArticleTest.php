@@ -2,39 +2,41 @@
 
 declare(strict_types=1);
 
-namespace Heph\Tests\Functional\Controller\Api\TermsConditions;
+namespace Heph\Tests\Functional\Controller\Api\TermsConditionsArticle;
 
 use Doctrine\DBAL\Exception;
-use Heph\Controller\Api\TermsConditions\ListTermsConditions;
-use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
+use Heph\Controller\Api\TermsConditionsArticle\ListTermsConditionsArticle;
 use Heph\Entity\InfoDescriptionModel\InfoDescriptionModel;
 use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
-use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
+use Heph\Entity\TermsConditionsArticle\TermsConditionsArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleArticle;
+use Heph\Entity\TermsConditionsArticle\ValueObject\TermsConditionsArticleTitle;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseLink;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMessage;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseMeta;
-use Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditions\TermsConditionsInvalidArgumentException;
+use Heph\Infrastructure\ApiResponse\Exception\Custom\TermsConditionsArticle\TermsConditionsArticleInvalidArgumentException;
 use Heph\Infrastructure\ApiResponse\Exception\Error\ListError;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleArticleType;
 use Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArticleTitleType;
 use Heph\Infrastructure\Serializer\HephSerializer;
-use Heph\Message\Query\TermsConditions\GetListTermsConditionsHandler;
-use Heph\Repository\TermsConditions\TermsConditionsRepository;
-use Heph\Tests\Faker\Entity\TermsConditions\TermsConditionsFaker;
+use Heph\Message\Query\TermsConditionsArticle\GetListTermsConditionsArticleHandler;
+use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
+use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 #[
-    CoversClass(ListTermsConditions::class),
+    CoversClass(ListTermsConditionsArticle::class),
     CoversClass(ApiResponse::class),
     CoversClass(ApiResponseFactory::class),
     CoversClass(ApiResponseData::class),
@@ -42,21 +44,24 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(ApiResponseMessage::class),
     CoversClass(ApiResponseMeta::class),
     CoversClass(ListError::class),
-    CoversClass(TermsConditionsDto::class),
+    CoversClass(TermsConditionsArticleDto::class),
     CoversClass(HephSerializer::class),
-    CoversClass(GetListTermsConditionsHandler::class),
-    CoversClass(TermsConditionsRepository::class),
-    CoversClass(TermsConditions::class),
-    CoversClass(DescriptionValueObject::class),
-    CoversClass(DescriptionType::class),
-    CoversClass(LibelleValueObject::class),
-    CoversClass(LibelleType::class),
-    CoversClass(InfoDescriptionModelDto::class),
+    CoversClass(GetListTermsConditionsArticleHandler::class),
+    CoversClass(TermsConditionsArticleRepository::class),
+    CoversClass(TermsConditionsArticle::class),
     CoversClass(InfoDescriptionModel::class),
+    CoversClass(DescriptionValueObject::class),
+    CoversClass(LibelleValueObject::class),
+    CoversClass(TermsConditions::class),
+    CoversClass(TermsConditionsArticleArticle::class),
+    CoversClass(TermsConditionsArticleTitle::class),
+    CoversClass(DescriptionType::class),
+    CoversClass(LibelleType::class),
+    CoversClass(DescriptionValueObject::class),
     CoversClass(TermsConditionsArticleArticleType::class),
     CoversClass(TermsConditionsArticleTitleType::class),
 ]
-class ListTermsConditionsTest extends HephFunctionalTestCase
+class ListTermsConditionsArticleTest extends HephFunctionalTestCase
 {
     private KernelBrowser $client;
 
@@ -67,7 +72,7 @@ class ListTermsConditionsTest extends HephFunctionalTestCase
 
     public function testInvokeReturnsExpectedResponse(): void
     {
-        $this->client->request('GET', '/api/list-terms-conditions');
+        $this->client->request('GET', '/api/list-terms-conditions-article');
 
         $content = $this->client->getResponse()->getContent();
 
@@ -82,19 +87,19 @@ class ListTermsConditionsTest extends HephFunctionalTestCase
 
     /**
      * @throws Exception
-     * @throws TermsConditionsInvalidArgumentException
+     * @throws TermsConditionsArticleInvalidArgumentException
      */
-    public function testCreateAndRetrieveTermsConditions(): void
+    public function testCreateAndRetrieveTermsConditionsArticle(): void
     {
         $entityManager = $this->getEntityManager();
         $entityManager->getConnection()->beginTransaction();
 
-        $termsConditions = TermsConditionsFaker::new();
+        $termsConditionsArticle = TermsConditionsArticleFaker::new();
 
-        $entityManager->persist($termsConditions);
+        $entityManager->persist($termsConditionsArticle);
         $entityManager->flush();
 
-        $this->client->request('GET', '/api/list-terms-conditions');
+        $this->client->request('GET', '/api/list-terms-conditions-article');
 
         $content = $this->client->getResponse()->getContent();
 
@@ -107,11 +112,13 @@ class ListTermsConditionsTest extends HephFunctionalTestCase
         self::assertArrayHasKey('data', $response);
         self::assertNotEmpty($response['data']);
 
-        $retrievedTermsConditions = $response['data'][0];
-        self::assertArrayHasKey('id', $retrievedTermsConditions);
-        self::assertArrayHasKey('infoDescriptionModel', $retrievedTermsConditions);
-        self::assertArrayHasKey('createdAt', $retrievedTermsConditions);
-        self::assertArrayHasKey('updatedAt', $retrievedTermsConditions);
+        $retrievedTermsConditionsArticle = $response['data'][0];
+        self::assertArrayHasKey('id', $retrievedTermsConditionsArticle);
+        self::assertArrayHasKey('termsConditions', $retrievedTermsConditionsArticle);
+        self::assertArrayHasKey('title', $retrievedTermsConditionsArticle);
+        self::assertArrayHasKey('article', $retrievedTermsConditionsArticle);
+        self::assertArrayHasKey('createdAt', $retrievedTermsConditionsArticle);
+        self::assertArrayHasKey('updatedAt', $retrievedTermsConditionsArticle);
 
         $entityManager->rollback();
     }

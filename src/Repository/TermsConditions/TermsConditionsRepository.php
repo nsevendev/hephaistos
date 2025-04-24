@@ -22,7 +22,7 @@ class TermsConditionsRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findAllWithArticles(): array
+    public function findAllWithArticles(): mixed
     {
         return $this->createQueryBuilder('tc')
             ->leftJoin('tc.listTermsConditionsArticle', 'article')
