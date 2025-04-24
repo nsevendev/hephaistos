@@ -22,14 +22,9 @@ class TermsConditionsArticleRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    /*
-    public function remove(string $id): void
+    public function remove(TermsConditionsArticle $termsConditionsArticle): void
     {
-        $termsConditionsArticle = $this->find($id);
-        if (null !== $termsConditionsArticle) {
-            $this->getEntityManager()->remove($termsConditionsArticle);
-            $this->save($termsConditionsArticle);
-        }
+        $this->getEntityManager()->remove($termsConditionsArticle);
+        $this->getEntityManager()->flush();
     }
-        */
 }
