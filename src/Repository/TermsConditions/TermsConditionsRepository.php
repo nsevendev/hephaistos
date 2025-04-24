@@ -22,13 +22,13 @@ class TermsConditionsRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    /* public function remove(string $id): void
+    public function findAllWithArticles(): array
     {
-        $termsConditions = $this->find($id);
-        if (null !== $termsConditions) {
-            $this->getEntityManager()->remove($termsConditions);
-            $this->save($termsConditions);
-        }
+        return $this->createQueryBuilder('tc')
+            ->leftJoin('tc.listTermsConditionsArticle', 'article')
+            ->addSelect('article')
+            ->orderBy('tc.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
-        */
 }

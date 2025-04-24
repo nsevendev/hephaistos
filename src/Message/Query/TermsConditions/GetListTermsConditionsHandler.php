@@ -20,7 +20,7 @@ class GetListTermsConditionsHandler
     public function __invoke(GetListTermsConditionsQuery $query): array
     {
         /** @var TermsConditions[] $listTermsConditions */
-        $listTermsConditions = $this->termsConditionsRepository->findAll();
+        $listTermsConditions = $this->termsConditionsRepository->findAllWithArticles();
 
         return TermsConditionsDto::toListTermsConditions($listTermsConditions);
     }
