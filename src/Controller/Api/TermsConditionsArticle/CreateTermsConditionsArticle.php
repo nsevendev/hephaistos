@@ -40,8 +40,6 @@ class CreateTermsConditionsArticle extends AbstractHephController
             )
         );
 
-        var_dump($dto);
-
         $commandBus->dispatch(
             new CreateTermsConditionsArticleCommand(
                 termsConditionsArticleCreateDto: $dto,

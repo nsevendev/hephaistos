@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class TermsConditionsArticleCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'Le title est requis.')]
+        #[Assert\NotBlank(message: 'Le termsConditionsId est requis.')]
         public string $termsConditionsId,
         #[Assert\NotBlank(message: 'Le title est requis.')]
         #[Assert\Length(max: 50, maxMessage: 'Le title doit contenir au plus {{ limit }} caractères.')]
