@@ -85,7 +85,7 @@ class DeleteTermsConditionsArticleTest extends HephFunctionalTestCase
         $entityManager->persist($termsConditionsArticle);
         $entityManager->flush();
 
-        $this->client->request('DELETE', '/api/terms-conditions-article/' . $termsConditionsArticle->id());
+        $this->client->request('DELETE', '/api/terms-conditions-article/'.$termsConditionsArticle->id());
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
