@@ -24,6 +24,7 @@ use Heph\Infrastructure\Doctrine\Types\TermsConditionsArticle\TermsConditionsArt
 use Heph\Infrastructure\Mercure\MercurePublish;
 use Heph\Message\Command\TermsConditionsArticle\DeleteTermsConditionsArticleCommand;
 use Heph\Message\Command\TermsConditionsArticle\DeleteTermsConditionsArticleHandler;
+use Heph\Repository\TermsConditions\TermsConditionsRepository;
 use Heph\Repository\TermsConditionsArticle\TermsConditionsArticleRepository;
 use Heph\Tests\Faker\Entity\TermsConditionsArticle\TermsConditionsArticleFaker;
 use Heph\Tests\Functional\HephFunctionalTestCase;
@@ -52,6 +53,7 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(TermsConditions::class),
     CoversClass(DescriptionType::class),
     CoversClass(LibelleType::class),
+    CoversClass(TermsConditionsRepository::class),
 ]
 class DeleteTermsConditionsArticleHandlerTest extends HephFunctionalTestCase
 {
