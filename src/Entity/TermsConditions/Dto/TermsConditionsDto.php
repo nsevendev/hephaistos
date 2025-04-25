@@ -6,14 +6,19 @@ namespace Heph\Entity\TermsConditions\Dto;
 
 use Heph\Entity\InfoDescriptionModel\Dto\InfoDescriptionModelDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
 
 class TermsConditionsDto
 {
+    /**
+     * @param TermsConditionsArticleDto[] $articles
+     */
     public function __construct(
         public string $id,
         public InfoDescriptionModelDto $infoDescriptionModel,
         public string $createdAt,
         public string $updatedAt,
+        public array $articles = [],
     ) {}
 
     public static function fromEntity(TermsConditions $data): self
@@ -23,6 +28,9 @@ class TermsConditionsDto
             infoDescriptionModel: InfoDescriptionModelDto::fromArray($data->infoDescriptionModel()),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
+            articles: TermsConditionsArticleDto::toListTermsConditionsArticle(
+                $data->listTermsConditionsArticle()->toArray()
+            ),
         );
     }
 
@@ -33,6 +41,9 @@ class TermsConditionsDto
             infoDescriptionModel: InfoDescriptionModelDto::fromEntity($data->infoDescriptionModel()),
             createdAt: $data->createdAt()->format('Y-m-d H:i:s'),
             updatedAt: $data->updatedAt()->format('Y-m-d H:i:s'),
+            articles: TermsConditionsArticleDto::toListTermsConditionsArticle(
+                $data->listTermsConditionsArticle()->toArray()
+            ),
         );
     }
 
@@ -46,6 +57,10 @@ class TermsConditionsDto
             'infoDescriptionModel' => $this->infoDescriptionModel,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
+            'articles' => array_map(
+                static fn (TermsConditionsArticleDto $article) => $article->toArray(),
+                $this->articles
+            ),
         ];
     }
 
