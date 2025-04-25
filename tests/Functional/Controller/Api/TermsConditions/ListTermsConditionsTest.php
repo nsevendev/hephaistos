@@ -12,6 +12,7 @@ use Heph\Entity\Shared\ValueObject\DescriptionValueObject;
 use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
 use Heph\Infrastructure\ApiResponse\ApiResponse;
 use Heph\Infrastructure\ApiResponse\ApiResponseFactory;
 use Heph\Infrastructure\ApiResponse\Component\ApiResponseData;
@@ -55,6 +56,7 @@ use Symfony\Component\HttpFoundation\Response;
     CoversClass(InfoDescriptionModel::class),
     CoversClass(TermsConditionsArticleArticleType::class),
     CoversClass(TermsConditionsArticleTitleType::class),
+    CoversClass(TermsConditionsArticleDto::class),
 ]
 class ListTermsConditionsTest extends HephFunctionalTestCase
 {

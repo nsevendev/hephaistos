@@ -58,7 +58,7 @@ class TermsConditionsDto
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
             'articles' => array_map(
-                static fn(TermsConditionsArticleDto $article) => $article->toArray(),
+                static fn (TermsConditionsArticleDto $article) => $article->toArray(),
                 $this->articles
             ),
         ];

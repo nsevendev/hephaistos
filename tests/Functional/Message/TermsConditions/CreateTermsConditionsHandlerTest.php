@@ -14,6 +14,7 @@ use Heph\Entity\Shared\ValueObject\LibelleValueObject;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsCreateDto;
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
 use Heph\Entity\TermsConditions\TermsConditions;
+use Heph\Entity\TermsConditionsArticle\Dto\TermsConditionsArticleDto;
 use Heph\Infrastructure\Doctrine\Types\Shared\DescriptionType;
 use Heph\Infrastructure\Doctrine\Types\Shared\LibelleType;
 use Heph\Infrastructure\Mercure\MercurePublish;
@@ -41,6 +42,7 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
     CoversClass(InfoDescriptionModelRepository::class),
     CoversClass(LibelleType::class),
     CoversClass(DescriptionType::class),
+    CoversClass(TermsConditionsArticleDto::class),
     CoversClass(InfoDescriptionModelDto::class)
 ]
 class CreateTermsConditionsHandlerTest extends HephFunctionalTestCase
