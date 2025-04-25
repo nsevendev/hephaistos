@@ -34,7 +34,10 @@ readonly class CreateTermsConditionsArticleHandler
             article: TermsConditionsArticleArticle::fromValue($command->termsConditionsArticleCreateDto->article())
         );
 
+        $termsConditions->addTermsConditionsArticle($termsConditionsArticle);
+
         $this->termsConditionsArticleEntityRepository->save($termsConditionsArticle);
+        $this->termsConditionsRepository->save($termsConditions);
 
         $termsConditionsArticleDto = TermsConditionsArticleDto::fromArray($termsConditionsArticle);
 

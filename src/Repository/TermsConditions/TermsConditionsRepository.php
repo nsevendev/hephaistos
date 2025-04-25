@@ -21,14 +21,4 @@ class TermsConditionsRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($termsConditions);
         $this->getEntityManager()->flush();
     }
-
-    public function findAllWithArticles(): mixed
-    {
-        return $this->createQueryBuilder('tc')
-            ->leftJoin('tc.listTermsConditionsArticle', 'article')
-            ->addSelect('article')
-            ->orderBy('tc.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
 }

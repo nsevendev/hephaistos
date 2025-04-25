@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Heph\Message\Query\TermsConditions;
 
 use Heph\Entity\TermsConditions\Dto\TermsConditionsDto;
@@ -20,7 +18,7 @@ class GetListTermsConditionsHandler
     public function __invoke(GetListTermsConditionsQuery $query): array
     {
         /** @var TermsConditions[] $listTermsConditions */
-        $listTermsConditions = $this->termsConditionsRepository->findAllWithArticles();
+        $listTermsConditions = $this->termsConditionsRepository->findAll();
 
         return TermsConditionsDto::toListTermsConditions($listTermsConditions);
     }
